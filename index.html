@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação: Lógica de Programação com Portugol</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .slide {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .slide.active {
+            display: block;
+        }
+        pre {
+            background-color: #f8f8f8;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: Consolas, monospace;
+        }
+        .step {
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 4px solid #3498db;
+        }
+        nav {
+            margin-bottom: 20px;
+        }
+        nav a {
+            margin-right: 10px;
+            text-decoration: none;
+            color: #3498db;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .nav-buttons {
+            margin-bottom: 20px;
+        }
+        .nav-buttons button {
+            padding: 10px 20px;
+            margin: 0 5px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-buttons button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .nav-buttons button:hover:not(:disabled) {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Apresentação: Lógica de Programação com Portugol</h1>
+        <p>Esta apresentação expandida contém 20 slides com mais conteúdo, exemplos passo a passo e explicações detalhadas para ajudar o aluno a construir o conhecimento progressivamente sobre lógica de programação usando Portugol.</p>
+        <nav>
+            <a href="#slide1">Slide 1</a> |
+            <a href="#slide2">Slide 2</a> |
+            <a href="#slide3">Slide 3</a> |
+            <a href="#slide4">Slide 4</a> |
+            <a href="#slide5">Slide 5</a> |
+            <a href="#slide6">Slide 6</a> |
+            <a href="#slide7">Slide 7</a> |
+            <a href="#slide8">Slide 8</a> |
+            <a href="#slide9">Slide 9</a> |
+            <a href="#slide10">Slide 10</a> |
+            <a href="#slide11">Slide 11</a> |
+            <a href="#slide12">Slide 12</a> |
+            <a href="#slide13">Slide 13</a> |
+            <a href="#slide14">Slide 14</a> |
+            <a href="#slide15">Slide 15</a> |
+            <a href="#slide16">Slide 16</a> |
+            <a href="#slide17">Slide 17</a> |
+            <a href="#slide18">Slide 18</a> |
+            <a href="#slide19">Slide 19</a> |
+            <a href="#slide20">Slide 20</a>
+        </nav>
+        <div class="nav-buttons">
+            <button id="prevBtn" onclick="changeSlide(-1)" disabled>Anterior</button>
+            <button id="nextBtn" onclick="changeSlide(1)">Próximo</button>
+        </div>
+    </header>
+
+    <section id="slide1" class="slide active">
+        <h2>Slide 1: Introdução à Lógica de Programação</h2>
+        <p>A lógica de programação é a base para resolver problemas computacionais de forma estruturada. É como criar uma receita detalhada para que o computador execute tarefas.</p>
+        <p><strong>Passo 1:</strong> Entenda um algoritmo como uma sequência finita de ações executáveis.</p>
+        <p><strong>Passo 2:</strong> Exemplos do dia a dia: Algoritmo para fazer café (passos: ferver água, adicionar pó, etc.).</p>
+        <p><strong>Passo 3:</strong> Importância: Desenvolve raciocínio lógico e resolução de problemas.</p>
+        <div class="step">
+            <p>Construa: Pense em um problema simples da sua rotina e liste os passos para resolvê-lo.</p>
+        </div>
+    </section>
+
+    <section id="slide2" class="slide">
+        <h2>Slide 2: O que é Portugol?</h2>
+        <p>Portugol é uma linguagem de pseudocódigo em português, usada para ensinar lógica sem focar em sintaxe complexa. É implementada em ferramentas como Visualg.</p>
+        <p><strong>Passo 1:</strong> Vantagens: Fácil leitura, próxima da linguagem natural.</p>
+        <p><strong>Passo 2:</strong> Diferenças de linguagens reais: Não compila para executável, mas simula execução.</p>
+        <p><strong>Passo 3:</strong> Exemplo básico: Saudação.</p>
+        <pre><code>
+algoritmo "Saudacao"
+inicio
+    escreval("Bem-vindo ao Portugol!")
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Compare com uma linguagem como Python: print("Bem-vindo").</p>
+        </div>
+    </section>
+
+    <section id="slide3" class="slide">
+        <h2>Slide 3: Estrutura Básica de um Programa</h2>
+        <p>Todo programa em Portugol inicia com "algoritmo 'nome'", declara variáveis com "var", executa no "inicio" e termina com "fimalgoritmo".</p>
+        <p><strong>Passo 1:</strong> Cabeçalho: algoritmo "NomeDoPrograma"</p>
+        <p><strong>Passo 2:</strong> Declaração de variáveis.</p>
+        <p><strong>Passo 3:</strong> Bloco de execução: inicio ... fimalgoritmo</p>
+        <pre><code>
+algoritmo "EstruturaBasica"
+var
+    mensagem: caracter
+inicio
+    mensagem <- "Olá!"
+    escreval(mensagem)
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Adicione uma variável e exiba seu valor.</p>
+        </div>
+    </section>
+
+    <section id="slide4" class="slide">
+        <h2>Slide 4: Variáveis e Tipos de Dados</h2>
+        <p>Variáveis armazenam dados. Tipos: inteiro (números inteiros), real (decimais), caracter (textos), logico (verdadeiro/falso).</p>
+        <p><strong>Passo 1:</strong> Declaração: var nome: caracter</p>
+        <p><strong>Passo 2:</strong> Atribuição: nome <- "Ana"</p>
+        <p><strong>Passo 3:</strong> Exemplo com múltiplas variáveis.</p>
+        <pre><code>
+algoritmo "Variaveis"
+var
+    idade: inteiro
+    altura: real
+    aprovado: logico
+inicio
+    idade <- 20
+    altura <- 1.75
+    aprovado <- verdadeiro
+    escreval("Idade: ", idade, " Altura: ", altura, " Aprovado: ", aprovado)
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Crie variáveis para nome, nota e status, e exiba.</p>
+        </div>
+    </section>
+
+    <section id="slide5" class="slide">
+        <h2>Slide 5: Operadores Aritméticos</h2>
+        <p>Usados para cálculos: + (soma), - (subtração), * (multiplicação), / (divisão), % (módulo), ^ (potência).</p>
+        <p><strong>Passo 1:</strong> Soma simples: a + b</p>
+        <p><strong>Passo 2:</strong> Exemplo com módulo: resto da divisão.</p>
+        <p><strong>Passo 3:</strong> Potência: 2 ^ 3 = 8</p>
+        <pre><code>
+algoritmo "Aritmeticos"
+var
+    a, b, resultado: inteiro
+inicio
+    a <- 10
+    b <- 3
+    resultado <- a % b  // Resultado: 1
+    escreval("Resto: ", resultado)
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Calcule área de um retângulo (comprimento * largura).</p>
+        </div>
+    </section>
+
+    <section id="slide6" class="slide">
+        <h2>Slide 6: Operadores Relacionais e Lógicos</h2>
+        <p>Relacionais: >, <, >=, <=, =, <>. Lógicos: e (AND), ou (OR), nao (NOT).</p>
+        <p><strong>Passo 1:</strong> Comparação: se (a > b)</p>
+        <p><strong>Passo 2:</strong> Lógico: se (a > 0 e b < 10)</p>
+        <p><strong>Passo 3:</strong> Negação: se (nao aprovado)</p>
+        <pre><code>
+algoritmo "RelacionaisLogicos"
+var
+    nota: real
+inicio
+    nota <- 7.5
+    se (nota >= 6 e nota <= 10) entao
+        escreval("Aprovado")
+    fimse
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Verifique se um número é par e positivo.</p>
+        </div>
+    </section>
+
+    <section id="slide7" class="slide">
+        <h2>Slide 7: Entrada de Dados</h2>
+        <p>Use "leia(variavel)" para obter input do usuário.</p>
+        <p><strong>Passo 1:</strong> Prompt: escreval("Digite: ")</p>
+        <p><strong>Passo 2:</strong> Leitura: leia(numero)</p>
+        <p><strong>Passo 3:</strong> Exemplo com validação básica.</p>
+        <pre><code>
+algoritmo "Entrada"
+var
+    nome: caracter
+    idade: inteiro
+inicio
+    escreval("Digite seu nome: ")
+    leia(nome)
+    escreval("Digite sua idade: ")
+    leia(idade)
+    escreval("Olá, ", nome, " de ", idade, " anos.")
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Peça dois números e some-os.</p>
+        </div>
+    </section>
+
+    <section id="slide8" class="slide">
+        <h2>Slide 8: Saída de Dados</h2>
+        <p>"escreva" (sem quebra de linha), "escreval" (com quebra).</p>
+        <p><strong>Passo 1:</strong> Simples: escreval("Texto")</p>
+        <p><strong>Passo 2:</strong> Concatenado: escreval("Valor: ", variavel)</p>
+        <p><strong>Passo 3:</strong> Formatação básica.</p>
+        <pre><code>
+algoritmo "Saida"
+var
+    pi: real
+inicio
+    pi <- 3.14159
+    escreva("O valor de pi é aproximadamente ")
+    escreval(pi)
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Exiba uma tabela simples com escreva.</p>
+        </div>
+    </section>
+
+    <section id="slide9" class="slide">
+        <h2>Slide 9: Estruturas Condicionais: Se-Senão</h2>
+        <p>Decisões: se (condicao) entao ... senao ... fimse</p>
+        <p><strong>Passo 1:</strong> Condição simples.</p>
+        <p><strong>Passo 2:</strong> Adicionar else.</p>
+        <p><strong>Passo 3:</strong> Exemplo com operadores lógicos.</p>
+        <pre><code>
+algoritmo "SeSenao"
+var
+    temperatura: real
+inicio
+    leia(temperatura)
+    se (temperatura > 30) entao
+        escreval("Quente")
+    senao se (temperatura < 10) entao
+        escreval("Frio")
+    senao
+        escreval("Agradável")
+    fimse
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Classifique uma nota (Aprovado, Recuperação, Reprovado).</p>
+        </div>
+    </section>
+
+    <section id="slide10" class="slide">
+        <h2>Slide 10: Estruturas Condicionais: Se Aninhado</h2>
+        <p>Condicionais dentro de outras para decisões complexas.</p>
+        <p><strong>Passo 1:</strong> Se dentro de se.</p>
+        <p><strong>Passo 2:</strong> Evite aninhamentos profundos para clareza.</p>
+        <p><strong>Passo 3:</strong> Exemplo: Verificar login.</p>
+        <pre><code>
+algoritmo "Aninhado"
+var
+    usuario, senha: caracter
+inicio
+    leia(usuario)
+    leia(senha)
+    se (usuario = "admin") entao
+        se (senha = "123") entao
+            escreval("Acesso concedido")
+        senao
+            escreval("Senha errada")
+        fimse
+    senao
+        escreval("Usuário inválido")
+    fimse
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Verifique se um ano é bissexto (divisível por 4, mas não por 100, exceto por 400).</p>
+        </div>
+    </section>
+
+    <section id="slide11" class="slide">
+        <h2>Slide 11: Estruturas Condicionais: Escolha-Caso</h2>
+        <p>Para múltiplas opções: escolha variavel caso valor ... outrocaso ... fimescolha</p>
+        <p><strong>Passo 1:</strong> Defina a variável de escolha.</p>
+        <p><strong>Passo 2:</strong> Casos específicos.</p>
+        <p><strong>Passo 3:</strong> Caso default.</p>
+        <pre><code>
+algoritmo "EscolhaCaso"
+var
+    dia: inteiro
+inicio
+    leia(dia)
+    escolha dia
+        caso 1
+            escreval("Domingo")
+        caso 2
+            escreval("Segunda")
+        outrocaso
+            escreval("Dia inválido")
+    fimescolha
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Menu de opções para uma calculadora básica.</p>
+        </div>
+    </section>
+
+    <section id="slide12" class="slide">
+        <h2>Slide 12: Laços de Repetição: Para</h2>
+        <p>Repete um número fixo de vezes: para var de inicio ate fim [passo] faca ... fimpara</p>
+        <p><strong>Passo 1:</strong> Contador simples.</p>
+        <p><strong>Passo 2:</strong> Com passo.</p>
+        <p><strong>Passo 3:</strong> Exemplo: Tabuada.</p>
+        <pre><code>
+algoritmo "Para"
+var
+    i, num: inteiro
+inicio
+    leia(num)
+    para i de 1 ate 10 faca
+        escreval(num, " x ", i, " = ", num * i)
+    fimpara
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Some números de 1 a 100.</p>
+        </div>
+    </section>
+
+    <section id="slide13" class="slide">
+        <h2>Slide 13: Laços de Repetição: Enquanto</h2>
+        <p>Repete enquanto condição for verdadeira: enquanto (condicao) faca ... fimenquanto</p>
+        <p><strong>Passo 1:</strong> Verifique condição antes.</p>
+        <p><strong>Passo 2:</strong> Evite loops infinitos.</p>
+        <p><strong>Passo 3:</strong> Exemplo: Contagem regressiva.</p>
+        <pre><code>
+algoritmo "Enquanto"
+var
+    contador: inteiro
+inicio
+    contador <- 10
+    enquanto (contador > 0) faca
+        escreval(contador)
+        contador <- contador - 1
+    fimenquanto
+    escreval("Fim!")
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Peça números até digitar 0 e some-os.</p>
+        </div>
+    </section>
+
+    <section id="slide14" class="slide">
+        <h2>Slide 14: Laços de Repetição: Repita-Até</h2>
+        <p>Executa pelo menos uma vez: repita ... ate (condicao)</p>
+        <p><strong>Passo 1:</strong> Bloco primeiro, condição depois.</p>
+        <p><strong>Passo 2:</strong> Útil para menus.</p>
+        <p><strong>Passo 3:</strong> Exemplo: Validação de input.</p>
+        <pre><code>
+algoritmo "RepitaAte"
+var
+    opcao: caracter
+inicio
+    repita
+        escreval("Digite S para sair: ")
+        leia(opcao)
+    ate (opcao = "S")
+    escreval("Saiu!")
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Peça senha até acertar.</p>
+        </div>
+    </section>
+
+    <section id="slide15" class="slide">
+        <h2>Slide 15: Vetores (Arrays Unidimensionais)</h2>
+        <p>Armazenam múltiplos valores: var vetor[ tamanho ]: tipo</p>
+        <p><strong>Passo 1:</strong> Declaração e inicialização.</p>
+        <p><strong>Passo 2:</strong> Acesso: vetor[índice]</p>
+        <p><strong>Passo 3:</strong> Exemplo: Média de notas.</p>
+        <pre><code>
+algoritmo "Vetores"
+var
+    notas[5]: real
+    i: inteiro
+    soma: real
+inicio
+    soma <- 0
+    para i de 0 ate 4 faca
+        leia(notas[i])
+        soma <- soma + notas[i]
+    fimpara
+    escreval("Média: ", soma / 5)
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Encontre o maior valor em um vetor.</p>
+        </div>
+    </section>
+
+    <section id="slide16" class="slide">
+        <h2>Slide 16: Matrizes (Arrays Bidimensionais)</h2>
+        <p>Como tabelas: var matriz[linhas, colunas]: tipo</p>
+        <p><strong>Passo 1:</strong> Declaração.</p>
+        <p><strong>Passo 2:</strong> Loops aninhados para acesso.</p>
+        <p><strong>Passo 3:</strong> Exemplo: Matriz de soma.</p>
+        <pre><code>
+algoritmo "Matrizes"
+var
+    mat[2,2]: inteiro
+    i, j: inteiro
+inicio
+    para i de 0 ate 1 faca
+        para j de 0 ate 1 faca
+            leia(mat[i,j])
+        fimpara
+    fimpara
+    escreval("Elemento [0,0]: ", mat[0,0])
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Some duas matrizes.</p>
+        </div>
+    </section>
+
+    <section id="slide17" class="slide">
+        <h2>Slide 17: Funções</h2>
+        <p>Blocos reutilizáveis que retornam valor: funcao nome(param): tipo ... retorne valor</p>
+        <p><strong>Passo 1:</strong> Definição.</p>
+        <p><strong>Passo 2:</strong> Chamada.</p>
+        <p><strong>Passo 3:</strong> Exemplo: Fatorial.</p>
+        <pre><code>
+algoritmo "Funcoes"
+funcao fatorial(n: inteiro): inteiro
+var
+    fat, i: inteiro
+inicio
+    fat <- 1
+    para i de 1 ate n faca
+        fat <- fat * i
+    fimpara
+    retorne fat
+fimfuncao
+
+inicio
+    escreval("Fatorial de 5: ", fatorial(5))
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Função para verificar primo.</p>
+        </div>
+    </section>
+
+    <section id="slide18" class="slide">
+        <h2>Slide 18: Procedimentos</h2>
+        <p>Como funções, mas sem retorno: procedimento nome(param) ... fimprocedimento</p>
+        <p><strong>Passo 1:</strong> Definição.</p>
+        <p><strong>Passo 2:</strong> Chamada.</p>
+        <p><strong>Passo 3:</strong> Exemplo: Imprimir linha.</p>
+        <pre><code>
+algoritmo "Procedimentos"
+procedimento linha()
+inicio
+    escreval("-------------------")
+fimprocedimento
+
+inicio
+    linha()
+    escreval("Texto")
+    linha()
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Procedimento para limpar tela (simulado).</p>
+        </div>
+    </section>
+
+    <section id="slide19" class="slide">
+        <h2>Slide 19: Exemplo Integrado: Jogo de Adivinhação</h2>
+        <p>Combine conceitos: Gerar número aleatório, loops, condicionais.</p>
+        <p><strong>Passo 1:</strong> Gerar número (use rand ou similar em Visualg).</p>
+        <p><strong>Passo 2:</strong> Loop de tentativas.</p>
+        <p><strong>Passo 3:</strong> Dicas com condicionais.</p>
+        <pre><code>
+algoritmo "Adivinhacao"
+var
+    secreto, tentativa: inteiro
+inicio
+    secreto <- randi(100) + 1  // Em Visualg, use aleatorio
+    repita
+        leia(tentativa)
+        se (tentativa > secreto) entao
+            escreval("Muito alto!")
+        senao se (tentativa < secreto) entao
+            escreval("Muito baixo!")
+        senao
+            escreval("Acertou!")
+        fimse
+    ate (tentativa = secreto)
+fimalgoritmo
+        </code></pre>
+        <div class="step">
+            <p>Construa: Adicione contagem de tentativas e high score.</p>
+        </div>
+    </section>
+
+    <section id="slide20" class="slide">
+        <h2>Slide 20: Conclusão e Exercícios</h2>
+        <p>Revisão: Lógica é essencial. Pratique com Portugol para solidificar conceitos antes de linguagens reais.</p>
+        <p><strong>Exercício 1:</strong> Crie um programa que calcule IMC (peso / altura^2) e classifique (baixo, normal, alto).</p>
+        <p><strong>Exercício 2:</strong> Implemente bubble sort em um vetor.</p>
+        <p><strong>Exercício 3:</strong> Função recursiva para Fibonacci.</p>
+        <div class="step">
+            <p>Construa: Resolva os exercícios e teste em Visualg.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>Desenvolvido para fins educacionais. Use Visualg para executar e praticar.</p>
+    </footer>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 20;
+
+        function changeSlide(direction) {
+            const slides = document.querySelectorAll('.slide');
+            slides[currentSlide - 1].classList.remove('active');
+            currentSlide += direction;
+            
+            if (currentSlide < 1) currentSlide = 1;
+            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            
+            slides[currentSlide - 1].classList.add('active');
+            
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+        }
+
+        // Initialize first slide
+        document.querySelector('.slide').classList.add('active');
+    </script>
+</body>
+</html>
