@@ -3,587 +3,2564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresenta��o: L�gica de Programa��o com Portugol</title>
+    <title>Frameworks para Desenvolvimento de Software</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --info-color: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
             color: #333;
+            background-color: #f8f9fa;
         }
-        h1, h2, h3 {
-            color: #2c3e50;
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
-        .slide {
+        
+        header {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 500;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        .hero {
+            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #666;
+        }
+        
+        .card {
             background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .slide.active {
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .card h3 {
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h3 i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .card p {
+            margin-bottom: 1rem;
+        }
+        
+        .professor-note {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+            position: relative;
+        }
+        
+        .professor-note:before {
+            content: "\f0e6";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .professor-note h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: monospace;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 4px 4px;
+        }
+        
+        .tab-content.active {
             display: block;
         }
-        pre {
-            background-color: #f8f8f8;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow-x: auto;
+        
+        .framework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
         }
-        code {
-            font-family: Consolas, monospace;
+        
+        .framework-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            overflow: hidden;
+            transition: transform 0.3s;
         }
-        .step {
-            margin-top: 10px;
-            padding-left: 20px;
-            border-left: 4px solid #3498db;
+        
+        .framework-card:hover {
+            transform: translateY(-5px);
         }
-        nav {
-            margin-bottom: 20px;
-        }
-        nav a {
-            margin-right: 10px;
-            text-decoration: none;
-            color: #3498db;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .nav-buttons {
-            margin-bottom: 20px;
-        }
-        .nav-buttons button {
-            padding: 10px 20px;
-            margin: 0 5px;
-            background-color: #3498db;
+        
+        .framework-card-header {
+            background-color: var(--primary-color);
             color: white;
-            border: none;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .framework-card-header h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .framework-card-body {
+            padding: 1.5rem;
+        }
+        
+        .framework-card-body ul {
+            padding-left: 1.5rem;
+        }
+        
+        .framework-card-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .quiz-section {
+            background-color: #f8f9fa;
+            padding: 4rem 0;
+        }
+        
+        .quiz-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .quiz-question {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quiz-question:last-child {
+            border-bottom: none;
+        }
+        
+        .quiz-question h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .quiz-options {
+            list-style: none;
+        }
+        
+        .quiz-options li {
+            margin-bottom: 0.8rem;
+            padding: 0.8rem;
+            background-color: #f8f9fa;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .nav-buttons button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        
+        .quiz-options li:hover {
+            background-color: #e9ecef;
         }
-        .nav-buttons button:hover:not(:disabled) {
-            background-color: #2980b9;
+        
+        .quiz-options li.correct {
+            background-color: #d4edda;
+            border-left: 4px solid var(--secondary-color);
+        }
+        
+        .quiz-options li.incorrect {
+            background-color: #f8d7da;
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .explanation {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        footer p {
+            margin-bottom: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            margin: 0 0.5rem;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+        
+        .diagram {
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .key-point {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--warning-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .key-point h4 {
+            color: var(--warning-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ddd;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+            }
+            
+            nav ul li {
+                margin: 0 0.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                margin-bottom: 5px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Apresenta��o: L�gica de Programa��o com Portugol</h1>
-        <p>Esta apresenta��o expandida cont�m 20 slides com mais conte�do, exemplos passo a passo e explica��es detalhadas para ajudar o aluno a construir o conhecimento progressivamente sobre l�gica de programa��o usando Portugol.</p>
-        <nav>
-            <a href="#slide1">Slide 1</a> |
-            <a href="#slide2">Slide 2</a> |
-            <a href="#slide3">Slide 3</a> |
-            <a href="#slide4">Slide 4</a> |
-            <a href="#slide5">Slide 5</a> |
-            <a href="#slide6">Slide 6</a> |
-            <a href="#slide7">Slide 7</a> |
-            <a href="#slide8">Slide 8</a> |
-            <a href="#slide9">Slide 9</a> |
-            <a href="#slide10">Slide 10</a> |
-            <a href="#slide11">Slide 11</a> |
-            <a href="#slide12">Slide 12</a> |
-            <a href="#slide13">Slide 13</a> |
-            <a href="#slide14">Slide 14</a> |
-            <a href="#slide15">Slide 15</a> |
-            <a href="#slide16">Slide 16</a> |
-            <a href="#slide17">Slide 17</a> |
-            <a href="#slide18">Slide 18</a> |
-            <a href="#slide19">Slide 19</a> |
-            <a href="#slide20">Slide 20</a>
-        </nav>
-        <div class="nav-buttons">
-            <button id="prevBtn" onclick="changeSlide(-1)" disabled>Anterior</button>
-            <button id="nextBtn" onclick="changeSlide(1)">Pr�ximo</button>
+        <div class="container">
+            <h1>Frameworks para Desenvolvimento de Software</h1>
+            <nav>
+                <ul>
+                    <li><a href="#java-ee">Java EE</a></li>
+                    <li><a href="#javascript">JavaScript</a></li>
+                    <li><a href="#php">PHP</a></li>
+                    <li><a href="#angular">Angular</a></li>
+                    <li><a href="#quiz">Quiz</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <section id="slide1" class="slide active">
-        <h2>Slide 1: Introdu��o � L�gica de Programa��o</h2>
-        <p>A l�gica de programa��o � a base para resolver problemas computacionais de forma estruturada. � como criar uma receita detalhada para que o computador execute tarefas.</p>
-        <p><strong>Passo 1:</strong> Entenda um algoritmo como uma sequ�ncia finita de a��es execut�veis.</p>
-        <p><strong>Passo 2:</strong> Exemplos do dia a dia: Algoritmo para fazer caf� (passos: ferver �gua, adicionar p�, etc.).</p>
-        <p><strong>Passo 3:</strong> Import�ncia: Desenvolve racioc�nio l�gico e resolu��o de problemas.</p>
-        <div class="step">
-            <p>Construa: Pense em um problema simples da sua rotina e liste os passos para resolv�-lo.</p>
+    <section class="hero">
+        <div class="container">
+            <h2>Domine os Principais Frameworks de Desenvolvimento</h2>
+            <p>Um guia completo sobre Java EE, JavaScript, PHP e Angular para complementar seus estudos e ajudar na resolução de exercícios.</p>
+            <a href="#java-ee" class="btn">Começar a aprender</a>
         </div>
     </section>
 
-    <section id="slide2" class="slide">
-        <h2>Slide 2: O que � Portugol?</h2>
-        <p>Portugol � uma linguagem de pseudoc�digo em portugu�s, usada para ensinar l�gica sem focar em sintaxe complexa. � implementada em ferramentas como Visualg.</p>
-        <p><strong>Passo 1:</strong> Vantagens: F�cil leitura, pr�xima da linguagem natural.</p>
-        <p><strong>Passo 2:</strong> Diferen�as de linguagens reais: N�o compila para execut�vel, mas simula execu��o.</p>
-        <p><strong>Passo 3:</strong> Exemplo b�sico: Sauda��o.</p>
-        <pre><code>
-algoritmo "Saudacao"
-inicio
-    escreval("Bem-vindo ao Portugol!")
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Compare com uma linguagem como Python: print("Bem-vindo").</p>
+    <section id="java-ee" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Java EE (Jakarta EE)</h2>
+                <p>Plataforma para desenvolvimento de aplicações empresariais em Java</p>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-cogs"></i> Arquitetura Java EE</h3>
+                <p>Java EE (agora Jakarta EE) é uma plataforma robusta para desenvolvimento de aplicações empresariais distribuídas. Ela oferece uma arquitetura completa com diversos containers e componentes que facilitam o desenvolvimento de sistemas complexos.</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Alunos, pensem na plataforma Jakarta EE como um ecossistema completo que fornece tudo o que vocês precisam para construir aplicações corporativas escaláveis. Ela abstrai muitas complexidades, permitindo que vocês se concentrem na lógica de negócio em vez de infraestrutura.</p>
+                </div>
+                
+                <p>A plataforma Jakarta EE é composta por quatro containers principais:</p>
+                <ul>
+                    <li><strong>Applet Container:</strong> Executa applets Java no navegador. (Menos utilizado atualmente)</li>
+                    <li><strong>Application Client Container:</strong> Executa aplicações cliente no computador do usuário.</li>
+                    <li><strong>Web Container:</strong> Executa componentes web como Servlets, JSP e Server Faces.</li>
+                    <li><strong>Enterprise Beans Container:</strong> Executa componentes de negócio (Enterprise Beans).</li>
+                </ul>
+                
+                <div class="diagram">
+                    <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Java EE Platform -->
+                        <rect x="50" y="20" width="500" height="360" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                        <text x="300" y="45" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold">Jakarta EE Platform</text>
+                        
+                        <!-- Containers -->
+                        <rect x="80" y="70" width="200" height="120" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                        <text x="180" y="95" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Web Container</text>
+                        <text x="180" y="115" font-family="Arial" font-size="12" text-anchor="middle">Servlets</text>
+                        <text x="180" y="135" font-family="Arial" font-size="12" text-anchor="middle">JSP</text>
+                        <text x="180" y="155" font-family="Arial" font-size="12" text-anchor="middle">Server Faces</text>
+                        <text x="180" y="175" font-family="Arial" font-size="12" text-anchor="middle">Filters</text>
+                        
+                        <rect x="320" y="70" width="200" height="120" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                        <text x="420" y="95" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">EJB Container</text>
+                        <text x="420" y="115" font-family="Arial" font-size="12" text-anchor="middle">Session Beans</text>
+                        <text x="420" y="135" font-family="Arial" font-size="12" text-anchor="middle">Entity Beans</text>
+                        <text x="420" y="155" font-family="Arial" font-size="12" text-anchor="middle">Message Beans</text>
+                        <text x="420" y="175" font-family="Arial" font-size="12" text-anchor="middle">Transactions</text>
+                        
+                        <rect x="80" y="220" width="200" height="120" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                        <text x="180" y="245" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Applet Container</text>
+                        <text x="180" y="265" font-family="Arial" font-size="12" text-anchor="middle">Java Applets</text>
+                        <text x="180" y="285" font-family="Arial" font-size="12" text-anchor="middle">Browser Integration</text>
+                        
+                        <rect x="320" y="220" width="200" height="120" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+                        <text x="420" y="245" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Client Container</text>
+                        <text x="420" y="265" font-family="Arial" font-size="12" text-anchor="middle">Standalone Apps</text>
+                        <text x="420" y="285" font-family="Arial" font-size="12" text-anchor="middle">GUI Applications</text>
+                        
+                        <!-- Java SE Base -->
+                        <rect x="200" y="350" width="200" height="30" rx="5" fill="#ffecb3" stroke="#ffa000" stroke-width="2"/>
+                        <text x="300" y="370" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Java SE (Base)</text>
+                        
+                        <!-- Connections -->
+                        <line x1="180" y1="190" x2="180" y2="220" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
+                        <line x1="420" y1="190" x2="420" y2="220" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
+                        <line x1="180" y1="340" x2="200" y2="350" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
+                        <line x1="420" y1="340" x2="400" y2="350" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
+                    </svg>
+                </div>
+                
+                <div class="key-point">
+                    <h4>Ponto Chave</h4>
+                    <p>Todos esses containers permitem o desenvolvimento de aplicações escaláveis, com otimização de recursos e suporte a transações distribuídas. A plataforma segue o padrão MVC (Model-View-Controller), promovendo a separação de responsabilidades.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-code"></i> Componentes do Web Container</h3>
+                <p>O Web Container é responsável por executar componentes que geram conteúdo dinâmico para a web. Vamos analisar cada um deles em detalhe:</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>O Web Container é como o motor da sua aplicação web. Ele gerencia o ciclo de vida dos componentes, trata requisições HTTP e fornece serviços como segurança, transações e gerenciamento de sessão. Vocês não precisam se preocupar com esses detalhes de infraestrutura!</p>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="openTab(event, 'servlets')">Servlets</div>
+                    <div class="tab" onclick="openTab(event, 'jsp')">JSP</div>
+                    <div class="tab" onclick="openTab(event, 'server-faces')">Server Faces</div>
+                </div>
+                
+                <div id="servlets" class="tab-content active">
+                    <p><strong>Servlets:</strong> Classes Java que respondem a requisições HTTP. São independentes de plataforma e compiladas dinamicamente pelo servidor.</p>
+                    
+                    <div class="code-block">
+public class CalculatorServlet extends HttpServlet {
+    public void doGet(HttpServletRequest req, HttpServletResponse res) {
+        // Lógica para tratar requisição GET
+        int num1 = Integer.parseInt(req.getParameter("num1"));
+        int num2 = Integer.parseInt(req.getParameter("num2"));
+        int result = num1 + num2;
+        
+        res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>Resultado: " + result + "</h1>");
+        out.println("</body></html>");
+    }
+}
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Como funciona?</h4>
+                        <p>Quando um usuário faz uma requisição, o servidor web direciona para o servlet correspondente. O servlet processa a requisição, gera o conteúdo HTML e envia como resposta. Tudo isso acontece no servidor, antes de enviar a página para o navegador do cliente.</p>
+                    </div>
+                    
+                    <p>Os servlets são mapeados para URLs através de anotações ou arquivos de configuração (Deployment Descriptors). Eles são o fundamento de todas as outras tecnologias web em Java EE.</p>
+                </div>
+                
+                <div id="jsp" class="tab-content">
+                    <p><strong>Java Server Pages (JSP):</strong> Permite inserir código Java em HTML, facilitando a separação entre lógica de negócio e apresentação.</p>
+                    
+                    <div class="code-block">
+&lt;html&gt;
+&lt;body&gt;
+    &lt;h1&gt;Lista de Filmes&lt;/h1&gt;
+    &lt;ul&gt;
+        &lt;c:forEach var="m" items="${movies}"&gt;
+            &lt;li&gt;${m.title}&lt;/li&gt;
+        &lt;/c:forEach&gt;
+    &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                    </div>
+                    
+                    <div class="professor-note">
+                        <h4>Nota do Professor</h4>
+                        <p>JSP é uma evolução natural dos servlets. Em vez de escrever código HTML dentro de Java (como nos servlets), nós escrevemos código Java dentro de HTML. Isso torna o código mais limpo e mais fácil para designers web trabalharem. Mas lembrem-se: o JSP é compilado para um servlet antes de ser executado!</p>
+                    </div>
+                    
+                    <p>JSP utiliza tag libraries (JSTL) e expressões EL (Expression Language) para simplificar o acesso a dados e objetos Java. Isso reduz significativamente a quantidade de código Java necessário nas páginas.</p>
+                </div>
+                
+                <div id="server-faces" class="tab-content">
+                    <p><strong>Server Faces:</strong> Framework MVC baseado em componentes para construção de interfaces de usuário. Oferece gerenciamento de estado, validação e navegação.</p>
+                    
+                    <div class="code-block">
+&lt;h:form&gt;
+    &lt;h:inputText value="#{hello.name}" /&gt;
+    &lt;h:commandButton value="Submit" action="response" /&gt;
+&lt;/h:form&gt;
+                    </div>
+                    
+                    <div class="diagram">
+                        <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                            <!-- JSF Lifecycle -->
+                            <rect x="50" y="50" width="400" height="200" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                            <text x="250" y="30" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">JSF Lifecycle</text>
+                            
+                            <!-- Phases -->
+                            <rect x="80" y="80" width="80" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+                            <text x="120" y="105" font-family="Arial" font-size="12" text-anchor="middle">Restore View</text>
+                            
+                            <rect x="180" y="80" width="80" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
+                            <text x="220" y="105" font-family="Arial" font-size="12" text-anchor="middle">Apply Request</text>
+                            
+                            <rect x="280" y="80" width="80" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                            <text x="320" y="105" font-family="Arial" font-size="12" text-anchor="middle">Process Validations</text>
+                            
+                            <rect x="80" y="140" width="80" height="40" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1"/>
+                            <text x="120" y="165" font-family="Arial" font-size="12" text-anchor="middle">Update Model</text>
+                            
+                            <rect x="180" y="140" width="80" height="40" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="1"/>
+                            <text x="220" y="165" font-family="Arial" font-size="12" text-anchor="middle">Invoke App</text>
+                            
+                            <rect x="280" y="140" width="80" height="40" rx="5" fill="#e0f2f1" stroke="#00796b" stroke-width="1"/>
+                            <text x="320" y="165" font-family="Arial" font-size="12" text-anchor="middle">Render Response</text>
+                            
+                            <!-- Arrows -->
+                            <path d="M160,100 L180,100" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                            <path d="M260,100 L280,100" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                            <path d="M320,120 L320,140" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                            <path d="M280,160 L260,160" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                            <path d="M180,160 L160,160" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                            <path d="M120,180 L120,200 L320,200 L320,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                            
+                            <!-- Arrow marker -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                    
+                    <p>Server Faces simplifica o desenvolvimento de interfaces complexas, fornecendo componentes reutilizáveis e um ciclo de vida bem definido. Ele gerencia automaticamente o estado da aplicação entre requisições, algo que seria complexo de implementar manualmente com servlets ou JSP.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-database"></i> Enterprise Beans e Persistência</h3>
+                <p>Os Enterprise Beans são componentes que contêm lógica de negócio e são executados no Enterprise Beans Container. Eles são o coração da camada de negócio em aplicações Java EE.</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Enterprise Beans são como especialistas em tarefas específicas da sua aplicação. Eles sabem como lidar com transações, segurança, concorrência e outros aspectos complexos do desenvolvimento empresarial. Vocês podem se concentrar na regra de negócio enquanto o container cuida do resto!</p>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="openTab(event, 'session-beans')">Session Beans</div>
+                    <div class="tab" onclick="openTab(event, 'entity-beans')">Entity Beans</div>
+                    <div class="tab" onclick="openTab(event, 'jpa')">JPA</div>
+                </div>
+                
+                <div id="session-beans" class="tab-content active">
+                    <p><strong>Session Beans:</strong> Implementam a lógica de negócio da aplicação. Podem ser stateless (sem estado) ou stateful (com estado).</p>
+                    
+                    <div class="comparison-table">
+                        <table>
+                            <tr>
+                                <th>Característica</th>
+                                <th>Stateless Session Bean</th>
+                                <th>Stateful Session Bean</th>
+                            </tr>
+                            <tr>
+                                <td>Estado</td>
+                                <td>Não mantém estado entre chamadas</td>
+                                <td>Mantém estado específico para cada cliente</td>
+                            </tr>
+                            <tr>
+                                <td>Escalabilidade</td>
+                                <td>Mais escalável, pode ser compartilhado</td>
+                                <td>Menos escalável, dedicado a um cliente</td>
+                            </tr>
+                            <tr>
+                                <td>Uso típico</td>
+                                <td>Serviços genéricos, cálculos</td>
+                                <td>Carrinhos de compras, sessões de usuário</td>
+                            </tr>
+                            <tr>
+                                <td>Performance</td>
+                                <td>Melhor performance, menor consumo de recursos</td>
+                                <td>Maior consumo de recursos</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <div class="code-block">
+@Stateless
+public class CalculadoraService {
+    public double somar(double a, double b) {
+        return a + b;
+    }
+    
+    public double subtrair(double a, double b) {
+        return a - b;
+    }
+}
+
+@Stateful
+public class CarrinhoCompras {
+    private List<Item> itens = new ArrayList<>();
+    
+    public void adicionarItem(Item item) {
+        itens.add(item);
+    }
+    
+    public List<Item> getItens() {
+        return itens;
+    }
+    
+    public double getTotal() {
+        return itens.stream().mapToDouble(Item::getPreco).sum();
+    }
+}
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Quando usar cada um?</h4>
+                        <p>Use Stateless Session Beans para operações que não dependem de estado anterior, como cálculos, consultas ou serviços genéricos. Use Stateful Session Beans quando precisar manter conversação com o cliente, como em um carrinho de compras ou um assistente de configuração.</p>
+                    </div>
+                </div>
+                
+                <div id="entity-beans" class="tab-content">
+                    <p><strong>Entity Beans:</strong> Representam dados persistentes, geralmente mapeados para tabelas de banco de dados.</p>
+                    
+                    <div class="code-block">
+@Entity
+public class Cliente implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false)
+    private String nome;
+    
+    @Column(unique = true, nullable = false)
+    private String email;
+    
+    @Column(nullable = false)
+    private String senha;
+    
+    // Getters e setters
+}
+                    </div>
+                    
+                    <div class="diagram">
+                        <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Object-Relational Mapping -->
+                            <rect x="50" y="50" width="180" height="200" rx="10" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                            <text x="140" y="75" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Objeto Java</text>
+                            
+                            <rect x="270" y="50" width="180" height="200" rx="10" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                            <text x="360" y="75" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Tabela do Banco</text>
+                            
+                            <!-- Java Object -->
+                            <rect x="70" y="100" width="140" height="130" rx="5" fill="white" stroke="#1976d2" stroke-width="1"/>
+                            <text x="140" y="120" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">Cliente</text>
+                            <line x1="70" y1="130" x2="210" y2="130" stroke="#1976d2" stroke-width="1"/>
+                            <text x="80" y="150" font-family="Arial" font-size="11">- id: Long</text>
+                            <text x="80" y="170" font-family="Arial" font-size="11">- nome: String</text>
+                            <text x="80" y="190" font-family="Arial" font-size="11">- email: String</text>
+                            <text x="80" y="210" font-family="Arial" font-size="11">+ getId(): Long</text>
+                            <text x="80" y="230" font-family="Arial" font-size="11">+ setNome(): void</text>
+                            
+                            <!-- Database Table -->
+                            <rect x="290" y="100" width="140" height="130" rx="5" fill="white" stroke="#388e3c" stroke-width="1"/>
+                            <text x="360" y="120" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">CLIENTE</text>
+                            <line x1="290" y1="130" x2="430" y2="130" stroke="#388e3c" stroke-width="1"/>
+                            <text x="300" y="150" font-family="Arial" font-size="11">ID (PK)</text>
+                            <text x="300" y="170" font-family="Arial" font-size="11">NOME</text>
+                            <text x="300" y="190" font-family="Arial" font-size="11">EMAIL</text>
+                            <text x="300" y="210" font-family="Arial" font-size="11">SENHA</text>
+                            
+                            <!-- Mapping -->
+                            <path d="M210,150 L290,150" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
+                            <path d="M210,170 L290,170" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
+                            <path d="M210,190 L290,190" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
+                            
+                            <!-- Annotations -->
+                            <rect x="220" y="140" width="60" height="20" rx="3" fill="#ffecb3" stroke="#ffa000" stroke-width="1"/>
+                            <text x="250" y="155" font-family="Arial" font-size="10" text-anchor="middle">@Column</text>
+                            
+                            <rect x="220" y="160" width="60" height="20" rx="3" fill="#ffecb3" stroke="#ffa000" stroke-width="1"/>
+                            <text x="250" y="175" font-family="Arial" font-size="10" text-anchor="middle">@Column</text>
+                            
+                            <rect x="220" y="180" width="60" height="20" rx="3" fill="#ffecb3" stroke="#ffa000" stroke-width="1"/>
+                            <text x="250" y="195" font-family="Arial" font-size="10" text-anchor="middle">@Column</text>
+                        </svg>
+                    </div>
+                    
+                    <p>Entity Beans são gerenciados pelo container e oferecem funcionalidades como cache, lazy loading e transações. As anotações JPA (@Entity, @Id, @Column, etc.) definem como a classe Java será mapeada para a tabela do banco de dados.</p>
+                </div>
+                
+                <div id="jpa" class="tab-content">
+                    <p><strong>Jakarta Persistence API (JPA):</strong> API para mapeamento objeto-relacional, permitindo que objetos Java sejam persistidos em bancos de dados relacionais.</p>
+                    
+                    <div class="professor-note">
+                        <h4>Nota do Professor</h4>
+                        <p>JPA é uma das tecnologias mais importantes do Java EE. Ela permite que vocês trabalhem com objetos Java em vez de SQL direto, o que torna o código mais limpo e orientado a objetos. A implementação mais popular do JPA é o Hibernate, mas existem outras como EclipseLink e OpenJPA.</p>
+                    </div>
+                    
+                    <div class="code-block">
+@Entity
+@Table(name = "produtos")
+public class Produto implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false, length = 100)
+    private String nome;
+    
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal preco;
+    
+    @ManyToOne
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
+    
+    // Getters e setters
+}
+
+// Exemplo de uso do EntityManager
+@Stateless
+public class ProdutoService {
+    @PersistenceContext
+    private EntityManager em;
+    
+    public void salvar(Produto produto) {
+        em.persist(produto);
+    }
+    
+    public Produto buscarPorId(Long id) {
+        return em.find(Produto.class, id);
+    }
+    
+    public List<Produto> listarTodos() {
+        return em.createQuery("SELECT p FROM Produto p", Produto.class)
+                 .getResultList();
+    }
+    
+    public void atualizar(Produto produto) {
+        em.merge(produto);
+    }
+    
+    public void excluir(Long id) {
+        Produto produto = em.find(Produto.class, id);
+        if (produto != null) {
+            em.remove(produto);
+        }
+    }
+}
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Vantagens do JPA</h4>
+                        <ul>
+                            <li><strong>Produtividade:</strong> Reduz significativamente a quantidade de código boilerplate para acesso a dados.</li>
+                            <li><strong>Manutenção:</strong> Código mais limpo e orientado a objetos.</li>
+                            <li><strong>Portabilidade:</strong> Mesmo código funciona com diferentes bancos de dados.</li>
+                            <li><strong>Cache:</strong> Melhora de performance através de mecanismos de cache.</li>
+                            <li><strong>Transações:</strong> Gerenciamento automático de transações.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="slide3" class="slide">
-        <h2>Slide 3: Estrutura B�sica de um Programa</h2>
-        <p>Todo programa em Portugol inicia com "algoritmo 'nome'", declara vari�veis com "var", executa no "inicio" e termina com "fimalgoritmo".</p>
-        <p><strong>Passo 1:</strong> Cabe�alho: algoritmo "NomeDoPrograma"</p>
-        <p><strong>Passo 2:</strong> Declara��o de vari�veis.</p>
-        <p><strong>Passo 3:</strong> Bloco de execu��o: inicio ... fimalgoritmo</p>
-        <pre><code>
-algoritmo "EstruturaBasica"
-var
-    mensagem: caracter
-inicio
-    mensagem <- "Ol�!"
-    escreval(mensagem)
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Adicione uma vari�vel e exiba seu valor.</p>
+    <section id="javascript" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frameworks JavaScript</h2>
+                <p>Principais frameworks e bibliotecas para desenvolvimento web com JavaScript</p>
+            </div>
+            
+            <div class="professor-note">
+                <h4>Nota do Professor</h4>
+                <p>JavaScript evoluiu muito nos últimos anos! Hoje, não é mais apenas uma linguagem para adicionar interatividade simples às páginas. Com os frameworks modernos, podemos construir aplicações complexas e robustas tanto no front-end quanto no back-end. Vamos explorar as tecnologias mais importantes.</p>
+            </div>
+            
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <div class="framework-card-header">
+                        <h3>Ajax</h3>
+                    </div>
+                    <div class="framework-card-body">
+                        <p>Ajax (Asynchronous JavaScript and XML) é uma técnica para criar aplicações web interativas, permitindo comunicação assíncrona com o servidor sem recarregar a página.</p>
+                        
+                        <div class="diagram">
+                            <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Browser -->
+                                <rect x="50" y="30" width="80" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                                <text x="90" y="65" font-family="Arial" font-size="12" text-anchor="middle">Browser</text>
+                                
+                                <!-- Server -->
+                                <rect x="170" y="30" width="80" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                                <text x="210" y="65" font-family="Arial" font-size="12" text-anchor="middle">Server</text>
+                                
+                                <!-- Database -->
+                                <rect x="170" y="120" width="80" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                                <text x="210" y="155" font-family="Arial" font-size="12" text-anchor="middle">Database</text>
+                                
+                                <!-- Arrows -->
+                                <path d="M130,60 L170,60" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                                <text x="150" y="55" font-family="Arial" font-size="10" text-anchor="middle">Request</text>
+                                
+                                <path d="M170,80 L130,80" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                                <text x="150" y="95" font-family="Arial" font-size="10" text-anchor="middle">Response</text>
+                                
+                                <path d="M210,90 L210,120" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                                
+                                <!-- Arrow marker -->
+                                <defs>
+                                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+                        </div>
+                        
+                        <div class="code-block">
+function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("demo").innerHTML = this.responseText;
+        }
+    };
+    xhttp.open("GET", "conteudo_remoto.txt", true);
+    xhttp.send();
+}
+                        </div>
+                        <p>Principais características:</p>
+                        <ul>
+                            <li>Atualização parcial de páginas</li>
+                            <li>Comunicação assíncrona com o servidor</li>
+                            <li>Melhora na experiência do usuário</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="framework-card">
+                    <div class="framework-card-header">
+                        <h3>Node.js</h3>
+                    </div>
+                    <div class="framework-card-body">
+                        <p>Node.js é um ambiente de execução JavaScript server-side, baseado na engine V8 do Google Chrome. Permite criar servidores web e aplicações de rede.</p>
+                        
+                        <div class="diagram">
+                            <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Node.js Architecture -->
+                                <rect x="50" y="30" width="200" height="140" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                                <text x="150" y="20" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Node.js Architecture</text>
+                                
+                                <!-- Event Loop -->
+                                <rect x="70" y="50" width="160" height="30" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+                                <text x="150" y="70" font-family="Arial" font-size="12" text-anchor="middle">Event Loop</text>
+                                
+                                <!-- Thread Pool -->
+                                <rect x="70" y="90" width="160" height="30" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
+                                <text x="150" y="110" font-family="Arial" font-size="12" text-anchor="middle">Thread Pool (Libuv)</text>
+                                
+                                <!-- V8 Engine -->
+                                <rect x="70" y="130" width="160" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                                <text x="150" y="150" font-family="Arial" font-size="12" text-anchor="middle">V8 JavaScript Engine</text>
+                            </svg>
+                        </div>
+                        
+                        <div class="code-block">
+var http = require('http');
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'text/plain');
+    res.end('Hello World\n');
+});
+
+server.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/`);
+});
+                        </div>
+                        <p>Principais características:</p>
+                        <ul>
+                            <li>Modelo assíncrono e orientado a eventos</li>
+                            <li>Ecossistema rico com npm (Node Package Manager)</li>
+                            <li>Execução JavaScript no servidor</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="framework-card">
+                    <div class="framework-card-header">
+                        <h3>Angular</h3>
+                    </div>
+                    <div class="framework-card-body">
+                        <p>Angular é um framework para desenvolvimento de aplicações web front-end, mantido pelo Google. É baseado em TypeScript e utiliza o padrão MVC.</p>
+                        
+                        <div class="diagram">
+                            <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Angular Architecture -->
+                                <rect x="50" y="30" width="200" height="140" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                                <text x="150" y="20" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Angular Architecture</text>
+                                
+                                <!-- Components -->
+                                <rect x="70" y="50" width="160" height="30" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+                                <text x="150" y="70" font-family="Arial" font-size="12" text-anchor="middle">Components</text>
+                                
+                                <!-- Templates -->
+                                <rect x="70" y="90" width="160" height="30" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
+                                <text x="150" y="110" font-family="Arial" font-size="12" text-anchor="middle">Templates</text>
+                                
+                                <!-- Services -->
+                                <rect x="70" y="130" width="160" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                                <text x="150" y="150" font-family="Arial" font-size="12" text-anchor="middle">Services & DI</text>
+                            </svg>
+                        </div>
+                        
+                        <div class="code-block">
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-hello',
+    template: `&lt;h1&gt;{{ message }}&lt;/h1&gt;`
+})
+export class HelloComponent {
+    message = 'Hello, Angular!';
+}
+                        </div>
+                        <p>Principais características:</p>
+                        <ul>
+                            <li>Baseado em componentes</li>
+                            <li>Injeção de dependência</li>
+                            <li>Binding de dados</li>
+                            <li>Diretivas para manipulação do DOM</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="slide4" class="slide">
-        <h2>Slide 4: Vari�veis e Tipos de Dados</h2>
-        <p>Vari�veis armazenam dados. Tipos: inteiro (n�meros inteiros), real (decimais), caracter (textos), logico (verdadeiro/falso).</p>
-        <p><strong>Passo 1:</strong> Declara��o: var nome: caracter</p>
-        <p><strong>Passo 2:</strong> Atribui��o: nome <- "Ana"</p>
-        <p><strong>Passo 3:</strong> Exemplo com m�ltiplas vari�veis.</p>
-        <pre><code>
-algoritmo "Variaveis"
-var
-    idade: inteiro
-    altura: real
-    aprovado: logico
-inicio
-    idade <- 20
-    altura <- 1.75
-    aprovado <- verdadeiro
-    escreval("Idade: ", idade, " Altura: ", altura, " Aprovado: ", aprovado)
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Crie vari�veis para nome, nota e status, e exiba.</p>
+    <section id="php" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frameworks PHP</h2>
+                <p>Principais frameworks para desenvolvimento de aplicações em PHP</p>
+            </div>
+            
+            <div class="professor-note">
+                <h4>Nota do Professor</h4>
+                <p>PHP continua sendo uma das linguagens mais populares para desenvolvimento web, especialmente para sistemas de gerenciamento de conteúdo (CMS) como WordPress. Os frameworks PHP modernos trazem conceitos avançados como MVC, ORM, injeção de dependência e mais, tornando o desenvolvimento mais estruturado e produtivo.</p>
+            </div>
+            
+            <div class="framework-grid">
+                <div class="framework-card">
+                    <div class="framework-card-header">
+                        <h3>Laravel</h3>
+                    </div>
+                    <div class="framework-card-body">
+                        <p>Laravel é um framework PHP open-source que segue o padrão MVC. Oferece recursos como Eloquent ORM, roteamento, sessões, cache, e muito mais.</p>
+                        
+                        <div class="code-block">
+Route::get('/', function () {
+    return view('welcome');
+});
+                        </div>
+                        <p>Principais características:</p>
+                        <ul>
+                            <li>Sintaxe elegante e expressiva</li>
+                            <li>Eloquent ORM para manipulação de banco de dados</li>
+                            <li>Sistema de roteamento poderoso</li>
+                            <li>Artisan CLI para automação de tarefas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="framework-card">
+                    <div class="framework-card-header">
+                        <h3>Symfony</h3>
+                    </div>
+                    <div class="framework-card-body">
+                        <p>Symfony é um conjunto de componentes PHP reutilizáveis e um framework para projetos web. É conhecido por sua flexibilidade e pelo grande número de componentes disponíveis.</p>
+                        
+                        <div class="code-block">
+namespace App\Controller;
+
+use Symfony\Component\HttpFoundation\Response;
+
+class LuckyController
+{
+    public function number(): Response
+    {
+        $number = random_int(0, 100);
+        return new Response(
+            '&lt;html&gt;&lt;body&gt;Lucky number: '.$number.'&lt;/body&gt;&lt;/html&gt;'
+        );
+    }
+}
+                        </div>
+                        <p>Principais características:</p>
+                        <ul>
+                            <li>Arquitetura modular com componentes reutilizáveis</li>
+                            <li>Grande comunidade e documentação</li>
+                            <li>Alto desempenho</li>
+                            <li>Padrões de projeto bem definidos</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="framework-card">
+                    <div class="framework-card-header">
+                        <h3>CodeIgniter</h3>
+                    </div>
+                    <div class="framework-card-body">
+                        <p>CodeIgniter é um framework PHP leve e rápido, ideal para desenvolvedores que precisam de uma solução simples e elegante.</p>
+                        
+                        <div class="code-block">
+&lt;?php
+namespace App\Controllers;
+
+class Pages extends BaseController
+{
+    public function index()
+    {
+        return view('welcome_message');
+    }
+}
+                        </div>
+                        <p>Principais características:</p>
+                        <ul>
+                            <li>Pequeno footprint</li>
+                            <li>Curva de aprendizado suave</li>
+                            <li>Documentação extensa</li>
+                            <li>Não requer configurações complexas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="framework-card">
+                    <div class="framework-card-header">
+                        <h3>Laminas (antigo Zend)</h3>
+                    </div>
+                    <div class="framework-card-body">
+                        <p>Laminas é a evolução do framework Zend, mantido pela comunidade. Oferece componentes para construir aplicações empresariais.</p>
+                        
+                        <div class="code-block">
+namespace MyModule;
+
+use Laminas\Mvc\MvcEvent;
+
+class Module
+{
+    public function onBootstrap(MvcEvent $e)
+    {
+        // Código de inicialização
+    }
+}
+                        </div>
+                        <p>Principais características:</p>
+                        <ul>
+                            <li>Componentes desacoplados e reutilizáveis</li>
+                            <li>Arquitetura orientada a eventos</li>
+                            <li>Foco em aplicações corporativas</li>
+                            <li>Compatibilidade com PSR (PHP Standard Recommendations)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="slide5" class="slide">
-        <h2>Slide 5: Operadores Aritm�ticos</h2>
-        <p>Usados para c�lculos: + (soma), - (subtra��o), * (multiplica��o), / (divis�o), % (m�dulo), ^ (pot�ncia).</p>
-        <p><strong>Passo 1:</strong> Soma simples: a + b</p>
-        <p><strong>Passo 2:</strong> Exemplo com m�dulo: resto da divis�o.</p>
-        <p><strong>Passo 3:</strong> Pot�ncia: 2 ^ 3 = 8</p>
-        <pre><code>
-algoritmo "Aritmeticos"
-var
-    a, b, resultado: inteiro
-inicio
-    a <- 10
-    b <- 3
-    resultado <- a % b  // Resultado: 1
-    escreval("Resto: ", resultado)
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Calcule �rea de um ret�ngulo (comprimento * largura).</p>
+    <section id="angular" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Angular - Guia Detalhado</h2>
+                <p>Tudo o que você precisa saber sobre Angular para resolver os exercícios</p>
+            </div>
+            
+            <div class="professor-note">
+                <h4>Nota do Professor</h4>
+                <p>Angular é um dos frameworks front-end mais poderosos e completos disponíveis hoje. Ele oferece uma estrutura completa para construir aplicações web escaláveis e manuteníveis. Nesta seção, vamos explorar cada conceito em detalhe, com exemplos práticos e explicações claras para que vocês dominem o Angular e consigam resolver os exercícios com confiança!</p>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-terminal"></i> Angular CLI</h3>
+                <p>A Angular CLI é uma ferramenta de linha de comando para criar, construir e manter aplicações Angular. Ela automatiza muitas tarefas repetitivas e segue as melhores práticas do framework.</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>A CLI é sua melhor amiga no desenvolvimento Angular! Ela não apenas cria a estrutura de arquivos correta, mas também configura o ambiente de desenvolvimento, otimiza a construção para produção e ajuda a manter o código organizado. Usem sempre a CLI para criar componentes, serviços, módulos e outros elementos da aplicação.</p>
+                </div>
+                
+                <p>Para instalar globalmente:</p>
+                <div class="code-block">
+npm install -g @angular/cli
+                </div>
+                
+                <p>Para criar um novo projeto:</p>
+                <div class="code-block">
+ng new meu-projeto
+                </div>
+                
+                <div class="key-point">
+                    <h4>Comandos essenciais da CLI</h4>
+                    <ul>
+                        <li><code>ng serve</code> - Inicia o servidor de desenvolvimento com live reload</li>
+                        <li><code>ng generate component nome</code> - Cria um novo componente</li>
+                        <li><code>ng generate service nome</code> - Cria um novo serviço</li>
+                        <li><code>ng generate module nome</code> - Cria um novo módulo</li>
+                        <li><code>ng build</code> - Compila a aplicação para produção</li>
+                        <li><code>ng test</code> - Executa testes unitários</li>
+                        <li><code>ng e2e</code> - Executa testes end-to-end</li>
+                    </ul>
+                </div>
+                
+                <div class="diagram">
+                    <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Angular CLI Workflow -->
+                        <rect x="50" y="30" width="500" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                        <text x="300" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Angular CLI Workflow</text>
+                        
+                        <!-- ng new -->
+                        <rect x="80" y="60" width="120" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                        <text x="140" y="85" font-family="Arial" font-size="14" text-anchor="middle">ng new</text>
+                        
+                        <!-- ng generate -->
+                        <rect x="240" y="60" width="120" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                        <text x="300" y="85" font-family="Arial" font-size="14" text-anchor="middle">ng generate</text>
+                        
+                        <!-- ng serve -->
+                        <rect x="400" y="60" width="120" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                        <text x="460" y="85" font-family="Arial" font-size="14" text-anchor="middle">ng serve</text>
+                        
+                        <!-- Project Structure -->
+                        <rect x="80" y="130" width="440" height="120" rx="5" fill="white" stroke="#333" stroke-width="1"/>
+                        <text x="300" y="150" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Project Structure</text>
+                        
+                        <!-- Folders -->
+                        <rect x="100" y="170" width="80" height="30" rx="3" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+                        <text x="140" y="190" font-family="Arial" font-size="12" text-anchor="middle">src/app</text>
+                        
+                        <rect x="200" y="170" width="80" height="30" rx="3" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
+                        <text x="240" y="190" font-family="Arial" font-size="12" text-anchor="middle">components</text>
+                        
+                        <rect x="300" y="170" width="80" height="30" rx="3" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                        <text x="340" y="190" font-family="Arial" font-size="12" text-anchor="middle">services</text>
+                        
+                        <rect x="400" y="170" width="80" height="30" rx="3" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1"/>
+                        <text x="440" y="190" font-family="Arial" font-size="12" text-anchor="middle">modules</text>
+                        
+                        <!-- Arrows -->
+                        <path d="M140,100 L140,130" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M300,100 L300,130" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M460,100 L460,130" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- Arrow marker -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-cube"></i> Componentes</h3>
+                <p>Componentes são os blocos de construção fundamentais das aplicações Angular. Um componente é composto por:</p>
+                <ul>
+                    <li>Uma classe TypeScript com propriedades e métodos</li>
+                    <li>Um template HTML</li>
+                    <li>Estilos CSS</li>
+                </ul>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Pensem nos componentes como "blocos LEGO" da sua aplicação. Cada componente tem uma responsabilidade específica e pode ser reutilizado em diferentes partes da aplicação. Essa abordagem baseada em componentes torna o código mais modular, mais fácil de testar e mais fácil de manter.</p>
+                </div>
+                
+                <p>Para criar um componente com a CLI:</p>
+                <div class="code-block">
+ng generate component MeuComponente
+                </div>
+                
+                <p>Exemplo de componente:</p>
+                <div class="code-block">
+import { Component } from '@angular/core';
+
+@Component({
+    selector: 'app-meu-componente',
+    templateUrl: './meu-componente.component.html',
+    styleUrls: ['./meu-componente.component.css']
+})
+export class MeuComponenteComponent {
+    titulo = 'Meu Componente';
+    descricao = 'Este é um exemplo de componente Angular';
+    
+    exibirMensagem() {
+        alert('Olá do meu componente!');
+    }
+}
+                </div>
+                
+                <div class="diagram">
+                    <svg width="500" height="250" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Component Structure -->
+                        <rect x="50" y="30" width="400" height="190" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                        <text x="250" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Component Structure</text>
+                        
+                        <!-- TypeScript Class -->
+                        <rect x="80" y="60" width="150" height="140" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                        <text x="155" y="85" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">TypeScript Class</text>
+                        
+                        <rect x="100" y="100" width="110" height="80" rx="3" fill="white" stroke="#1976d2" stroke-width="1"/>
+                        <text x="155" y="120" font-family="Arial" font-size="12" text-anchor="middle">Properties</text>
+                        <text x="155" y="140" font-family="Arial" font-size="12" text-anchor="middle">Methods</text>
+                        <text x="155" y="160" font-family="Arial" font-size="12" text-anchor="middle">Lifecycle Hooks</text>
+                        
+                        <!-- Template -->
+                        <rect x="250" y="60" width="150" height="140" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                        <text x="325" y="85" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Template (HTML)</text>
+                        
+                        <rect x="270" y="100" width="110" height="80" rx="3" fill="white" stroke="#388e3c" stroke-width="1"/>
+                        <text x="325" y="120" font-family="Arial" font-size="12" text-anchor="middle">Markup</text>
+                        <text x="325" y="140" font-family="Arial" font-size="12" text-anchor="middle">Bindings</text>
+                        <text x="325" y="160" font-family="Arial" font-size="12" text-anchor="middle">Directives</text>
+                        
+                        <!-- Styles -->
+                        <rect x="80" y="210" width="150" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                        <text x="155" y="230" font-family="Arial" font-size="14" text-anchor="middle">Styles (CSS)</text>
+                        
+                        <!-- Metadata -->
+                        <rect x="250" y="210" width="150" height="30" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+                        <text x="325" y="230" font-family="Arial" font-size="14" text-anchor="middle">Metadata (@Component)</text>
+                        
+                        <!-- Arrows -->
+                        <path d="M155,200 L155,210" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M325,200 L325,210" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- Arrow marker -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                
+                <p>O decorador <code>@Component</code> define os metadados do componente, incluindo o seletor CSS, o template e os estilos. O seletor é usado para incluir o componente em outros templates HTML.</p>
+                
+                <div class="key-point">
+                    <h4>Boas práticas com componentes</h4>
+                    <ul>
+                        <li><strong>Single Responsibility:</strong> Cada componente deve ter uma única responsabilidade bem definida.</li>
+                        <li><strong>Reutilização:</strong> Projete componentes para serem reutilizáveis em diferentes contextos.</li>
+                        <li><strong>Imutabilidade:</strong> Evite modificar diretamente as propriedades de entrada (@Input).</li>
+                        <li><strong>Desacoplamento:</strong> Use serviços e injeção de dependência para desacoplar lógica de negócio.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-link"></i> Binding</h3>
+                <p>Angular oferece várias formas de binding para conectar o template com a classe do componente. O binding é o mecanismo que permite a comunicação entre o TypeScript e o HTML.</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>O binding é um dos conceitos mais poderosos do Angular! Ele permite que vocês criem interfaces dinâmicas e reativas sem precisar manipular diretamente o DOM. Pensem no binding como uma "ponte" entre a lógica da aplicação (TypeScript) e a apresentação (HTML).</p>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="openTab(event, 'interpolation')">Interpolação</div>
+                    <div class="tab" onclick="openTab(event, 'property-binding')">Property Binding</div>
+                    <div class="tab" onclick="openTab(event, 'event-binding')">Event Binding</div>
+                    <div class="tab" onclick="openTab(event, 'two-way-binding')">Two-way Binding</div>
+                </div>
+                
+                <div id="interpolation" class="tab-content active">
+                    <p><strong>Interpolação:</strong> Exibe valores de propriedades do componente no template usando a sintaxe <code>{{ }}</code>. É a forma mais simples de binding.</p>
+                    
+                    <div class="code-block">
+&lt;!-- Exemplo de interpolação --&gt;
+&lt;h1&gt;{{ titulo }}&lt;/h1&gt;
+&lt;p&gt;Total: {{ 1 + 1 }}&lt;/p&gt;
+&lt;p&gt;Data: {{ dataAtual | date:'short' }}&lt;/p&gt;
+&lt;p&gt;{{ usuario.nome }} tem {{ usuario.idade }} anos&lt;/p&gt;
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Quando usar interpolação?</h4>
+                        <p>Use interpolação para exibir dados dinâmicos no template, como textos, números, datas e resultados de expressões simples. É ideal para conteúdo que será apenas exibido, não modificado.</p>
+                    </div>
+                    
+                    <div class="professor-note">
+                        <h4>Nota do Professor</h4>
+                        <p>A interpolação é ótima para exibir dados, mas lembrem-se: ela não funciona para todos os atributos HTML. Por exemplo, para definir o valor de um atributo como <code>src</code> ou <code>href</code>, vocês precisam usar property binding, que veremos a seguir.</p>
+                    </div>
+                </div>
+                
+                <div id="property-binding" class="tab-content">
+                    <p><strong>Property Binding:</strong> Define o valor de propriedades de elementos do DOM ou diretivas usando a sintaxe <code>[ ]</code>. É usado para passar valores do componente para propriedades de elementos HTML.</p>
+                    
+                    <div class="code-block">
+&lt;!-- Exemplos de property binding --&gt;
+&lt;img [src]="imageUrl"&gt;
+&lt;div [hidden]="isHidden"&gt;Conteúdo&lt;/div&gt;
+&lt;button [disabled]="isSubmitting"&gt;Enviar&lt;/button&gt;
+&lt;div [class.active]="isActive"&gt;Item ativo&lt;/div&gt;
+&lt;div [style.color]="textColor"&gt;Texto colorido&lt;/div&gt;
+                    </div>
+                    
+                    <div class="diagram">
+                        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Property Binding Flow -->
+                            <rect x="50" y="30" width="120" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                            <text x="110" y="65" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
+                            
+                            <rect x="230" y="30" width="120" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                            <text x="290" y="65" font-family="Arial" font-size="14" text-anchor="middle">Template</text>
+                            
+                            <!-- Data flow -->
+                            <path d="M170,60 L230,60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="200" y="50" font-family="Arial" font-size="12" text-anchor="middle">Data Flow</text>
+                            
+                            <!-- Example -->
+                            <rect x="50" y="120" width="300" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                            <text x="200" y="145" font-family="Arial" font-size="12" text-anchor="middle">Component: imageUrl = 'logo.png'</text>
+                            <text x="200" y="165" font-family="Arial" font-size="12" text-anchor="middle">Template: &lt;img [src]="imageUrl"&gt;</text>
+                            
+                            <!-- Arrow marker -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Diferença entre property binding e interpolação</h4>
+                        <p>Enquanto a interpolação é usada para exibir conteúdo dentro de elementos, o property binding é usado para definir valores de atributos de elementos. Por exemplo, você usaria interpolação para o texto de um parágrafo (<code>&lt;p&gt;{{ texto }}&lt;/p&gt;</code>), mas property binding para a fonte de uma imagem (<code>&lt;img [src]="urlImagem"&gt;</code>).</p>
+                    </div>
+                </div>
+                
+                <div id="event-binding" class="tab-content">
+                    <p><strong>Event Binding:</strong> Responde a eventos do DOM (como cliques, entradas de teclado, etc.) usando a sintaxe <code>( )</code>. É usado para passar eventos do template para o componente.</p>
+                    
+                    <div class="code-block">
+&lt;!-- Exemplos de event binding --&gt;
+&lt;button (click)="salvar()"&gt;Salvar&lt;/button&gt;
+&lt;input (keyup)="onKeyUp($event)"&gt;
+&lt;input (keyup.enter)="onEnter()"&gt;
+&lt;div (mouseover)="showTooltip()"&gt;Passe o mouse&lt;/div&gt;
+&lt;form (submit)="onSubmit($event)"&gt;
+                    </div>
+                    
+                    <div class="diagram">
+                        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Event Binding Flow -->
+                            <rect x="50" y="30" width="120" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                            <text x="110" y="65" font-family="Arial" font-size="14" text-anchor="middle">Template</text>
+                            
+                            <rect x="230" y="30" width="120" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                            <text x="290" y="65" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
+                            
+                            <!-- Event flow -->
+                            <path d="M170,60 L230,60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="200" y="50" font-family="Arial" font-size="12" text-anchor="middle">Event Flow</text>
+                            
+                            <!-- Example -->
+                            <rect x="50" y="120" width="300" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                            <text x="200" y="145" font-family="Arial" font-size="12" text-anchor="middle">Template: &lt;button (click)="salvar()"&gt;</text>
+                            <text x="200" y="165" font-family="Arial" font-size="12" text-anchor="middle">Component: salvar() { this.service.salvarDados(); }</text>
+                            
+                            <!-- Arrow marker -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Objeto $event</h4>
+                        <p>Quando você passa <code>$event</code> como parâmetro para o método do componente, Angular fornece o objeto de evento DOM. Isso permite acessar informações como o valor de um input, a tecla pressionada, as coordenadas do mouse, etc.</p>
+                    </div>
+                    
+                    <div class="professor-note">
+                        <h4>Nota do Professor</h4>
+                        <p>O event binding é essencial para criar interfaces interativas. Ele permite que vocês respondam às ações do usuário e atualizem o estado da aplicação. Lembrem-se de manter os métodos do componente simples e delegar lógica complexa para serviços quando necessário.</p>
+                    </div>
+                </div>
+                
+                <div id="two-way-binding" class="tab-content">
+                    <p><strong>Two-way Binding:</strong> Combina property binding e event binding usando a sintaxe <code>[( )]</code>, também conhecida como "banana in a box". Permite a sincronização bidirecional de dados entre o template e o componente.</p>
+                    
+                    <div class="code-block">
+&lt;!-- Exemplo de two-way binding --&gt;
+&lt;input [(ngModel)]="nome"&gt;
+&lt;p&gt;Olá, {{ nome }}!&lt;/p&gt;
+
+&lt;!-- Equivalente a --&gt;
+&lt;input [value]="nome" (input)="nome = $event.target.value"&gt;
+                    </div>
+                    
+                    <div class="diagram">
+                        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Two-way Binding Flow -->
+                            <rect x="50" y="30" width="120" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                            <text x="110" y="65" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
+                            
+                            <rect x="230" y="30" width="120" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                            <text x="290" y="65" font-family="Arial" font-size="14" text-anchor="middle">Template</text>
+                            
+                            <!-- Bidirectional data flow -->
+                            <path d="M170,60 L230,60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <path d="M230,80 L170,80" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <text x="200" y="50" font-family="Arial" font-size="12" text-anchor="middle">Data Flow</text>
+                            <text x="200" y="95" font-family="Arial" font-size="12" text-anchor="middle">Event Flow</text>
+                            
+                            <!-- Example -->
+                            <rect x="50" y="120" width="300" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
+                            <text x="200" y="145" font-family="Arial" font-size="12" text-anchor="middle">Component: nome = 'João'</text>
+                            <text x="200" y="165" font-family="Arial" font-size="12" text-anchor="middle">Template: &lt;input [(ngModel)]="nome"&gt;</text>
+                            
+                            <!-- Arrow marker -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Configuração necessária</h4>
+                        <p>Para usar two-way binding com <code>ngModel</code>, você precisa importar o <code>FormsModule</code> no seu módulo:</p>
+                        <div class="code-block">
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+
+@NgModule({
+    imports: [
+        BrowserModule,
+        FormsModule  // Importe o FormsModule aqui
+    ],
+    // ...
+})
+export class AppModule { }
+                        </div>
+                    </div>
+                    
+                    <div class="professor-note">
+                        <h4>Nota do Professor</h4>
+                        <p>O two-way binding é muito útil para formulários, onde você precisa que os dados sejam atualizados em ambas as direções. No entanto, usem com moderação! Em aplicações maiores, é preferível usar property binding e event binding separadamente para ter mais controle sobre o fluxo de dados.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-code-branch"></i> Diretivas</h3>
+                <p>Diretivas são instruções no DOM. Existem três tipos principais de diretivas em Angular:</p>
+                <ul>
+                    <li><strong>Componentes:</strong> Diretivas com template.</li>
+                    <li><strong>Diretivas Estruturais:</strong> Alteram o layout do DOM. Exemplos: <code>*ngIf</code>, <code>*ngFor</code>.</li>
+                    <li><strong>Diretivas de Atributo:</strong> Alteram a aparência ou comportamento de um elemento. Exemplo: <code>ngClass</code>, <code>ngStyle</code>.</li>
+                </ul>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Diretivas são como "extensões" do HTML! Elas permitem que vocês criem comportamentos personalizados e reutilizem lógica em diferentes partes da aplicação. Pensem nelas como uma forma de ensinar novos "truques" ao HTML.</p>
+                </div>
+                
+                <div class="tabs">
+                    <div class="tab active" onclick="openTab(event, 'ngif')">*ngIf</div>
+                    <div class="tab" onclick="openTab(event, 'ngfor')">*ngFor</div>
+                    <div class="tab" onclick="openTab(event, 'ngclass')">ngClass</div>
+                    <div class="tab" onclick="openTab(event, 'custom')">Diretivas Personalizadas</div>
+                </div>
+                
+                <div id="ngif" class="tab-content active">
+                    <p><strong>*ngIf:</strong> Adiciona ou remove elementos do DOM com base em uma condição booleana. É uma diretiva estrutural, por isso o asterisco (*) no início.</p>
+                    
+                    <div class="code-block">
+&lt;!-- Exemplos de *ngIf --&gt;
+&lt;div *ngIf="mostrar"&gt;Este elemento será exibido apenas se 'mostrar' for true&lt;/div&gt;
+
+&lt;!-- Com else --&gt;
+&lt;div *ngIf="usuarioLogado; else loginTemplate"&gt;
+    Bem-vindo, {{ usuario.nome }}!
+&lt;/div&gt;
+
+&lt;ng-template #loginTemplate&gt;
+    &lt;button&gt;Fazer Login&lt;/button&gt;
+&lt;/ng-template&gt;
+
+&lt;!-- Com then e else --&gt;
+&lt;div *ngIf="idade >= 18; then adulto; else menor"&gt;&lt;/div&gt;
+&lt;ng-template #adulto&gt;Você é maior de idade&lt;/ng-template&gt;
+&lt;ng-template #menor&gt;Você é menor de idade&lt;/ng-template&gt;
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>Diferença entre *ngIf e [hidden]</h4>
+                        <p>Enquanto <code>*ngIf</code> adiciona ou remove elementos do DOM, <code>[hidden]</code> apenas os oculta visualmente (com <code>display: none</code>). Use <code>*ngIf</code> quando o elemento não deve existir na página (para melhorar performance) e <code>[hidden]</code> quando você precisa apenas ocultá-lo temporariamente.</p>
+                    </div>
+                </div>
+                
+                <div id="ngfor" class="tab-content">
+                    <p><strong>*ngFor:</strong> Itera sobre uma lista e renderiza elementos para cada item. Também é uma diretiva estrutural.</p>
+                    
+                    <div class="code-block">
+&lt;!-- Exemplos de *ngFor --&gt;
+&lt;ul&gt;
+    &lt;li *ngFor="let item of itens"&gt;{{ item.nome }}&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Com index --&gt;
+&lt;ul&gt;
+    &lt;li *ngFor="let item of itens; let i = index"&gt;
+        {{ i + 1 }}. {{ item.nome }}
+    &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;!-- Com first, last, even, odd --&gt;
+&lt;div *ngFor="let item of itens; let first = first; let last = last; let even = even; let odd = odd"
+     [class.first]="first"
+     [class.last]="last"
+     [class.even]="even"
+     [class.odd]="odd"&gt;
+    {{ item.nome }}
+&lt;/div&gt;
+
+&lt;!-- Com trackBy para melhorar performance --&gt;
+&lt;ul&gt;
+    &lt;li *ngFor="let item of itens; trackBy: trackById"&gt;{{ item.nome }}&lt;/li&gt;
+&lt;/ul&gt;
+
+// No componente
+trackById(index: number, item: any): number {
+    return item.id; // ou qualquer identificador único
+}
+                    </div>
+                    
+                    <div class="professor-note">
+                        <h4>Nota do Professor</h4>
+                        <p>O <code>trackBy</code> é muito importante para performance em listas grandes! Sem ele, Angular recria todos os elementos da lista sempre que houver uma mudança, mesmo que apenas um item tenha sido alterado. Com <code>trackBy</code>, Angular pode identificar quais itens realmente mudaram e atualizar apenas eles.</p>
+                    </div>
+                </div>
+                
+                <div id="ngclass" class="tab-content">
+                    <p><strong>ngClass:</strong> Adiciona ou remove classes CSS dinamicamente com base em expressões. É uma diretiva de atributo.</p>
+                    
+                    <div class="code-block">
+&lt;!-- Exemplos de ngClass --&gt;
+&lt;!-- String --&gt;
+&lt;div [ngClass]="'classe1 classe2'"&gt;Conteúdo&lt;/div&gt;
+
+&lt;!-- Array --&gt;
+&lt;div [ngClass]="['classe1', 'classe2']"&gt;Conteúdo&lt;/div&gt;
+
+&lt;!-- Object --&gt;
+&lt;div [ngClass]="{ 'active': isActive, 'error': hasError }"&gt;Conteúdo&lt;/div&gt;
+
+&lt;!-- Exemplo prático --&gt;
+&lt;div [ngClass]="{
+    'card': true,
+    'card-primary': tipo === 'primary',
+    'card-success': tipo === 'success',
+    'card-danger': tipo === 'danger'
+}"&gt;
+    Conteúdo do card
+&lt;/div&gt;
+                    </div>
+                    
+                    <div class="key-point">
+                        <h4>ngClass vs ngStyle</h4>
+                        <p>Enquanto <code>ngClass</code> manipula classes CSS, <code>ngStyle</code> manipula estilos inline. Use <code>ngClass</code> para estilos mais complexos e reutilizáveis (definidos em arquivos CSS) e <code>ngStyle</code> para estilos dinâmicos simples que não valem a pena definir em classes separadas.</p>
+                    </div>
+                </div>
+                
+                <div id="custom" class="tab-content">
+                    <p><strong>Diretivas Personalizadas:</strong> Além das diretivas embutidas, você pode criar suas próprias diretivas para encapsular comportamentos reutilizáveis.</p>
+                    
+                    <div class="code-block">
+// Exemplo de diretiva de atributo personalizada
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+
+@Directive({
+    selector: '[appHighlight]'
+})
+export class HighlightDirective {
+    @Input() appHighlight = '';
+    
+    constructor(private el: ElementRef) { }
+    
+    @HostListener('mouseenter') onMouseEnter() {
+        this.highlight(this.appHighlight || 'yellow');
+    }
+    
+    @HostListener('mouseleave') onMouseLeave() {
+        this.highlight('');
+    }
+    
+    private highlight(color: string) {
+        this.el.nativeElement.style.backgroundColor = color;
+    }
+}
+
+// Uso da diretiva
+&lt;div appHighlight="lightblue"&gt;Passe o mouse sobre mim&lt;/div&gt;
+                    </div>
+                    
+                    <div class="professor-note">
+                        <h4>Nota do Professor</h4>
+                        <p>Diretivas personalizadas são uma forma poderosa de encapsular comportamentos que você precisa reutilizar em vários componentes. Em vez de repetir o mesmo código em múltiplos componentes, você cria uma diretiva e a aplica onde necessário. Isso segue o princípio DRY (Don't Repeat Yourself).</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-cogs"></i> Serviços e Injeção de Dependência</h3>
+                <p>Serviços são classes que encapsulam lógica de negócio que pode ser reutilizada em vários componentes. A injeção de dependência (DI) é um padrão de projeto usado para fornecer dependências a uma classe.</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>A injeção de dependência é um dos conceitos mais importantes do Angular! Ela permite que vocês criem código desacoplado, mais fácil de testar e mais fácil de manter. Pensem na DI como um "entregador" que leva as dependências (serviços, etc.) para as classes que precisam delas, em vez de as classes criarem suas próprias dependências.</p>
+                </div>
+                
+                <div class="diagram">
+                    <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Dependency Injection -->
+                        <rect x="50" y="30" width="400" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                        <text x="250" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Dependency Injection</text>
+                        
+                        <!-- Component -->
+                        <rect x="80" y="60" width="120" height="80" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                        <text x="140" y="90" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Component</text>
+                        <text x="140" y="110" font-family="Arial" font-size="12" text-anchor="middle">constructor(private</text>
+                        <text x="140" y="130" font-family="Arial" font-size="12" text-anchor="middle">service: Service) {}</text>
+                        
+                        <!-- Service -->
+                        <rect x="300" y="60" width="120" height="80" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                        <text x="360" y="90" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Service</text>
+                        <text x="360" y="110" font-family="Arial" font-size="12" text-anchor="middle">@Injectable({</text>
+                        <text x="360" y="130" font-family="Arial" font-size="12" text-anchor="middle">providedIn: 'root'</text>
+                        <text x="360" y="150" font-family="Arial" font-size="12" text-anchor="middle">})</text>
+                        
+                        <!-- Injector -->
+                        <rect x="190" y="180" width="120" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                        <text x="250" y="210" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Injector</text>
+                        
+                        <!-- Arrows -->
+                        <path d="M140,140 L140,170 L220,170 L220,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M360,140 L360,170 L280,170 L280,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M190,210 L140,210 L140,150" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+                        <path d="M310,210 L360,210 L360,150" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- Arrow marker -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                
+                <p>Exemplo de serviço:</p>
+                <div class="code-block">
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({
+    providedIn: 'root'
+})
+export class DataService {
+    private apiUrl = 'https://api.example.com/data';
+    
+    constructor(private http: HttpClient) { }
+    
+    obterDados(): Observable<any[]> {
+        return this.http.get<any[]>(this.apiUrl);
+    }
+    
+    obterPorId(id: number): Observable<any> {
+        return this.http.get<any>(`${this.apiUrl}/${id}`);
+    }
+    
+    criar(dado: any): Observable<any> {
+        return this.http.post<any>(this.apiUrl, dado);
+    }
+    
+    atualizar(id: number, dado: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl}/${id}`, dado);
+    }
+    
+    excluir(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    }
+}
+                </div>
+                
+                <p>Para usar o serviço em um componente:</p>
+                <div class="code-block">
+import { Component, OnInit } from '@angular/core';
+import { DataService } from './data.service';
+
+@Component({
+    selector: 'app-meu-componente',
+    templateUrl: './meu-componente.component.html'
+})
+export class MeuComponenteComponent implements OnInit {
+    dados: any[];
+    
+    constructor(private dataService: DataService) { }
+    
+    ngOnInit() {
+        this.carregarDados();
+    }
+    
+    carregarDados() {
+        this.dataService.obterDados().subscribe(
+            (response) => {
+                this.dados = response;
+            },
+            (error) => {
+                console.error('Erro ao carregar dados', error);
+            }
+        );
+    }
+}
+                </div>
+                
+                <div class="key-point">
+                    <h4>Vantagens da Injeção de Dependência</h4>
+                    <ul>
+                        <li><strong>Desacoplamento:</strong> Componentes não precisam saber como criar seus serviços.</li>
+                        <li><strong>Testabilidade:</strong> Fácil de substituir serviços por mocks em testes unitários.</li>
+                        <li><strong>Reutilização:</strong> Serviços podem ser compartilhados entre múltiplos componentes.</li>
+                        <li><strong>Manutenção:</strong> Centraliza a lógica de negócio em serviços, facilitando manutenção.</li>
+                    </ul>
+                </div>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Uma boa prática é manter os componentes "leves", focados na apresentação, e delegar a lógica de negócio para serviços. Isso torna seus componentes mais fáceis de entender, testar e reutilizar. Lembrem-se: componentes são para apresentação, serviços são para lógica!</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-layer-group"></i> Módulos</h3>
+                <p>Módulos (NgModule) organizam a aplicação em blocos coesos de funcionalidade. Todo aplicativo Angular tem pelo menos um módulo, o módulo raiz (AppModule).</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Módulos são como "contêineres" que agrupam componentes, diretivas, pipes e serviços relacionados. Eles ajudam a organizar aplicações grandes, definem limites claros e permitem o lazy loading (carregamento sob demanda) para melhorar a performance inicial da aplicação.</p>
+                </div>
+                
+                <p>Exemplo de módulo:</p>
+                <div class="code-block">
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
+import { AppComponent } from './app.component';
+import { MeuComponenteComponent } from './meu-componente/meu-componente.component';
+import { OutroComponenteComponent } from './outro-componente/outro-componente.component';
+
+import { DataService } from './data.service';
+
+@NgModule({
+    declarations: [
+        AppComponent,
+        MeuComponenteComponent,
+        OutroComponenteComponent
+    ],
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        FormsModule,
+        RouterModule.forRoot([
+            { path: '', component: MeuComponenteComponent },
+            { path: 'outro', component: OutroComponenteComponent }
+        ])
+    ],
+    providers: [
+        DataService
+    ],
+    bootstrap: [AppComponent]
+})
+export class AppModule { }
+                </div>
+                
+                <div class="diagram">
+                    <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- NgModule Structure -->
+                        <rect x="50" y="30" width="400" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                        <text x="250" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">NgModule Structure</text>
+                        
+                        <!-- @NgModule -->
+                        <rect x="80" y="60" width="340" height="30" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                        <text x="250" y="80" font-family="Arial" font-size="14" text-anchor="middle">@NgModule</text>
+                        
+                        <!-- declarations -->
+                        <rect x="80" y="100" width="160" height="30" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                        <text x="160" y="120" font-family="Arial" font-size="14" text-anchor="middle">declarations</text>
+                        
+                        <!-- imports -->
+                        <rect x="260" y="100" width="160" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                        <text x="340" y="120" font-family="Arial" font-size="14" text-anchor="middle">imports</text>
+                        
+                        <!-- providers -->
+                        <rect x="80" y="140" width="160" height="30" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+                        <text x="160" y="160" font-family="Arial" font-size="14" text-anchor="middle">providers</text>
+                        
+                        <!-- bootstrap -->
+                        <rect x="260" y="140" width="160" height="30" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="2"/>
+                        <text x="340" y="160" font-family="Arial" font-size="14" text-anchor="middle">bootstrap</text>
+                        
+                        <!-- Content -->
+                        <rect x="80" y="180" width="340" height="70" rx="5" fill="white" stroke="#333" stroke-width="1"/>
+                        <text x="250" y="200" font-family="Arial" font-size="12" text-anchor="middle">Components, Directives, Pipes</text>
+                        <text x="250" y="220" font-family="Arial" font-size="12" text-anchor="middle">Other Modules</text>
+                        <text x="250" y="240" font-family="Arial" font-size="12" text-anchor="middle">Services</text>
+                    </svg>
+                </div>
+                
+                <p>O decorador <code>@NgModule</code> define o módulo com as seguintes propriedades:</p>
+                <ul>
+                    <li><code>declarations</code>: Componentes, diretivas e pipes que pertencem ao módulo.</li>
+                    <li><code>imports</code>: Outros módulos cujas classes são necessárias para os componentes do módulo atual.</li>
+                    <li><code>providers</code>: Serviços que o módulo disponibiliza para a injeção de dependência.</li>
+                    <li><code>bootstrap</code>: Componente raiz que o Angular cria e insere no <code>index.html</code>.</li>
+                </ul>
+                
+                <div class="key-point">
+                    <h4>Feature Modules e Lazy Loading</h4>
+                    <p>Para aplicações maiores, você pode criar feature modules para organizar funcionalidades específicas. Além disso, você pode configurar o lazy loading para que esses módulos sejam carregados apenas quando necessários, melhorando a performance inicial da aplicação.</p>
+                    
+                    <div class="code-block">
+// Exemplo de lazy loading no roteamento
+const routes: Routes = [
+    {
+        path: 'admin',
+        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
+    }
+];
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-sync-alt"></i> Ciclo de Vida dos Componentes</h3>
+                <p>Os componentes têm um ciclo de vida gerenciado pelo Angular. Os hooks mais importantes são:</p>
+                <ul>
+                    <li><strong>ngOnInit:</strong> Chamado após a inicialização das propriedades do componente. Ideal para inicializações.</li>
+                    <li><strong>ngOnDestroy:</strong> Chamado antes da destruição do componente. Ideal para limpeza de recursos.</li>
+                </ul>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Entender o ciclo de vida dos componentes é fundamental para controlar quando certas operações devem acontecer. Por exemplo, você não pode acessar elementos do DOM no construtor, mas pode no ngOnInit. E você deve cancelar inscrições em Observables no ngOnDestroy para evitar memory leaks!</p>
+                </div>
+                
+                <div class="diagram">
+                    <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Component Lifecycle -->
+                        <rect x="50" y="30" width="500" height="340" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                        <text x="300" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Component Lifecycle</text>
+                        
+                        <!-- Constructor -->
+                        <rect x="200" y="60" width="200" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                        <text x="300" y="85" font-family="Arial" font-size="14" text-anchor="middle">constructor()</text>
+                        
+                        <!-- ngOnChanges -->
+                        <rect x="200" y="120" width="200" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                        <text x="300" y="145" font-family="Arial" font-size="14" text-anchor="middle">ngOnChanges()</text>
+                        
+                        <!-- ngOnInit -->
+                        <rect x="200" y="180" width="200" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                        <text x="300" y="205" font-family="Arial" font-size="14" text-anchor="middle">ngOnInit()</text>
+                        
+                        <!-- ngDoCheck -->
+                        <rect x="200" y="240" width="200" height="40" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+                        <text x="300" y="265" font-family="Arial" font-size="14" text-anchor="middle">ngDoCheck()</text>
+                        
+                        <!-- ngOnDestroy -->
+                        <rect x="200" y="300" width="200" height="40" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="2"/>
+                        <text x="300" y="325" font-family="Arial" font-size="14" text-anchor="middle">ngOnDestroy()</text>
+                        
+                        <!-- Arrows -->
+                        <path d="M300,100 L300,120" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M300,160 L300,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M300,220 L300,240" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M300,280 L300,300" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- Notes -->
+                        <text x="100" y="85" font-family="Arial" font-size="12" text-anchor="middle">Inicialização</text>
+                        <text x="100" y="145" font-family="Arial" font-size="12" text-anchor="middle">@Input changes</text>
+                        <text x="100" y="205" font-family="Arial" font-size="12" text-anchor="middle">Inicialização</text>
+                        <text x="100" y="265" font-family="Arial" font-size="12" text-anchor="middle">Change detection</text>
+                        <text x="100" y="325" font-family="Arial" font-size="12" text-anchor="middle">Cleanup</text>
+                        
+                        <!-- Arrow marker -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                
+                <p>Exemplo:</p>
+                <div class="code-block">
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DataService } from './data.service';
+
+@Component({
+    selector: 'app-meu-componente',
+    templateUrl: './meu-componente.component.html'
+})
+export class MeuComponenteComponent implements OnInit, OnDestroy {
+    dados: any[];
+    private subscription: Subscription;
+    
+    constructor(private dataService: DataService) {
+        console.log('Construtor chamado');
+        // Não é recomendado fazer chamadas HTTP aqui
+    }
+    
+    ngOnInit() {
+        console.log('ngOnInit chamado');
+        // Ideal para inicializações e chamadas a serviços
+        this.subscription = this.dataService.obterDados().subscribe(
+            (response) => {
+                this.dados = response;
+            }
+        );
+    }
+    
+    ngOnDestroy() {
+        console.log('ngOnDestroy chamado');
+        // Importante para limpar recursos e evitar memory leaks
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
+}
+                </div>
+                
+                <div class="key-point">
+                    <h4>Quando usar cada hook?</h4>
+                    <ul>
+                        <li><strong>constructor():</strong> Injeção de dependências e inicialização de propriedades simples.</li>
+                        <li><strong>ngOnChanges():</strong> Reagir a mudanças em propriedades @Input.</li>
+                        <li><strong>ngOnInit():</strong> Inicializações complexas, chamadas a serviços, acesso a elementos do DOM.</li>
+                        <li><strong>ngDoCheck():</strong> Lógica de detecção de mudanças personalizada (use com cuidado).</li>
+                        <li><strong>ngOnDestroy():</strong> Limpeza de recursos, cancelamento de inscrições, remoção de event listeners.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-route"></i> Roteamento</h3>
+                <p>O roteamento permite navegar entre diferentes views da aplicação. O módulo <code>RouterModule</code> é responsável por essa funcionalidade.</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>O roteamento é essencial para criar Single Page Applications (SPAs). Ele permite que vocês tenham múltiplas "páginas" em uma aplicação de página única, sem recarregar o navegador inteiro. Isso proporciona uma experiência de usuário mais fluida e rápida.</p>
+                </div>
+                
+                <p>Exemplo de configuração de rotas:</p>
+                <div class="code-block">
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { SobreComponent } from './sobre/sobre.component';
+import { ContatoComponent } from './contato/contato.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+
+const routes: Routes = [
+    { path: '', component: HomeComponent },
+    { path: 'sobre', component: SobreComponent },
+    { path: 'contato', component: ContatoComponent },
+    { path: '**', component: PageNotFoundComponent } // Rota curinga
+];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }
+                </div>
+                
+                <p>Para navegar programaticamente:</p>
+                <div class="code-block">
+import { Router } from '@angular/router';
+
+export class MeuComponenteComponent {
+    constructor(private router: Router) { }
+    
+    irParaSobre() {
+        this.router.navigate(['/sobre']);
+    }
+    
+    irParaContato() {
+        this.router.navigate(['/contato']);
+    }
+    
+    irParaComParametros() {
+        this.router.navigate(['/produto', 123]);
+    }
+}
+                </div>
+                
+                <div class="diagram">
+                    <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Routing Flow -->
+                        <rect x="50" y="30" width="500" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
+                        <text x="300" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Routing Flow</text>
+                        
+                        <!-- URL -->
+                        <rect x="80" y="60" width="120" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
+                        <text x="140" y="85" font-family="Arial" font-size="14" text-anchor="middle">URL</text>
+                        
+                        <!-- Router -->
+                        <rect x="240" y="60" width="120" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
+                        <text x="300" y="85" font-family="Arial" font-size="14" text-anchor="middle">Router</text>
+                        
+                        <!-- Routes Config -->
+                        <rect x="400" y="60" width="120" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
+                        <text x="460" y="85" font-family="Arial" font-size="14" text-anchor="middle">Routes Config</text>
+                        
+                        <!-- Component -->
+                        <rect x="240" y="160" width="120" height="80" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+                        <text x="300" y="190" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
+                        <text x="300" y="210" font-family="Arial" font-size="12" text-anchor="middle">Template</text>
+                        <text x="300" y="230" font-family="Arial" font-size="12" text-anchor="middle">Rendered</text>
+                        
+                        <!-- Router Outlet -->
+                        <rect x="80" y="180" width="120" height="40" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="2"/>
+                        <text x="140" y="205" font-family="Arial" font-size="14" text-anchor="middle">&lt;router-outlet&gt;</text>
+                        
+                        <!-- Arrows -->
+                        <path d="M200,80 L240,80" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M360,80 L400,80" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M300,100 L300,160" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
+                        <path d="M140,220 L240,200" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+                        
+                        <!-- Arrow marker -->
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                
+                <p>Para exibir o componente correspondente à rota atual, use a diretiva <code>&lt;router-outlet&gt;&lt;/router-outlet&gt;</code> no template:</p>
+                <div class="code-block">
+&lt;!-- No app.component.html --&gt;
+&lt;header&gt;
+    &lt;nav&gt;
+        &lt;a routerLink="/" routerLinkActive="active"&gt;Home&lt;/a&gt;
+        &lt;a routerLink="/sobre" routerLinkActive="active"&gt;Sobre&lt;/a&gt;
+        &lt;a routerLink="/contato" routerLinkActive="active"&gt;Contato&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+    &lt;router-outlet&gt;&lt;/router-outlet&gt;
+&lt;/main&gt;
+
+&lt;footer&gt;
+    &lt;p&gt;© 2025 Minha Aplicação&lt;/p&gt;
+&lt;/footer&gt;
+                </div>
+                
+                <div class="key-point">
+                    <h4>Recursos avançados de roteamento</h4>
+                    <ul>
+                        <li><strong>Rotas com parâmetros:</strong> <code>{ path: 'produto/:id', component: ProdutoComponent }</code></li>
+                        <li><strong>Rotas filhas:</strong> Permitem aninhar componentes dentro de outros.</li>
+                        <li><strong>Guardas de rota:</strong> Controlam o acesso às rotas (CanActivate, CanDeactivate, etc.).</li>
+                        <li><strong>Resolvers:</strong> Pré-carregam dados antes de ativar uma rota.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3><i class="fas fa-filter"></i> Pipes</h3>
+                <p>Pipes são usados para transformar dados no template. Angular oferece vários pipes embutidos (Date, UpperCase, LowerCase, Currency, etc.) e permite criar pipes personalizados.</p>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Pipes são como "funções de transformação" que você pode aplicar diretamente no template. Eles são muito úteis para formatar dados sem modificar a fonte original. Por exemplo, você pode exibir uma data em diferentes formatos, converter texto para maiúsculas, ou formatar números como moeda.</p>
+                </div>
+                
+                <p>Exemplo de uso de pipe:</p>
+                <div class="code-block">
+&lt;!-- Pipes embutidos --&gt;
+&lt;p&gt;{{ data | date:'short' }}&lt;/p&gt;
+&lt;p&gt;{{ texto | uppercase }}&lt;/p&gt;
+&lt;p&gt;{{ valor | currency:'BRL' }}&lt;/p&gt;
+&lt;p&gt;{{ texto | slice:0:10 }}&lt;/p&gt;
+&lt;p&gt;{{ array | json }}&lt;/p&gt;
+
+&lt;!-- Encadeando pipes --&gt;
+&lt;p&gt;{{ data | date:'fullDate' | uppercase }}&lt;/p&gt;
+
+&lt;!-- Pipes com parâmetros --&gt;
+&lt;p&gt;{{ numero | number:'1.2-2' }}&lt;/p&gt;
+&lt;p&gt;{{ texto | truncate:20 }}&lt;/p&gt;
+                </div>
+                
+                <h4>Async Pipe</h4>
+                <p>O async pipe é usado para lidar com Observables e Promises no template. Ele automaticamente se inscreve no Observable e atualiza o template quando novos valores são emitidos.</p>
+                
+                <div class="code-block">
+&lt;!-- No componente --&gt;
+export class MeuComponenteComponent {
+    dados$ = this.meuService.obterDadosAsync();
+    
+    constructor(private meuService: MeuService) { }
+}
+
+&lt;!-- No template --&gt;
+&lt;!-- Com async pipe --&gt;
+&lt;div *ngIf="dados$ | async as dados"&gt;
+    &lt;p&gt;{{ dados.nome }}&lt;/p&gt;
+    &lt;p&gt;{{ dados.valor | currency }}&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- Equivalente sem async pipe --&gt;
+&lt;div *ngIf="dados"&gt;
+    &lt;p&gt;{{ dados.nome }}&lt;/p&gt;
+    &lt;p&gt;{{ dados.valor | currency }}&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- E no componente --&gt;
+export class MeuComponenteComponent implements OnInit, OnDestroy {
+    dados: any;
+    private subscription: Subscription;
+    
+    constructor(private meuService: MeuService) { }
+    
+    ngOnInit() {
+        this.subscription = this.meuService.obterDadosAsync().subscribe(
+            response => this.dados = response
+        );
+    }
+    
+    ngOnDestroy() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+    }
+}
+                </div>
+                
+                <div class="key-point">
+                    <h4>Vantagens do Async Pipe</h4>
+                    <ul>
+                        <li><strong>Simplicidade:</strong> Reduz significativamente a quantidade de código necessário.</li>
+                        <li><strong>Gerenciamento automático:</strong> Lida automaticamente com inscrição e cancelamento de inscrição.</li>
+                        <li><strong>Performance:</strong> Evita memory leaks e otimiza o uso de recursos.</li>
+                        <li><strong>Reatividade:</strong> Atualiza automaticamente o template quando novos valores são emitidos.</li>
+                    </ul>
+                </div>
+                
+                <h4>Criando Pipes Personalizados</h4>
+                <p>Você pode criar seus próprios pipes para transformações específicas:</p>
+                <div class="code-block">
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+    name: 'truncate'
+})
+export class TruncatePipe implements PipeTransform {
+    transform(value: string, limit = 25, completeWords = false, ellipsis = '...'): string {
+        if (!value) return '';
+        
+        if (value.length <= limit) {
+            return value;
+        }
+        
+        if (completeWords) {
+            limit = value.substr(0, limit).lastIndexOf(' ');
+        }
+        
+        return `${value.substr(0, limit)}${ellipsis}`;
+    }
+}
+
+// Uso do pipe personalizado
+&lt;p&gt;{{ textoLongo | truncate:30 }}&lt;/p&gt;
+&lt;p&gt;{{ textoLongo | truncate:30:true }}&lt;/p&gt;
+                </div>
+                
+                <div class="professor-note">
+                    <h4>Nota do Professor</h4>
+                    <p>Pipes personalizados são uma ótima maneira de encapsular lógica de formatação que você precisa reutilizar em vários lugares da aplicação. Em vez de repetir a mesma lógica de transformação em múltiplos componentes, você cria um pipe e o aplica onde necessário.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="slide6" class="slide">
-        <h2>Slide 6: Operadores Relacionais e L�gicos</h2>
-        <p>Relacionais: >, <, >=, <=, =, <>. L�gicos: e (AND), ou (OR), nao (NOT).</p>
-        <p><strong>Passo 1:</strong> Compara��o: se (a > b)</p>
-        <p><strong>Passo 2:</strong> L�gico: se (a > 0 e b < 10)</p>
-        <p><strong>Passo 3:</strong> Nega��o: se (nao aprovado)</p>
-        <pre><code>
-algoritmo "RelacionaisLogicos"
-var
-    nota: real
-inicio
-    nota <- 7.5
-    se (nota >= 6 e nota <= 10) entao
-        escreval("Aprovado")
-    fimse
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Verifique se um n�mero � par e positivo.</p>
-        </div>
-    </section>
-
-    <section id="slide7" class="slide">
-        <h2>Slide 7: Entrada de Dados</h2>
-        <p>Use "leia(variavel)" para obter input do usu�rio.</p>
-        <p><strong>Passo 1:</strong> Prompt: escreval("Digite: ")</p>
-        <p><strong>Passo 2:</strong> Leitura: leia(numero)</p>
-        <p><strong>Passo 3:</strong> Exemplo com valida��o b�sica.</p>
-        <pre><code>
-algoritmo "Entrada"
-var
-    nome: caracter
-    idade: inteiro
-inicio
-    escreval("Digite seu nome: ")
-    leia(nome)
-    escreval("Digite sua idade: ")
-    leia(idade)
-    escreval("Ol�, ", nome, " de ", idade, " anos.")
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Pe�a dois n�meros e some-os.</p>
-        </div>
-    </section>
-
-    <section id="slide8" class="slide">
-        <h2>Slide 8: Sa�da de Dados</h2>
-        <p>"escreva" (sem quebra de linha), "escreval" (com quebra).</p>
-        <p><strong>Passo 1:</strong> Simples: escreval("Texto")</p>
-        <p><strong>Passo 2:</strong> Concatenado: escreval("Valor: ", variavel)</p>
-        <p><strong>Passo 3:</strong> Formata��o b�sica.</p>
-        <pre><code>
-algoritmo "Saida"
-var
-    pi: real
-inicio
-    pi <- 3.14159
-    escreva("O valor de pi � aproximadamente ")
-    escreval(pi)
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Exiba uma tabela simples com escreva.</p>
-        </div>
-    </section>
-
-    <section id="slide9" class="slide">
-        <h2>Slide 9: Estruturas Condicionais: Se-Sen�o</h2>
-        <p>Decis�es: se (condicao) entao ... senao ... fimse</p>
-        <p><strong>Passo 1:</strong> Condi��o simples.</p>
-        <p><strong>Passo 2:</strong> Adicionar else.</p>
-        <p><strong>Passo 3:</strong> Exemplo com operadores l�gicos.</p>
-        <pre><code>
-algoritmo "SeSenao"
-var
-    temperatura: real
-inicio
-    leia(temperatura)
-    se (temperatura > 30) entao
-        escreval("Quente")
-    senao se (temperatura < 10) entao
-        escreval("Frio")
-    senao
-        escreval("Agrad�vel")
-    fimse
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Classifique uma nota (Aprovado, Recupera��o, Reprovado).</p>
-        </div>
-    </section>
-
-    <section id="slide10" class="slide">
-        <h2>Slide 10: Estruturas Condicionais: Se Aninhado</h2>
-        <p>Condicionais dentro de outras para decis�es complexas.</p>
-        <p><strong>Passo 1:</strong> Se dentro de se.</p>
-        <p><strong>Passo 2:</strong> Evite aninhamentos profundos para clareza.</p>
-        <p><strong>Passo 3:</strong> Exemplo: Verificar login.</p>
-        <pre><code>
-algoritmo "Aninhado"
-var
-    usuario, senha: caracter
-inicio
-    leia(usuario)
-    leia(senha)
-    se (usuario = "admin") entao
-        se (senha = "123") entao
-            escreval("Acesso concedido")
-        senao
-            escreval("Senha errada")
-        fimse
-    senao
-        escreval("Usu�rio inv�lido")
-    fimse
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Verifique se um ano � bissexto (divis�vel por 4, mas n�o por 100, exceto por 400).</p>
-        </div>
-    </section>
-
-    <section id="slide11" class="slide">
-        <h2>Slide 11: Estruturas Condicionais: Escolha-Caso</h2>
-        <p>Para m�ltiplas op��es: escolha variavel caso valor ... outrocaso ... fimescolha</p>
-        <p><strong>Passo 1:</strong> Defina a vari�vel de escolha.</p>
-        <p><strong>Passo 2:</strong> Casos espec�ficos.</p>
-        <p><strong>Passo 3:</strong> Caso default.</p>
-        <pre><code>
-algoritmo "EscolhaCaso"
-var
-    dia: inteiro
-inicio
-    leia(dia)
-    escolha dia
-        caso 1
-            escreval("Domingo")
-        caso 2
-            escreval("Segunda")
-        outrocaso
-            escreval("Dia inv�lido")
-    fimescolha
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Menu de op��es para uma calculadora b�sica.</p>
-        </div>
-    </section>
-
-    <section id="slide12" class="slide">
-        <h2>Slide 12: La�os de Repeti��o: Para</h2>
-        <p>Repete um n�mero fixo de vezes: para var de inicio ate fim [passo] faca ... fimpara</p>
-        <p><strong>Passo 1:</strong> Contador simples.</p>
-        <p><strong>Passo 2:</strong> Com passo.</p>
-        <p><strong>Passo 3:</strong> Exemplo: Tabuada.</p>
-        <pre><code>
-algoritmo "Para"
-var
-    i, num: inteiro
-inicio
-    leia(num)
-    para i de 1 ate 10 faca
-        escreval(num, " x ", i, " = ", num * i)
-    fimpara
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Some n�meros de 1 a 100.</p>
-        </div>
-    </section>
-
-    <section id="slide13" class="slide">
-        <h2>Slide 13: La�os de Repeti��o: Enquanto</h2>
-        <p>Repete enquanto condi��o for verdadeira: enquanto (condicao) faca ... fimenquanto</p>
-        <p><strong>Passo 1:</strong> Verifique condi��o antes.</p>
-        <p><strong>Passo 2:</strong> Evite loops infinitos.</p>
-        <p><strong>Passo 3:</strong> Exemplo: Contagem regressiva.</p>
-        <pre><code>
-algoritmo "Enquanto"
-var
-    contador: inteiro
-inicio
-    contador <- 10
-    enquanto (contador > 0) faca
-        escreval(contador)
-        contador <- contador - 1
-    fimenquanto
-    escreval("Fim!")
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Pe�a n�meros at� digitar 0 e some-os.</p>
-        </div>
-    </section>
-
-    <section id="slide14" class="slide">
-        <h2>Slide 14: La�os de Repeti��o: Repita-At�</h2>
-        <p>Executa pelo menos uma vez: repita ... ate (condicao)</p>
-        <p><strong>Passo 1:</strong> Bloco primeiro, condi��o depois.</p>
-        <p><strong>Passo 2:</strong> �til para menus.</p>
-        <p><strong>Passo 3:</strong> Exemplo: Valida��o de input.</p>
-        <pre><code>
-algoritmo "RepitaAte"
-var
-    opcao: caracter
-inicio
-    repita
-        escreval("Digite S para sair: ")
-        leia(opcao)
-    ate (opcao = "S")
-    escreval("Saiu!")
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Pe�a senha at� acertar.</p>
-        </div>
-    </section>
-
-    <section id="slide15" class="slide">
-        <h2>Slide 15: Vetores (Arrays Unidimensionais)</h2>
-        <p>Armazenam m�ltiplos valores: var vetor[ tamanho ]: tipo</p>
-        <p><strong>Passo 1:</strong> Declara��o e inicializa��o.</p>
-        <p><strong>Passo 2:</strong> Acesso: vetor[�ndice]</p>
-        <p><strong>Passo 3:</strong> Exemplo: M�dia de notas.</p>
-        <pre><code>
-algoritmo "Vetores"
-var
-    notas[5]: real
-    i: inteiro
-    soma: real
-inicio
-    soma <- 0
-    para i de 0 ate 4 faca
-        leia(notas[i])
-        soma <- soma + notas[i]
-    fimpara
-    escreval("M�dia: ", soma / 5)
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Encontre o maior valor em um vetor.</p>
-        </div>
-    </section>
-
-    <section id="slide16" class="slide">
-        <h2>Slide 16: Matrizes (Arrays Bidimensionais)</h2>
-        <p>Como tabelas: var matriz[linhas, colunas]: tipo</p>
-        <p><strong>Passo 1:</strong> Declara��o.</p>
-        <p><strong>Passo 2:</strong> Loops aninhados para acesso.</p>
-        <p><strong>Passo 3:</strong> Exemplo: Matriz de soma.</p>
-        <pre><code>
-algoritmo "Matrizes"
-var
-    mat[2,2]: inteiro
-    i, j: inteiro
-inicio
-    para i de 0 ate 1 faca
-        para j de 0 ate 1 faca
-            leia(mat[i,j])
-        fimpara
-    fimpara
-    escreval("Elemento [0,0]: ", mat[0,0])
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Some duas matrizes.</p>
-        </div>
-    </section>
-
-    <section id="slide17" class="slide">
-        <h2>Slide 17: Fun��es</h2>
-        <p>Blocos reutiliz�veis que retornam valor: funcao nome(param): tipo ... retorne valor</p>
-        <p><strong>Passo 1:</strong> Defini��o.</p>
-        <p><strong>Passo 2:</strong> Chamada.</p>
-        <p><strong>Passo 3:</strong> Exemplo: Fatorial.</p>
-        <pre><code>
-algoritmo "Funcoes"
-funcao fatorial(n: inteiro): inteiro
-var
-    fat, i: inteiro
-inicio
-    fat <- 1
-    para i de 1 ate n faca
-        fat <- fat * i
-    fimpara
-    retorne fat
-fimfuncao
-
-inicio
-    escreval("Fatorial de 5: ", fatorial(5))
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Fun��o para verificar primo.</p>
-        </div>
-    </section>
-
-    <section id="slide18" class="slide">
-        <h2>Slide 18: Procedimentos</h2>
-        <p>Como fun��es, mas sem retorno: procedimento nome(param) ... fimprocedimento</p>
-        <p><strong>Passo 1:</strong> Defini��o.</p>
-        <p><strong>Passo 2:</strong> Chamada.</p>
-        <p><strong>Passo 3:</strong> Exemplo: Imprimir linha.</p>
-        <pre><code>
-algoritmo "Procedimentos"
-procedimento linha()
-inicio
-    escreval("-------------------")
-fimprocedimento
-
-inicio
-    linha()
-    escreval("Texto")
-    linha()
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Procedimento para limpar tela (simulado).</p>
-        </div>
-    </section>
-
-    <section id="slide19" class="slide">
-        <h2>Slide 19: Exemplo Integrado: Jogo de Adivinha��o</h2>
-        <p>Combine conceitos: Gerar n�mero aleat�rio, loops, condicionais.</p>
-        <p><strong>Passo 1:</strong> Gerar n�mero (use rand ou similar em Visualg).</p>
-        <p><strong>Passo 2:</strong> Loop de tentativas.</p>
-        <p><strong>Passo 3:</strong> Dicas com condicionais.</p>
-        <pre><code>
-algoritmo "Adivinhacao"
-var
-    secreto, tentativa: inteiro
-inicio
-    secreto <- randi(100) + 1  // Em Visualg, use aleatorio
-    repita
-        leia(tentativa)
-        se (tentativa > secreto) entao
-            escreval("Muito alto!")
-        senao se (tentativa < secreto) entao
-            escreval("Muito baixo!")
-        senao
-            escreval("Acertou!")
-        fimse
-    ate (tentativa = secreto)
-fimalgoritmo
-        </code></pre>
-        <div class="step">
-            <p>Construa: Adicione contagem de tentativas e high score.</p>
-        </div>
-    </section>
-
-    <section id="slide20" class="slide">
-        <h2>Slide 20: Conclus�o e Exerc�cios</h2>
-        <p>Revis�o: L�gica � essencial. Pratique com Portugol para solidificar conceitos antes de linguagens reais.</p>
-        <p><strong>Exerc�cio 1:</strong> Crie um programa que calcule IMC (peso / altura^2) e classifique (baixo, normal, alto).</p>
-        <p><strong>Exerc�cio 2:</strong> Implemente bubble sort em um vetor.</p>
-        <p><strong>Exerc�cio 3:</strong> Fun��o recursiva para Fibonacci.</p>
-        <div class="step">
-            <p>Construa: Resolva os exerc�cios e teste em Visualg.</p>
+    <section id="quiz" class="quiz-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Quiz Angular</h2>
+                <p>Teste seus conhecimentos sobre Angular com base nos exercícios da Aula Atividade Tutor</p>
+            </div>
+            
+            <div class="professor-note">
+                <h4>Nota do Professor</h4>
+                <p>Este quiz foi preparado para ajudar vocês a testarem seus conhecimentos sobre Angular e se prepararem para os exercícios da Aula Atividade Tutor. Tentem responder cada pergunta antes de verificar a resposta correta. Se errarem, leiam atentamente a explicação para entender o conceito.</p>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-question">
+                    <h3>1. Qual é o comando para criar um novo componente Angular usando a CLI?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, false)">ng new component MeuComponente</li>
+                        <li onclick="checkAnswer(this, true)">ng generate component MeuComponente</li>
+                        <li onclick="checkAnswer(this, false)">angular create component MeuComponente</li>
+                        <li onclick="checkAnswer(this, false)">npm create component MeuComponente</li>
+                        <li onclick="checkAnswer(this, false)">ng add component MeuComponente</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O Angular CLI usa o comando <code>ng generate component</code> (ou sua forma abreviada <code>ng g c</code>) para criar novos componentes. A alternativa correta é a segunda opção. O comando <code>ng new</code> é usado para criar um novo projeto Angular, não um componente.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>2. Qual decorador é usado para definir um componente Angular?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, true)">@Component</li>
+                        <li onclick="checkAnswer(this, false)">@NgModule</li>
+                        <li onclick="checkAnswer(this, false)">@Directive</li>
+                        <li onclick="checkAnswer(this, false)">@Injectable</li>
+                        <li onclick="checkAnswer(this, false)">@Pipe</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O decorador <code>@Component</code> é usado para definir uma classe como um componente Angular, incluindo metadados como selector e templateUrl. <code>@NgModule</code> é usado para definir módulos, <code>@Directive</code> para diretivas, <code>@Injectable</code> para serviços e <code>@Pipe</code> para pipes.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>3. Como você faz binding de uma propriedade em Angular?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, false)">{{propriedade}}</li>
+                        <li onclick="checkAnswer(this, true)">[propriedade]="valor"</li>
+                        <li onclick="checkAnswer(this, false)">(propriedade)="valor"</li>
+                        <li onclick="checkAnswer(this, false)">*ngIf="propriedade"</li>
+                        <li onclick="checkAnswer(this, false)">#propriedade</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O binding de propriedade usa colchetes <code>[]</code> para passar dados do componente para o template. Isso é conhecido como property binding. A sintaxe <code>{{ }}</code> é usada para interpolação, <code>()</code> para event binding, <code>*ngIf</code> é uma diretiva estrutural e <code>#</code> é usado para referências de template.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>4. Qual diretiva é usada para renderizar elementos condicionalmente?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, false)">*ngFor</li>
+                        <li onclick="checkAnswer(this, true)">*ngIf</li>
+                        <li onclick="checkAnswer(this, false)">[ngSwitch]</li>
+                        <li onclick="checkAnswer(this, false)">[ngClass]</li>
+                        <li onclick="checkAnswer(this, false)">*ngWhile</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> A diretiva <code>*ngIf</code> adiciona ou remove elementos do DOM com base em uma condição booleana, permitindo a renderização condicional de elementos. <code>*ngFor</code> é usada para iterar sobre listas, <code>ngSwitch</code> para múltiplas condições, <code>ngClass</code> para manipular classes CSS e não existe uma diretiva <code>*ngWhile</code> nativa no Angular.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>5. Qual serviço é usado para navegação entre rotas?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, true)">Router</li>
+                        <li onclick="checkAnswer(this, false)">Route</li>
+                        <li onclick="checkAnswer(this, false)">Navigation</li>
+                        <li onclick="checkAnswer(this, false)">HttpClient</li>
+                        <li onclick="checkAnswer(this, false)">Location</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O serviço <code>Router</code> do pacote <code>@angular/router</code> é usado para gerenciar a navegação programática entre rotas na aplicação. O método <code>navigate()</code> é usado para navegar para uma rota específica. <code>Route</code> é usado para definir configurações de rota, <code>HttpClient</code> para requisições HTTP e <code>Location</code> para interagir com a URL do navegador.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>6. Como você captura eventos no template?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, true)">(evento)="metodo()"</li>
+                        <li onclick="checkAnswer(this, false)">[evento]="metodo()"</li>
+                        <li onclick="checkAnswer(this, false)">{{evento}}</li>
+                        <li onclick="checkAnswer(this, false)">#evento</li>
+                        <li onclick="checkAnswer(this, false)">*ngEvent="metodo()"</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> Parênteses <code>()</code> são usados para binding de eventos como <code>(click)</code> ou <code>(keyup)</code>, permitindo capturar eventos do DOM e executar métodos do componente. A sintaxe <code>[]</code> é para property binding, <code>{{ }}</code> para interpolação, <code>#</code> para referências de template e não existe uma diretiva <code>*ngEvent</code> nativa.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>7. Qual é a finalidade do ngOnInit()?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, true)">Inicializar propriedades do componente</li>
+                        <li onclick="checkAnswer(this, false)">Lidar com destruição do componente</li>
+                        <li onclick="checkAnswer(this, false)">Atualizar o DOM</li>
+                        <li onclick="checkAnswer(this, false)">Gerenciar inputs do usuário</li>
+                        <li onclick="checkAnswer(this, false)">Fazer chamadas HTTP</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O método <code>ngOnInit()</code> é um lifecycle hook chamado após a criação do componente, ideal para inicializar propriedades, fazer chamadas a serviços e outras inicializações necessárias. A destruição do componente é tratada por <code>ngOnDestroy()</code>, e embora seja comum fazer chamadas HTTP em <code>ngOnInit()</code>, essa não é sua única finalidade.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>8. Qual comando instala o Angular CLI globalmente?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, true)">npm install -g @angular/cli</li>
+                        <li onclick="checkAnswer(this, false)">ng install angular</li>
+                        <li onclick="checkAnswer(this, false)">npm add angular-cli</li>
+                        <li onclick="checkAnswer(this, false)">yarn global add angular</li>
+                        <li onclick="checkAnswer(this, false)">npm i angular</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O comando <code>npm install -g @angular/cli</code> instala globalmente o pacote <code>@angular/cli</code> via npm, tornando o comando <code>ng</code> disponível em todo o sistema. O flag <code>-g</code> indica uma instalação global. As outras alternativas não são comandos válidos para instalar a CLI do Angular.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>9. Qual é a função do async pipe?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, true)">Tratar Promises/Observables no template</li>
+                        <li onclick="checkAnswer(this, false)">Validação assíncrona</li>
+                        <li onclick="checkAnswer(this, false)">Chamadas HTTP</li>
+                        <li onclick="checkAnswer(this, false)">Gerenciamento de estado</li>
+                        <li onclick="checkAnswer(this, false)">Compartilhamento de dados</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O async pipe (<code>| async</code>) automaticamente inscreve/unsubscribe em Observables ou Promises no template, facilitando o trabalho com dados assíncronos. Ele lida com o gerenciamento do ciclo de vida da inscrição, evitando memory leaks e simplificando o código.</p>
+                    </div>
+                </div>
+                
+                <div class="quiz-question">
+                    <h3>10. Como declarar um módulo raiz no Angular?</h3>
+                    <ul class="quiz-options">
+                        <li onclick="checkAnswer(this, true)">@NgModule({ declarations: [...] })</li>
+                        <li onclick="checkAnswer(this, false)">@Component({ providers: [...] })</li>
+                        <li onclick="checkAnswer(this, false)">@Directive({ selector: [...] })</li>
+                        <li onclick="checkAnswer(this, false)">@Injectable({ providedIn: [...] })</li>
+                        <li onclick="checkAnswer(this, false)">@Pipe({ name: [...] })</li>
+                    </ul>
+                    <div class="explanation">
+                        <p><strong>Explicação:</strong> O decorador <code>@NgModule</code> é usado para declarar um módulo Angular, organizando componentes, diretivas, pipes e serviços em blocos coesos de funcionalidade. A propriedade <code>declarations</code> é usada para listar os componentes, diretivas e pipes que pertencem ao módulo.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>Desenvolvido para fins educacionais. Use Visualg para executar e praticar.</p>
+        <div class="container">
+            <p>Frameworks para Desenvolvimento de Software - Material de Apoio</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+            <p>&copy; 2025 - Todos os direitos reservados</p>
+        </div>
     </footer>
 
     <script>
-        let currentSlide = 1;
-        const totalSlides = 20;
-
-        function changeSlide(direction) {
-            const slides = document.querySelectorAll('.slide');
-            slides[currentSlide - 1].classList.remove('active');
-            currentSlide += direction;
+        // Função para alternar abas
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
             
-            if (currentSlide < 1) currentSlide = 1;
-            if (currentSlide > totalSlides) currentSlide = totalSlides;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].classList.remove("active");
+            }
             
-            slides[currentSlide - 1].classList.add('active');
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
             
-            document.getElementById('prevBtn').disabled = currentSlide === 1;
-            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
         }
-
-        // Initialize first slide
-        document.querySelector('.slide').classList.add('active');
+        
+        // Função para verificar respostas do quiz
+        function checkAnswer(element, isCorrect) {
+            // Remove classes anteriores
+            const options = element.parentElement.querySelectorAll('li');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+            });
+            
+            // Adiciona classe correta ou incorreta
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('incorrect');
+            }
+            
+            // Mostra explicação
+            const explanation = element.parentElement.nextElementSibling;
+            explanation.classList.add('show');
+        }
+        
+        // Smooth scrolling para links de navegação
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
     </script>
 </body>
 </html>
