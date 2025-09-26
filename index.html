@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frameworks para Desenvolvimento de Software</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Machine Learning com Python - Classificação de Flores Iris</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
-            --danger-color: #e74c3c;
-            --warning-color: #f39c12;
-            --info-color: #9b59b6;
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --info: #9b59b6;
         }
         
         * {
@@ -25,2540 +36,1364 @@
         
         body {
             font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
+            background-color: #f5f7fa;
+            color: var(--dark);
+            overflow: hidden;
+            height: 100vh;
         }
         
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
         }
         
-        header {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        header .container {
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 60px 40px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.6s ease-in-out;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
         }
         
-        header h1 {
-            font-size: 1.8rem;
-            font-weight: 500;
+        .slide.active {
+            opacity: 1;
+            transform: translateX(0);
         }
         
-        nav ul {
-            display: flex;
-            list-style: none;
+        .slide.prev {
+            transform: translateX(-100%);
         }
         
-        nav ul li {
-            margin-left: 1.5rem;
-        }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        nav ul li a:hover {
-            color: var(--primary-color);
-        }
-        
-        .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
-            color: white;
-            padding: 5rem 0;
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
             text-align: center;
         }
         
-        .hero h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .slide-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.8rem;
             font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
         
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            transition: background-color 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .btn:hover {
-            background-color: #2980b9;
-        }
-        
-        .section {
-            padding: 4rem 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-        
-        .section-title h2 {
-            font-size: 2.2rem;
-            color: var(--dark-color);
-            margin-bottom: 1rem;
-        }
-        
-        .section-title p {
-            max-width: 700px;
-            margin: 0 auto;
-            color: #666;
-        }
-        
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-        
-        .card h3 {
-            color: var(--dark-color);
-            margin-bottom: 1rem;
+        .slide-subtitle {
             font-size: 1.5rem;
-            display: flex;
-            align-items: center;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: 30px;
         }
         
-        .card h3 i {
-            margin-right: 10px;
-            color: var(--primary-color);
+        .slide-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #555;
         }
         
-        .card p {
-            margin-bottom: 1rem;
+        .slide-list {
+            text-align: left;
+            margin: 20px 0;
+            padding-left: 20px;
         }
         
-        .professor-note {
-            background-color: #e8f4fc;
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 4px;
+        .slide-list li {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
             position: relative;
+            padding-left: 30px;
         }
         
-        .professor-note:before {
-            content: "\f0e6";
-            font-family: "Font Awesome 5 Free";
+        .slide-list li:before {
+            content: "\f00c";
+            font-family: "Font Awesome 6 Free";
             font-weight: 900;
             position: absolute;
-            top: -10px;
-            left: -10px;
-            background-color: var(--primary-color);
-            color: white;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-        
-        .professor-note h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
+            left: 0;
+            color: var(--success);
         }
         
         .code-block {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem;
-            margin: 1rem 0;
-            font-family: monospace;
-            overflow-x: auto;
-            border-radius: 4px;
-        }
-        
-        .tabs {
-            display: flex;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .tab {
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            background-color: #f1f1f1;
-            border: 1px solid #ddd;
-            border-bottom: none;
-            border-radius: 4px 4px 0 0;
-            margin-right: 5px;
-            font-weight: 500;
-        }
-        
-        .tab.active {
-            background-color: white;
-            border-bottom: 1px solid white;
-            margin-bottom: -1px;
-        }
-        
-        .tab-content {
-            display: none;
-            padding: 1.5rem;
-            border: 1px solid #ddd;
-            border-top: none;
-            border-radius: 0 0 4px 4px;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        .framework-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .framework-card {
-            background-color: white;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-            transition: transform 0.3s;
+            text-align: left;
+            font-family: monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            overflow: auto;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
-        .framework-card:hover {
+        .highlight {
+            color: #f39c12;
+            font-weight: bold;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 100;
+        }
+        
+        .nav-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .nav-btn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .slide-counter {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(44, 62, 80, 0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 100;
+        }
+        
+        .slide-visual {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .visual-item {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            width: 45%;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .visual-item h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .visual-item p {
+            color: #555;
+            text-align: center;
+        }
+        
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            margin: 20px auto;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
             transform: translateY(-5px);
         }
         
-        .framework-card-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
         }
         
-        .framework-card-header h3 {
-            margin-bottom: 0.5rem;
-        }
-        
-        .framework-card-body {
-            padding: 1.5rem;
-        }
-        
-        .framework-card-body ul {
-            padding-left: 1.5rem;
-        }
-        
-        .framework-card-body li {
-            margin-bottom: 0.5rem;
-        }
-        
-        .quiz-section {
-            background-color: #f8f9fa;
-            padding: 4rem 0;
-        }
-        
-        .quiz-container {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            padding: 2rem;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .quiz-question {
-            margin-bottom: 2rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .quiz-question:last-child {
-            border-bottom: none;
-        }
-        
-        .quiz-question h3 {
-            margin-bottom: 1rem;
-            color: var(--dark-color);
-        }
-        
-        .quiz-options {
-            list-style: none;
-        }
-        
-        .quiz-options li {
-            margin-bottom: 0.8rem;
-            padding: 0.8rem;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .quiz-options li:hover {
-            background-color: #e9ecef;
-        }
-        
-        .quiz-options li.correct {
-            background-color: #d4edda;
-            border-left: 4px solid var(--secondary-color);
-        }
-        
-        .quiz-options li.incorrect {
-            background-color: #f8d7da;
-            border-left: 4px solid var(--danger-color);
-        }
-        
-        .explanation {
-            margin-top: 1rem;
-            padding: 1rem;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            display: none;
-        }
-        
-        .explanation.show {
-            display: block;
-        }
-        
-        footer {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 3rem 0;
-            text-align: center;
-        }
-        
-        footer p {
-            margin-bottom: 1rem;
-        }
-        
-        .social-links a {
-            color: white;
-            margin: 0 0.5rem;
+        .feature-title {
             font-size: 1.2rem;
-            transition: color 0.3s;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
         }
         
-        .social-links a:hover {
-            color: var(--primary-color);
+        .feature-desc {
+            color: #555;
+            font-size: 0.95rem;
         }
         
-        .diagram {
-            margin: 2rem 0;
-            text-align: center;
+        .two-column {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
         }
         
-        .diagram svg {
-            max-width: 100%;
-            height: auto;
+        .column {
+            flex: 1;
         }
         
-        .key-point {
-            background-color: #fff3cd;
-            border-left: 4px solid var(--warning-color);
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border-radius: 4px;
-        }
-        
-        .key-point h4 {
-            color: var(--warning-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1.5rem 0;
-        }
-        
-        .comparison-table th, .comparison-table td {
-            border: 1px solid #ddd;
-            padding: 0.8rem;
+        .process-step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
             text-align: left;
         }
         
-        .comparison-table th {
-            background-color: var(--primary-color);
+        .step-number {
+            background-color: var(--secondary);
             color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            margin-right: 15px;
+            flex-shrink: 0;
         }
         
-        .comparison-table tr:nth-child(even) {
-            background-color: #f2f2f2;
+        .step-content {
+            flex: 1;
         }
         
+        .step-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        
+        .step-desc {
+            color: #555;
+            font-size: 0.95rem;
+        }
+        
+        .checklist {
+            background-color: rgba(46, 204, 113, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+        }
+        
+        .checklist-title {
+            font-weight: 600;
+            color: var(--success);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checklist-item i {
+            color: var(--success);
+            margin-right: 10px;
+        }
+        
+        .model-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 30px 0;
+        }
+        
+        .model-layer {
+            width: 80%;
+            max-width: 500px;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .input-layer {
+            background-color: rgba(52, 152, 219, 0.2);
+            border: 2px solid var(--secondary);
+        }
+        
+        .hidden-layer {
+            background-color: rgba(155, 89, 182, 0.2);
+            border: 2px solid var(--info);
+        }
+        
+        .output-layer {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 2px solid var(--accent);
+        }
+        
+        .model-arrow {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 5px 0;
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            header .container {
-                flex-direction: column;
+            .slide {
+                padding: 40px 20px;
             }
             
-            nav ul {
-                margin-top: 1rem;
-            }
-            
-            nav ul li {
-                margin: 0 0.5rem;
-            }
-            
-            .hero h2 {
+            .slide-title {
                 font-size: 2rem;
             }
             
-            .tabs {
-                flex-wrap: wrap;
+            .slide-subtitle {
+                font-size: 1.2rem;
             }
             
-            .tab {
-                margin-bottom: 5px;
+            .slide-text {
+                font-size: 1rem;
+            }
+            
+            .two-column {
+                flex-direction: column;
+            }
+            
+            .visual-item {
+                width: 100%;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1>Frameworks para Desenvolvimento de Software</h1>
-            <nav>
-                <ul>
-                    <li><a href="#java-ee">Java EE</a></li>
-                    <li><a href="#javascript">JavaScript</a></li>
-                    <li><a href="#php">PHP</a></li>
-                    <li><a href="#angular">Angular</a></li>
-                    <li><a href="#quiz">Quiz</a></li>
-                </ul>
-            </nav>
+    <div class="presentation-container">
+        <!-- Slide Counter -->
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">16</span>
         </div>
-    </header>
-
-    <section class="hero">
-        <div class="container">
-            <h2>Domine os Principais Frameworks de Desenvolvimento</h2>
-            <p>Um guia completo sobre Java EE, JavaScript, PHP e Angular para complementar seus estudos e ajudar na resolução de exercícios.</p>
-            <a href="#java-ee" class="btn">Começar a aprender</a>
-        </div>
-    </section>
-
-    <section id="java-ee" class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Java EE (Jakarta EE)</h2>
-                <p>Plataforma para desenvolvimento de aplicações empresariais em Java</p>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-cogs"></i> Arquitetura Java EE</h3>
-                <p>Java EE (agora Jakarta EE) é uma plataforma robusta para desenvolvimento de aplicações empresariais distribuídas. Ela oferece uma arquitetura completa com diversos containers e componentes que facilitam o desenvolvimento de sistemas complexos.</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Alunos, pensem na plataforma Jakarta EE como um ecossistema completo que fornece tudo o que vocês precisam para construir aplicações corporativas escaláveis. Ela abstrai muitas complexidades, permitindo que vocês se concentrem na lógica de negócio em vez de infraestrutura.</p>
-                </div>
-                
-                <p>A plataforma Jakarta EE é composta por quatro containers principais:</p>
-                <ul>
-                    <li><strong>Applet Container:</strong> Executa applets Java no navegador. (Menos utilizado atualmente)</li>
-                    <li><strong>Application Client Container:</strong> Executa aplicações cliente no computador do usuário.</li>
-                    <li><strong>Web Container:</strong> Executa componentes web como Servlets, JSP e Server Faces.</li>
-                    <li><strong>Enterprise Beans Container:</strong> Executa componentes de negócio (Enterprise Beans).</li>
-                </ul>
-                
-                <div class="diagram">
-                    <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Java EE Platform -->
-                        <rect x="50" y="20" width="500" height="360" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                        <text x="300" y="45" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold">Jakarta EE Platform</text>
-                        
-                        <!-- Containers -->
-                        <rect x="80" y="70" width="200" height="120" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                        <text x="180" y="95" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Web Container</text>
-                        <text x="180" y="115" font-family="Arial" font-size="12" text-anchor="middle">Servlets</text>
-                        <text x="180" y="135" font-family="Arial" font-size="12" text-anchor="middle">JSP</text>
-                        <text x="180" y="155" font-family="Arial" font-size="12" text-anchor="middle">Server Faces</text>
-                        <text x="180" y="175" font-family="Arial" font-size="12" text-anchor="middle">Filters</text>
-                        
-                        <rect x="320" y="70" width="200" height="120" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                        <text x="420" y="95" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">EJB Container</text>
-                        <text x="420" y="115" font-family="Arial" font-size="12" text-anchor="middle">Session Beans</text>
-                        <text x="420" y="135" font-family="Arial" font-size="12" text-anchor="middle">Entity Beans</text>
-                        <text x="420" y="155" font-family="Arial" font-size="12" text-anchor="middle">Message Beans</text>
-                        <text x="420" y="175" font-family="Arial" font-size="12" text-anchor="middle">Transactions</text>
-                        
-                        <rect x="80" y="220" width="200" height="120" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                        <text x="180" y="245" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Applet Container</text>
-                        <text x="180" y="265" font-family="Arial" font-size="12" text-anchor="middle">Java Applets</text>
-                        <text x="180" y="285" font-family="Arial" font-size="12" text-anchor="middle">Browser Integration</text>
-                        
-                        <rect x="320" y="220" width="200" height="120" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
-                        <text x="420" y="245" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Client Container</text>
-                        <text x="420" y="265" font-family="Arial" font-size="12" text-anchor="middle">Standalone Apps</text>
-                        <text x="420" y="285" font-family="Arial" font-size="12" text-anchor="middle">GUI Applications</text>
-                        
-                        <!-- Java SE Base -->
-                        <rect x="200" y="350" width="200" height="30" rx="5" fill="#ffecb3" stroke="#ffa000" stroke-width="2"/>
-                        <text x="300" y="370" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Java SE (Base)</text>
-                        
-                        <!-- Connections -->
-                        <line x1="180" y1="190" x2="180" y2="220" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
-                        <line x1="420" y1="190" x2="420" y2="220" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
-                        <line x1="180" y1="340" x2="200" y2="350" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
-                        <line x1="420" y1="340" x2="400" y2="350" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
-                    </svg>
-                </div>
-                
-                <div class="key-point">
-                    <h4>Ponto Chave</h4>
-                    <p>Todos esses containers permitem o desenvolvimento de aplicações escaláveis, com otimização de recursos e suporte a transações distribuídas. A plataforma segue o padrão MVC (Model-View-Controller), promovendo a separação de responsabilidades.</p>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-code"></i> Componentes do Web Container</h3>
-                <p>O Web Container é responsável por executar componentes que geram conteúdo dinâmico para a web. Vamos analisar cada um deles em detalhe:</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>O Web Container é como o motor da sua aplicação web. Ele gerencia o ciclo de vida dos componentes, trata requisições HTTP e fornece serviços como segurança, transações e gerenciamento de sessão. Vocês não precisam se preocupar com esses detalhes de infraestrutura!</p>
-                </div>
-                
-                <div class="tabs">
-                    <div class="tab active" onclick="openTab(event, 'servlets')">Servlets</div>
-                    <div class="tab" onclick="openTab(event, 'jsp')">JSP</div>
-                    <div class="tab" onclick="openTab(event, 'server-faces')">Server Faces</div>
-                </div>
-                
-                <div id="servlets" class="tab-content active">
-                    <p><strong>Servlets:</strong> Classes Java que respondem a requisições HTTP. São independentes de plataforma e compiladas dinamicamente pelo servidor.</p>
-                    
-                    <div class="code-block">
-public class CalculatorServlet extends HttpServlet {
-    public void doGet(HttpServletRequest req, HttpServletResponse res) {
-        // Lógica para tratar requisição GET
-        int num1 = Integer.parseInt(req.getParameter("num1"));
-        int num2 = Integer.parseInt(req.getParameter("num2"));
-        int result = num1 + num2;
         
-        res.setContentType("text/html");
-        PrintWriter out = res.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>Resultado: " + result + "</h1>");
-        out.println("</body></html>");
-    }
-}
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Como funciona?</h4>
-                        <p>Quando um usuário faz uma requisição, o servidor web direciona para o servlet correspondente. O servlet processa a requisição, gera o conteúdo HTML e envia como resposta. Tudo isso acontece no servidor, antes de enviar a página para o navegador do cliente.</p>
-                    </div>
-                    
-                    <p>Os servlets são mapeados para URLs através de anotações ou arquivos de configuração (Deployment Descriptors). Eles são o fundamento de todas as outras tecnologias web em Java EE.</p>
-                </div>
-                
-                <div id="jsp" class="tab-content">
-                    <p><strong>Java Server Pages (JSP):</strong> Permite inserir código Java em HTML, facilitando a separação entre lógica de negócio e apresentação.</p>
-                    
-                    <div class="code-block">
-&lt;html&gt;
-&lt;body&gt;
-    &lt;h1&gt;Lista de Filmes&lt;/h1&gt;
-    &lt;ul&gt;
-        &lt;c:forEach var="m" items="${movies}"&gt;
-            &lt;li&gt;${m.title}&lt;/li&gt;
-        &lt;/c:forEach&gt;
-    &lt;/ul&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-                    </div>
-                    
-                    <div class="professor-note">
-                        <h4>Nota do Professor</h4>
-                        <p>JSP é uma evolução natural dos servlets. Em vez de escrever código HTML dentro de Java (como nos servlets), nós escrevemos código Java dentro de HTML. Isso torna o código mais limpo e mais fácil para designers web trabalharem. Mas lembrem-se: o JSP é compilado para um servlet antes de ser executado!</p>
-                    </div>
-                    
-                    <p>JSP utiliza tag libraries (JSTL) e expressões EL (Expression Language) para simplificar o acesso a dados e objetos Java. Isso reduz significativamente a quantidade de código Java necessário nas páginas.</p>
-                </div>
-                
-                <div id="server-faces" class="tab-content">
-                    <p><strong>Server Faces:</strong> Framework MVC baseado em componentes para construção de interfaces de usuário. Oferece gerenciamento de estado, validação e navegação.</p>
-                    
-                    <div class="code-block">
-&lt;h:form&gt;
-    &lt;h:inputText value="#{hello.name}" /&gt;
-    &lt;h:commandButton value="Submit" action="response" /&gt;
-&lt;/h:form&gt;
-                    </div>
-                    
-                    <div class="diagram">
-                        <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
-                            <!-- JSF Lifecycle -->
-                            <rect x="50" y="50" width="400" height="200" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                            <text x="250" y="30" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">JSF Lifecycle</text>
-                            
-                            <!-- Phases -->
-                            <rect x="80" y="80" width="80" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
-                            <text x="120" y="105" font-family="Arial" font-size="12" text-anchor="middle">Restore View</text>
-                            
-                            <rect x="180" y="80" width="80" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
-                            <text x="220" y="105" font-family="Arial" font-size="12" text-anchor="middle">Apply Request</text>
-                            
-                            <rect x="280" y="80" width="80" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
-                            <text x="320" y="105" font-family="Arial" font-size="12" text-anchor="middle">Process Validations</text>
-                            
-                            <rect x="80" y="140" width="80" height="40" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1"/>
-                            <text x="120" y="165" font-family="Arial" font-size="12" text-anchor="middle">Update Model</text>
-                            
-                            <rect x="180" y="140" width="80" height="40" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="1"/>
-                            <text x="220" y="165" font-family="Arial" font-size="12" text-anchor="middle">Invoke App</text>
-                            
-                            <rect x="280" y="140" width="80" height="40" rx="5" fill="#e0f2f1" stroke="#00796b" stroke-width="1"/>
-                            <text x="320" y="165" font-family="Arial" font-size="12" text-anchor="middle">Render Response</text>
-                            
-                            <!-- Arrows -->
-                            <path d="M160,100 L180,100" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                            <path d="M260,100 L280,100" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                            <path d="M320,120 L320,140" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                            <path d="M280,160 L260,160" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                            <path d="M180,160 L160,160" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                            <path d="M120,180 L120,200 L320,200 L320,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                            
-                            <!-- Arrow marker -->
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                                </marker>
-                            </defs>
-                        </svg>
-                    </div>
-                    
-                    <p>Server Faces simplifica o desenvolvimento de interfaces complexas, fornecendo componentes reutilizáveis e um ciclo de vida bem definido. Ele gerencia automaticamente o estado da aplicação entre requisições, algo que seria complexo de implementar manualmente com servlets ou JSP.</p>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-database"></i> Enterprise Beans e Persistência</h3>
-                <p>Os Enterprise Beans são componentes que contêm lógica de negócio e são executados no Enterprise Beans Container. Eles são o coração da camada de negócio em aplicações Java EE.</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Enterprise Beans são como especialistas em tarefas específicas da sua aplicação. Eles sabem como lidar com transações, segurança, concorrência e outros aspectos complexos do desenvolvimento empresarial. Vocês podem se concentrar na regra de negócio enquanto o container cuida do resto!</p>
-                </div>
-                
-                <div class="tabs">
-                    <div class="tab active" onclick="openTab(event, 'session-beans')">Session Beans</div>
-                    <div class="tab" onclick="openTab(event, 'entity-beans')">Entity Beans</div>
-                    <div class="tab" onclick="openTab(event, 'jpa')">JPA</div>
-                </div>
-                
-                <div id="session-beans" class="tab-content active">
-                    <p><strong>Session Beans:</strong> Implementam a lógica de negócio da aplicação. Podem ser stateless (sem estado) ou stateful (com estado).</p>
-                    
-                    <div class="comparison-table">
-                        <table>
-                            <tr>
-                                <th>Característica</th>
-                                <th>Stateless Session Bean</th>
-                                <th>Stateful Session Bean</th>
-                            </tr>
-                            <tr>
-                                <td>Estado</td>
-                                <td>Não mantém estado entre chamadas</td>
-                                <td>Mantém estado específico para cada cliente</td>
-                            </tr>
-                            <tr>
-                                <td>Escalabilidade</td>
-                                <td>Mais escalável, pode ser compartilhado</td>
-                                <td>Menos escalável, dedicado a um cliente</td>
-                            </tr>
-                            <tr>
-                                <td>Uso típico</td>
-                                <td>Serviços genéricos, cálculos</td>
-                                <td>Carrinhos de compras, sessões de usuário</td>
-                            </tr>
-                            <tr>
-                                <td>Performance</td>
-                                <td>Melhor performance, menor consumo de recursos</td>
-                                <td>Maior consumo de recursos</td>
-                            </tr>
-                        </table>
-                    </div>
-                    
-                    <div class="code-block">
-@Stateless
-public class CalculadoraService {
-    public double somar(double a, double b) {
-        return a + b;
-    }
-    
-    public double subtrair(double a, double b) {
-        return a - b;
-    }
-}
-
-@Stateful
-public class CarrinhoCompras {
-    private List<Item> itens = new ArrayList<>();
-    
-    public void adicionarItem(Item item) {
-        itens.add(item);
-    }
-    
-    public List<Item> getItens() {
-        return itens;
-    }
-    
-    public double getTotal() {
-        return itens.stream().mapToDouble(Item::getPreco).sum();
-    }
-}
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Quando usar cada um?</h4>
-                        <p>Use Stateless Session Beans para operações que não dependem de estado anterior, como cálculos, consultas ou serviços genéricos. Use Stateful Session Beans quando precisar manter conversação com o cliente, como em um carrinho de compras ou um assistente de configuração.</p>
-                    </div>
-                </div>
-                
-                <div id="entity-beans" class="tab-content">
-                    <p><strong>Entity Beans:</strong> Representam dados persistentes, geralmente mapeados para tabelas de banco de dados.</p>
-                    
-                    <div class="code-block">
-@Entity
-public class Cliente implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(nullable = false)
-    private String nome;
-    
-    @Column(unique = true, nullable = false)
-    private String email;
-    
-    @Column(nullable = false)
-    private String senha;
-    
-    // Getters e setters
-}
-                    </div>
-                    
-                    <div class="diagram">
-                        <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Object-Relational Mapping -->
-                            <rect x="50" y="50" width="180" height="200" rx="10" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                            <text x="140" y="75" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Objeto Java</text>
-                            
-                            <rect x="270" y="50" width="180" height="200" rx="10" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                            <text x="360" y="75" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Tabela do Banco</text>
-                            
-                            <!-- Java Object -->
-                            <rect x="70" y="100" width="140" height="130" rx="5" fill="white" stroke="#1976d2" stroke-width="1"/>
-                            <text x="140" y="120" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">Cliente</text>
-                            <line x1="70" y1="130" x2="210" y2="130" stroke="#1976d2" stroke-width="1"/>
-                            <text x="80" y="150" font-family="Arial" font-size="11">- id: Long</text>
-                            <text x="80" y="170" font-family="Arial" font-size="11">- nome: String</text>
-                            <text x="80" y="190" font-family="Arial" font-size="11">- email: String</text>
-                            <text x="80" y="210" font-family="Arial" font-size="11">+ getId(): Long</text>
-                            <text x="80" y="230" font-family="Arial" font-size="11">+ setNome(): void</text>
-                            
-                            <!-- Database Table -->
-                            <rect x="290" y="100" width="140" height="130" rx="5" fill="white" stroke="#388e3c" stroke-width="1"/>
-                            <text x="360" y="120" font-family="Arial" font-size="12" text-anchor="middle" font-weight="bold">CLIENTE</text>
-                            <line x1="290" y1="130" x2="430" y2="130" stroke="#388e3c" stroke-width="1"/>
-                            <text x="300" y="150" font-family="Arial" font-size="11">ID (PK)</text>
-                            <text x="300" y="170" font-family="Arial" font-size="11">NOME</text>
-                            <text x="300" y="190" font-family="Arial" font-size="11">EMAIL</text>
-                            <text x="300" y="210" font-family="Arial" font-size="11">SENHA</text>
-                            
-                            <!-- Mapping -->
-                            <path d="M210,150 L290,150" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
-                            <path d="M210,170 L290,170" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
-                            <path d="M210,190 L290,190" stroke="#333" stroke-width="1" stroke-dasharray="5,5"/>
-                            
-                            <!-- Annotations -->
-                            <rect x="220" y="140" width="60" height="20" rx="3" fill="#ffecb3" stroke="#ffa000" stroke-width="1"/>
-                            <text x="250" y="155" font-family="Arial" font-size="10" text-anchor="middle">@Column</text>
-                            
-                            <rect x="220" y="160" width="60" height="20" rx="3" fill="#ffecb3" stroke="#ffa000" stroke-width="1"/>
-                            <text x="250" y="175" font-family="Arial" font-size="10" text-anchor="middle">@Column</text>
-                            
-                            <rect x="220" y="180" width="60" height="20" rx="3" fill="#ffecb3" stroke="#ffa000" stroke-width="1"/>
-                            <text x="250" y="195" font-family="Arial" font-size="10" text-anchor="middle">@Column</text>
-                        </svg>
-                    </div>
-                    
-                    <p>Entity Beans são gerenciados pelo container e oferecem funcionalidades como cache, lazy loading e transações. As anotações JPA (@Entity, @Id, @Column, etc.) definem como a classe Java será mapeada para a tabela do banco de dados.</p>
-                </div>
-                
-                <div id="jpa" class="tab-content">
-                    <p><strong>Jakarta Persistence API (JPA):</strong> API para mapeamento objeto-relacional, permitindo que objetos Java sejam persistidos em bancos de dados relacionais.</p>
-                    
-                    <div class="professor-note">
-                        <h4>Nota do Professor</h4>
-                        <p>JPA é uma das tecnologias mais importantes do Java EE. Ela permite que vocês trabalhem com objetos Java em vez de SQL direto, o que torna o código mais limpo e orientado a objetos. A implementação mais popular do JPA é o Hibernate, mas existem outras como EclipseLink e OpenJPA.</p>
-                    </div>
-                    
-                    <div class="code-block">
-@Entity
-@Table(name = "produtos")
-public class Produto implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(nullable = false, length = 100)
-    private String nome;
-    
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal preco;
-    
-    @ManyToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
-    
-    // Getters e setters
-}
-
-// Exemplo de uso do EntityManager
-@Stateless
-public class ProdutoService {
-    @PersistenceContext
-    private EntityManager em;
-    
-    public void salvar(Produto produto) {
-        em.persist(produto);
-    }
-    
-    public Produto buscarPorId(Long id) {
-        return em.find(Produto.class, id);
-    }
-    
-    public List<Produto> listarTodos() {
-        return em.createQuery("SELECT p FROM Produto p", Produto.class)
-                 .getResultList();
-    }
-    
-    public void atualizar(Produto produto) {
-        em.merge(produto);
-    }
-    
-    public void excluir(Long id) {
-        Produto produto = em.find(Produto.class, id);
-        if (produto != null) {
-            em.remove(produto);
-        }
-    }
-}
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Vantagens do JPA</h4>
-                        <ul>
-                            <li><strong>Produtividade:</strong> Reduz significativamente a quantidade de código boilerplate para acesso a dados.</li>
-                            <li><strong>Manutenção:</strong> Código mais limpo e orientado a objetos.</li>
-                            <li><strong>Portabilidade:</strong> Mesmo código funciona com diferentes bancos de dados.</li>
-                            <li><strong>Cache:</strong> Melhora de performance através de mecanismos de cache.</li>
-                            <li><strong>Transações:</strong> Gerenciamento automático de transações.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <!-- Navigation -->
+        <div class="navigation">
+            <button class="nav-btn" id="prev-btn">
+                <i class="fas fa-arrow-left"></i> Anterior
+            </button>
+            <button class="nav-btn" id="next-btn">
+                Próximo <i class="fas fa-arrow-right"></i>
+            </button>
         </div>
-    </section>
-
-    <section id="javascript" class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Frameworks JavaScript</h2>
-                <p>Principais frameworks e bibliotecas para desenvolvimento web com JavaScript</p>
-            </div>
-            
-            <div class="professor-note">
-                <h4>Nota do Professor</h4>
-                <p>JavaScript evoluiu muito nos últimos anos! Hoje, não é mais apenas uma linguagem para adicionar interatividade simples às páginas. Com os frameworks modernos, podemos construir aplicações complexas e robustas tanto no front-end quanto no back-end. Vamos explorar as tecnologias mais importantes.</p>
-            </div>
-            
-            <div class="framework-grid">
-                <div class="framework-card">
-                    <div class="framework-card-header">
-                        <h3>Ajax</h3>
-                    </div>
-                    <div class="framework-card-body">
-                        <p>Ajax (Asynchronous JavaScript and XML) é uma técnica para criar aplicações web interativas, permitindo comunicação assíncrona com o servidor sem recarregar a página.</p>
-                        
-                        <div class="diagram">
-                            <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Browser -->
-                                <rect x="50" y="30" width="80" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                                <text x="90" y="65" font-family="Arial" font-size="12" text-anchor="middle">Browser</text>
-                                
-                                <!-- Server -->
-                                <rect x="170" y="30" width="80" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                                <text x="210" y="65" font-family="Arial" font-size="12" text-anchor="middle">Server</text>
-                                
-                                <!-- Database -->
-                                <rect x="170" y="120" width="80" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                                <text x="210" y="155" font-family="Arial" font-size="12" text-anchor="middle">Database</text>
-                                
-                                <!-- Arrows -->
-                                <path d="M130,60 L170,60" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                                <text x="150" y="55" font-family="Arial" font-size="10" text-anchor="middle">Request</text>
-                                
-                                <path d="M170,80 L130,80" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                                <text x="150" y="95" font-family="Arial" font-size="10" text-anchor="middle">Response</text>
-                                
-                                <path d="M210,90 L210,120" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                                
-                                <!-- Arrow marker -->
-                                <defs>
-                                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                        <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                                    </marker>
-                                </defs>
-                            </svg>
-                        </div>
-                        
-                        <div class="code-block">
-function loadDoc() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("demo").innerHTML = this.responseText;
-        }
-    };
-    xhttp.open("GET", "conteudo_remoto.txt", true);
-    xhttp.send();
-}
-                        </div>
-                        <p>Principais características:</p>
-                        <ul>
-                            <li>Atualização parcial de páginas</li>
-                            <li>Comunicação assíncrona com o servidor</li>
-                            <li>Melhora na experiência do usuário</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="framework-card">
-                    <div class="framework-card-header">
-                        <h3>Node.js</h3>
-                    </div>
-                    <div class="framework-card-body">
-                        <p>Node.js é um ambiente de execução JavaScript server-side, baseado na engine V8 do Google Chrome. Permite criar servidores web e aplicações de rede.</p>
-                        
-                        <div class="diagram">
-                            <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Node.js Architecture -->
-                                <rect x="50" y="30" width="200" height="140" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                                <text x="150" y="20" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Node.js Architecture</text>
-                                
-                                <!-- Event Loop -->
-                                <rect x="70" y="50" width="160" height="30" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
-                                <text x="150" y="70" font-family="Arial" font-size="12" text-anchor="middle">Event Loop</text>
-                                
-                                <!-- Thread Pool -->
-                                <rect x="70" y="90" width="160" height="30" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
-                                <text x="150" y="110" font-family="Arial" font-size="12" text-anchor="middle">Thread Pool (Libuv)</text>
-                                
-                                <!-- V8 Engine -->
-                                <rect x="70" y="130" width="160" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
-                                <text x="150" y="150" font-family="Arial" font-size="12" text-anchor="middle">V8 JavaScript Engine</text>
-                            </svg>
-                        </div>
-                        
-                        <div class="code-block">
-var http = require('http');
-const hostname = '127.0.0.1';
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    res.end('Hello World\n');
-});
-
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
-                        </div>
-                        <p>Principais características:</p>
-                        <ul>
-                            <li>Modelo assíncrono e orientado a eventos</li>
-                            <li>Ecossistema rico com npm (Node Package Manager)</li>
-                            <li>Execução JavaScript no servidor</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="framework-card">
-                    <div class="framework-card-header">
-                        <h3>Angular</h3>
-                    </div>
-                    <div class="framework-card-body">
-                        <p>Angular é um framework para desenvolvimento de aplicações web front-end, mantido pelo Google. É baseado em TypeScript e utiliza o padrão MVC.</p>
-                        
-                        <div class="diagram">
-                            <svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
-                                <!-- Angular Architecture -->
-                                <rect x="50" y="30" width="200" height="140" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                                <text x="150" y="20" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Angular Architecture</text>
-                                
-                                <!-- Components -->
-                                <rect x="70" y="50" width="160" height="30" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
-                                <text x="150" y="70" font-family="Arial" font-size="12" text-anchor="middle">Components</text>
-                                
-                                <!-- Templates -->
-                                <rect x="70" y="90" width="160" height="30" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
-                                <text x="150" y="110" font-family="Arial" font-size="12" text-anchor="middle">Templates</text>
-                                
-                                <!-- Services -->
-                                <rect x="70" y="130" width="160" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
-                                <text x="150" y="150" font-family="Arial" font-size="12" text-anchor="middle">Services & DI</text>
-                            </svg>
-                        </div>
-                        
-                        <div class="code-block">
-import { Component } from '@angular/core';
-
-@Component({
-    selector: 'app-hello',
-    template: `&lt;h1&gt;{{ message }}&lt;/h1&gt;`
-})
-export class HelloComponent {
-    message = 'Hello, Angular!';
-}
-                        </div>
-                        <p>Principais características:</p>
-                        <ul>
-                            <li>Baseado em componentes</li>
-                            <li>Injeção de dependência</li>
-                            <li>Binding de dados</li>
-                            <li>Diretivas para manipulação do DOM</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="php" class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Frameworks PHP</h2>
-                <p>Principais frameworks para desenvolvimento de aplicações em PHP</p>
-            </div>
-            
-            <div class="professor-note">
-                <h4>Nota do Professor</h4>
-                <p>PHP continua sendo uma das linguagens mais populares para desenvolvimento web, especialmente para sistemas de gerenciamento de conteúdo (CMS) como WordPress. Os frameworks PHP modernos trazem conceitos avançados como MVC, ORM, injeção de dependência e mais, tornando o desenvolvimento mais estruturado e produtivo.</p>
-            </div>
-            
-            <div class="framework-grid">
-                <div class="framework-card">
-                    <div class="framework-card-header">
-                        <h3>Laravel</h3>
-                    </div>
-                    <div class="framework-card-body">
-                        <p>Laravel é um framework PHP open-source que segue o padrão MVC. Oferece recursos como Eloquent ORM, roteamento, sessões, cache, e muito mais.</p>
-                        
-                        <div class="code-block">
-Route::get('/', function () {
-    return view('welcome');
-});
-                        </div>
-                        <p>Principais características:</p>
-                        <ul>
-                            <li>Sintaxe elegante e expressiva</li>
-                            <li>Eloquent ORM para manipulação de banco de dados</li>
-                            <li>Sistema de roteamento poderoso</li>
-                            <li>Artisan CLI para automação de tarefas</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="framework-card">
-                    <div class="framework-card-header">
-                        <h3>Symfony</h3>
-                    </div>
-                    <div class="framework-card-body">
-                        <p>Symfony é um conjunto de componentes PHP reutilizáveis e um framework para projetos web. É conhecido por sua flexibilidade e pelo grande número de componentes disponíveis.</p>
-                        
-                        <div class="code-block">
-namespace App\Controller;
-
-use Symfony\Component\HttpFoundation\Response;
-
-class LuckyController
-{
-    public function number(): Response
-    {
-        $number = random_int(0, 100);
-        return new Response(
-            '&lt;html&gt;&lt;body&gt;Lucky number: '.$number.'&lt;/body&gt;&lt;/html&gt;'
-        );
-    }
-}
-                        </div>
-                        <p>Principais características:</p>
-                        <ul>
-                            <li>Arquitetura modular com componentes reutilizáveis</li>
-                            <li>Grande comunidade e documentação</li>
-                            <li>Alto desempenho</li>
-                            <li>Padrões de projeto bem definidos</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="framework-card">
-                    <div class="framework-card-header">
-                        <h3>CodeIgniter</h3>
-                    </div>
-                    <div class="framework-card-body">
-                        <p>CodeIgniter é um framework PHP leve e rápido, ideal para desenvolvedores que precisam de uma solução simples e elegante.</p>
-                        
-                        <div class="code-block">
-&lt;?php
-namespace App\Controllers;
-
-class Pages extends BaseController
-{
-    public function index()
-    {
-        return view('welcome_message');
-    }
-}
-                        </div>
-                        <p>Principais características:</p>
-                        <ul>
-                            <li>Pequeno footprint</li>
-                            <li>Curva de aprendizado suave</li>
-                            <li>Documentação extensa</li>
-                            <li>Não requer configurações complexas</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="framework-card">
-                    <div class="framework-card-header">
-                        <h3>Laminas (antigo Zend)</h3>
-                    </div>
-                    <div class="framework-card-body">
-                        <p>Laminas é a evolução do framework Zend, mantido pela comunidade. Oferece componentes para construir aplicações empresariais.</p>
-                        
-                        <div class="code-block">
-namespace MyModule;
-
-use Laminas\Mvc\MvcEvent;
-
-class Module
-{
-    public function onBootstrap(MvcEvent $e)
-    {
-        // Código de inicialização
-    }
-}
-                        </div>
-                        <p>Principais características:</p>
-                        <ul>
-                            <li>Componentes desacoplados e reutilizáveis</li>
-                            <li>Arquitetura orientada a eventos</li>
-                            <li>Foco em aplicações corporativas</li>
-                            <li>Compatibilidade com PSR (PHP Standard Recommendations)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="angular" class="section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Angular - Guia Detalhado</h2>
-                <p>Tudo o que você precisa saber sobre Angular para resolver os exercícios</p>
-            </div>
-            
-            <div class="professor-note">
-                <h4>Nota do Professor</h4>
-                <p>Angular é um dos frameworks front-end mais poderosos e completos disponíveis hoje. Ele oferece uma estrutura completa para construir aplicações web escaláveis e manuteníveis. Nesta seção, vamos explorar cada conceito em detalhe, com exemplos práticos e explicações claras para que vocês dominem o Angular e consigam resolver os exercícios com confiança!</p>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-terminal"></i> Angular CLI</h3>
-                <p>A Angular CLI é uma ferramenta de linha de comando para criar, construir e manter aplicações Angular. Ela automatiza muitas tarefas repetitivas e segue as melhores práticas do framework.</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>A CLI é sua melhor amiga no desenvolvimento Angular! Ela não apenas cria a estrutura de arquivos correta, mas também configura o ambiente de desenvolvimento, otimiza a construção para produção e ajuda a manter o código organizado. Usem sempre a CLI para criar componentes, serviços, módulos e outros elementos da aplicação.</p>
-                </div>
-                
-                <p>Para instalar globalmente:</p>
-                <div class="code-block">
-npm install -g @angular/cli
-                </div>
-                
-                <p>Para criar um novo projeto:</p>
-                <div class="code-block">
-ng new meu-projeto
-                </div>
-                
-                <div class="key-point">
-                    <h4>Comandos essenciais da CLI</h4>
-                    <ul>
-                        <li><code>ng serve</code> - Inicia o servidor de desenvolvimento com live reload</li>
-                        <li><code>ng generate component nome</code> - Cria um novo componente</li>
-                        <li><code>ng generate service nome</code> - Cria um novo serviço</li>
-                        <li><code>ng generate module nome</code> - Cria um novo módulo</li>
-                        <li><code>ng build</code> - Compila a aplicação para produção</li>
-                        <li><code>ng test</code> - Executa testes unitários</li>
-                        <li><code>ng e2e</code> - Executa testes end-to-end</li>
-                    </ul>
-                </div>
-                
-                <div class="diagram">
-                    <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Angular CLI Workflow -->
-                        <rect x="50" y="30" width="500" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                        <text x="300" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Angular CLI Workflow</text>
-                        
-                        <!-- ng new -->
-                        <rect x="80" y="60" width="120" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                        <text x="140" y="85" font-family="Arial" font-size="14" text-anchor="middle">ng new</text>
-                        
-                        <!-- ng generate -->
-                        <rect x="240" y="60" width="120" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                        <text x="300" y="85" font-family="Arial" font-size="14" text-anchor="middle">ng generate</text>
-                        
-                        <!-- ng serve -->
-                        <rect x="400" y="60" width="120" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                        <text x="460" y="85" font-family="Arial" font-size="14" text-anchor="middle">ng serve</text>
-                        
-                        <!-- Project Structure -->
-                        <rect x="80" y="130" width="440" height="120" rx="5" fill="white" stroke="#333" stroke-width="1"/>
-                        <text x="300" y="150" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Project Structure</text>
-                        
-                        <!-- Folders -->
-                        <rect x="100" y="170" width="80" height="30" rx="3" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
-                        <text x="140" y="190" font-family="Arial" font-size="12" text-anchor="middle">src/app</text>
-                        
-                        <rect x="200" y="170" width="80" height="30" rx="3" fill="#e8f5e9" stroke="#388e3c" stroke-width="1"/>
-                        <text x="240" y="190" font-family="Arial" font-size="12" text-anchor="middle">components</text>
-                        
-                        <rect x="300" y="170" width="80" height="30" rx="3" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
-                        <text x="340" y="190" font-family="Arial" font-size="12" text-anchor="middle">services</text>
-                        
-                        <rect x="400" y="170" width="80" height="30" rx="3" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1"/>
-                        <text x="440" y="190" font-family="Arial" font-size="12" text-anchor="middle">modules</text>
-                        
-                        <!-- Arrows -->
-                        <path d="M140,100 L140,130" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M300,100 L300,130" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M460,100 L460,130" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        
-                        <!-- Arrow marker -->
-                        <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-cube"></i> Componentes</h3>
-                <p>Componentes são os blocos de construção fundamentais das aplicações Angular. Um componente é composto por:</p>
-                <ul>
-                    <li>Uma classe TypeScript com propriedades e métodos</li>
-                    <li>Um template HTML</li>
-                    <li>Estilos CSS</li>
-                </ul>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Pensem nos componentes como "blocos LEGO" da sua aplicação. Cada componente tem uma responsabilidade específica e pode ser reutilizado em diferentes partes da aplicação. Essa abordagem baseada em componentes torna o código mais modular, mais fácil de testar e mais fácil de manter.</p>
-                </div>
-                
-                <p>Para criar um componente com a CLI:</p>
-                <div class="code-block">
-ng generate component MeuComponente
-                </div>
-                
-                <p>Exemplo de componente:</p>
-                <div class="code-block">
-import { Component } from '@angular/core';
-
-@Component({
-    selector: 'app-meu-componente',
-    templateUrl: './meu-componente.component.html',
-    styleUrls: ['./meu-componente.component.css']
-})
-export class MeuComponenteComponent {
-    titulo = 'Meu Componente';
-    descricao = 'Este é um exemplo de componente Angular';
-    
-    exibirMensagem() {
-        alert('Olá do meu componente!');
-    }
-}
-                </div>
-                
-                <div class="diagram">
-                    <svg width="500" height="250" viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Component Structure -->
-                        <rect x="50" y="30" width="400" height="190" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                        <text x="250" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Component Structure</text>
-                        
-                        <!-- TypeScript Class -->
-                        <rect x="80" y="60" width="150" height="140" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                        <text x="155" y="85" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">TypeScript Class</text>
-                        
-                        <rect x="100" y="100" width="110" height="80" rx="3" fill="white" stroke="#1976d2" stroke-width="1"/>
-                        <text x="155" y="120" font-family="Arial" font-size="12" text-anchor="middle">Properties</text>
-                        <text x="155" y="140" font-family="Arial" font-size="12" text-anchor="middle">Methods</text>
-                        <text x="155" y="160" font-family="Arial" font-size="12" text-anchor="middle">Lifecycle Hooks</text>
-                        
-                        <!-- Template -->
-                        <rect x="250" y="60" width="150" height="140" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                        <text x="325" y="85" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Template (HTML)</text>
-                        
-                        <rect x="270" y="100" width="110" height="80" rx="3" fill="white" stroke="#388e3c" stroke-width="1"/>
-                        <text x="325" y="120" font-family="Arial" font-size="12" text-anchor="middle">Markup</text>
-                        <text x="325" y="140" font-family="Arial" font-size="12" text-anchor="middle">Bindings</text>
-                        <text x="325" y="160" font-family="Arial" font-size="12" text-anchor="middle">Directives</text>
-                        
-                        <!-- Styles -->
-                        <rect x="80" y="210" width="150" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                        <text x="155" y="230" font-family="Arial" font-size="14" text-anchor="middle">Styles (CSS)</text>
-                        
-                        <!-- Metadata -->
-                        <rect x="250" y="210" width="150" height="30" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
-                        <text x="325" y="230" font-family="Arial" font-size="14" text-anchor="middle">Metadata (@Component)</text>
-                        
-                        <!-- Arrows -->
-                        <path d="M155,200 L155,210" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M325,200 L325,210" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        
-                        <!-- Arrow marker -->
-                        <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-                
-                <p>O decorador <code>@Component</code> define os metadados do componente, incluindo o seletor CSS, o template e os estilos. O seletor é usado para incluir o componente em outros templates HTML.</p>
-                
-                <div class="key-point">
-                    <h4>Boas práticas com componentes</h4>
-                    <ul>
-                        <li><strong>Single Responsibility:</strong> Cada componente deve ter uma única responsabilidade bem definida.</li>
-                        <li><strong>Reutilização:</strong> Projete componentes para serem reutilizáveis em diferentes contextos.</li>
-                        <li><strong>Imutabilidade:</strong> Evite modificar diretamente as propriedades de entrada (@Input).</li>
-                        <li><strong>Desacoplamento:</strong> Use serviços e injeção de dependência para desacoplar lógica de negócio.</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-link"></i> Binding</h3>
-                <p>Angular oferece várias formas de binding para conectar o template com a classe do componente. O binding é o mecanismo que permite a comunicação entre o TypeScript e o HTML.</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>O binding é um dos conceitos mais poderosos do Angular! Ele permite que vocês criem interfaces dinâmicas e reativas sem precisar manipular diretamente o DOM. Pensem no binding como uma "ponte" entre a lógica da aplicação (TypeScript) e a apresentação (HTML).</p>
-                </div>
-                
-                <div class="tabs">
-                    <div class="tab active" onclick="openTab(event, 'interpolation')">Interpolação</div>
-                    <div class="tab" onclick="openTab(event, 'property-binding')">Property Binding</div>
-                    <div class="tab" onclick="openTab(event, 'event-binding')">Event Binding</div>
-                    <div class="tab" onclick="openTab(event, 'two-way-binding')">Two-way Binding</div>
-                </div>
-                
-                <div id="interpolation" class="tab-content active">
-                    <p><strong>Interpolação:</strong> Exibe valores de propriedades do componente no template usando a sintaxe <code>{{ }}</code>. É a forma mais simples de binding.</p>
-                    
-                    <div class="code-block">
-&lt;!-- Exemplo de interpolação --&gt;
-&lt;h1&gt;{{ titulo }}&lt;/h1&gt;
-&lt;p&gt;Total: {{ 1 + 1 }}&lt;/p&gt;
-&lt;p&gt;Data: {{ dataAtual | date:'short' }}&lt;/p&gt;
-&lt;p&gt;{{ usuario.nome }} tem {{ usuario.idade }} anos&lt;/p&gt;
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Quando usar interpolação?</h4>
-                        <p>Use interpolação para exibir dados dinâmicos no template, como textos, números, datas e resultados de expressões simples. É ideal para conteúdo que será apenas exibido, não modificado.</p>
-                    </div>
-                    
-                    <div class="professor-note">
-                        <h4>Nota do Professor</h4>
-                        <p>A interpolação é ótima para exibir dados, mas lembrem-se: ela não funciona para todos os atributos HTML. Por exemplo, para definir o valor de um atributo como <code>src</code> ou <code>href</code>, vocês precisam usar property binding, que veremos a seguir.</p>
-                    </div>
-                </div>
-                
-                <div id="property-binding" class="tab-content">
-                    <p><strong>Property Binding:</strong> Define o valor de propriedades de elementos do DOM ou diretivas usando a sintaxe <code>[ ]</code>. É usado para passar valores do componente para propriedades de elementos HTML.</p>
-                    
-                    <div class="code-block">
-&lt;!-- Exemplos de property binding --&gt;
-&lt;img [src]="imageUrl"&gt;
-&lt;div [hidden]="isHidden"&gt;Conteúdo&lt;/div&gt;
-&lt;button [disabled]="isSubmitting"&gt;Enviar&lt;/button&gt;
-&lt;div [class.active]="isActive"&gt;Item ativo&lt;/div&gt;
-&lt;div [style.color]="textColor"&gt;Texto colorido&lt;/div&gt;
-                    </div>
-                    
-                    <div class="diagram">
-                        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Property Binding Flow -->
-                            <rect x="50" y="30" width="120" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                            <text x="110" y="65" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
-                            
-                            <rect x="230" y="30" width="120" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                            <text x="290" y="65" font-family="Arial" font-size="14" text-anchor="middle">Template</text>
-                            
-                            <!-- Data flow -->
-                            <path d="M170,60 L230,60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-                            <text x="200" y="50" font-family="Arial" font-size="12" text-anchor="middle">Data Flow</text>
-                            
-                            <!-- Example -->
-                            <rect x="50" y="120" width="300" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
-                            <text x="200" y="145" font-family="Arial" font-size="12" text-anchor="middle">Component: imageUrl = 'logo.png'</text>
-                            <text x="200" y="165" font-family="Arial" font-size="12" text-anchor="middle">Template: &lt;img [src]="imageUrl"&gt;</text>
-                            
-                            <!-- Arrow marker -->
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                                </marker>
-                            </defs>
-                        </svg>
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Diferença entre property binding e interpolação</h4>
-                        <p>Enquanto a interpolação é usada para exibir conteúdo dentro de elementos, o property binding é usado para definir valores de atributos de elementos. Por exemplo, você usaria interpolação para o texto de um parágrafo (<code>&lt;p&gt;{{ texto }}&lt;/p&gt;</code>), mas property binding para a fonte de uma imagem (<code>&lt;img [src]="urlImagem"&gt;</code>).</p>
-                    </div>
-                </div>
-                
-                <div id="event-binding" class="tab-content">
-                    <p><strong>Event Binding:</strong> Responde a eventos do DOM (como cliques, entradas de teclado, etc.) usando a sintaxe <code>( )</code>. É usado para passar eventos do template para o componente.</p>
-                    
-                    <div class="code-block">
-&lt;!-- Exemplos de event binding --&gt;
-&lt;button (click)="salvar()"&gt;Salvar&lt;/button&gt;
-&lt;input (keyup)="onKeyUp($event)"&gt;
-&lt;input (keyup.enter)="onEnter()"&gt;
-&lt;div (mouseover)="showTooltip()"&gt;Passe o mouse&lt;/div&gt;
-&lt;form (submit)="onSubmit($event)"&gt;
-                    </div>
-                    
-                    <div class="diagram">
-                        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Event Binding Flow -->
-                            <rect x="50" y="30" width="120" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                            <text x="110" y="65" font-family="Arial" font-size="14" text-anchor="middle">Template</text>
-                            
-                            <rect x="230" y="30" width="120" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                            <text x="290" y="65" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
-                            
-                            <!-- Event flow -->
-                            <path d="M170,60 L230,60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-                            <text x="200" y="50" font-family="Arial" font-size="12" text-anchor="middle">Event Flow</text>
-                            
-                            <!-- Example -->
-                            <rect x="50" y="120" width="300" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
-                            <text x="200" y="145" font-family="Arial" font-size="12" text-anchor="middle">Template: &lt;button (click)="salvar()"&gt;</text>
-                            <text x="200" y="165" font-family="Arial" font-size="12" text-anchor="middle">Component: salvar() { this.service.salvarDados(); }</text>
-                            
-                            <!-- Arrow marker -->
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                                </marker>
-                            </defs>
-                        </svg>
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Objeto $event</h4>
-                        <p>Quando você passa <code>$event</code> como parâmetro para o método do componente, Angular fornece o objeto de evento DOM. Isso permite acessar informações como o valor de um input, a tecla pressionada, as coordenadas do mouse, etc.</p>
-                    </div>
-                    
-                    <div class="professor-note">
-                        <h4>Nota do Professor</h4>
-                        <p>O event binding é essencial para criar interfaces interativas. Ele permite que vocês respondam às ações do usuário e atualizem o estado da aplicação. Lembrem-se de manter os métodos do componente simples e delegar lógica complexa para serviços quando necessário.</p>
-                    </div>
-                </div>
-                
-                <div id="two-way-binding" class="tab-content">
-                    <p><strong>Two-way Binding:</strong> Combina property binding e event binding usando a sintaxe <code>[( )]</code>, também conhecida como "banana in a box". Permite a sincronização bidirecional de dados entre o template e o componente.</p>
-                    
-                    <div class="code-block">
-&lt;!-- Exemplo de two-way binding --&gt;
-&lt;input [(ngModel)]="nome"&gt;
-&lt;p&gt;Olá, {{ nome }}!&lt;/p&gt;
-
-&lt;!-- Equivalente a --&gt;
-&lt;input [value]="nome" (input)="nome = $event.target.value"&gt;
-                    </div>
-                    
-                    <div class="diagram">
-                        <svg width="400" height="200" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Two-way Binding Flow -->
-                            <rect x="50" y="30" width="120" height="60" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                            <text x="110" y="65" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
-                            
-                            <rect x="230" y="30" width="120" height="60" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                            <text x="290" y="65" font-family="Arial" font-size="14" text-anchor="middle">Template</text>
-                            
-                            <!-- Bidirectional data flow -->
-                            <path d="M170,60 L230,60" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-                            <path d="M230,80 L170,80" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
-                            <text x="200" y="50" font-family="Arial" font-size="12" text-anchor="middle">Data Flow</text>
-                            <text x="200" y="95" font-family="Arial" font-size="12" text-anchor="middle">Event Flow</text>
-                            
-                            <!-- Example -->
-                            <rect x="50" y="120" width="300" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="1"/>
-                            <text x="200" y="145" font-family="Arial" font-size="12" text-anchor="middle">Component: nome = 'João'</text>
-                            <text x="200" y="165" font-family="Arial" font-size="12" text-anchor="middle">Template: &lt;input [(ngModel)]="nome"&gt;</text>
-                            
-                            <!-- Arrow marker -->
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                                </marker>
-                            </defs>
-                        </svg>
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Configuração necessária</h4>
-                        <p>Para usar two-way binding com <code>ngModel</code>, você precisa importar o <code>FormsModule</code> no seu módulo:</p>
-                        <div class="code-block">
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
-
-@NgModule({
-    imports: [
-        BrowserModule,
-        FormsModule  // Importe o FormsModule aqui
-    ],
-    // ...
-})
-export class AppModule { }
-                        </div>
-                    </div>
-                    
-                    <div class="professor-note">
-                        <h4>Nota do Professor</h4>
-                        <p>O two-way binding é muito útil para formulários, onde você precisa que os dados sejam atualizados em ambas as direções. No entanto, usem com moderação! Em aplicações maiores, é preferível usar property binding e event binding separadamente para ter mais controle sobre o fluxo de dados.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-code-branch"></i> Diretivas</h3>
-                <p>Diretivas são instruções no DOM. Existem três tipos principais de diretivas em Angular:</p>
-                <ul>
-                    <li><strong>Componentes:</strong> Diretivas com template.</li>
-                    <li><strong>Diretivas Estruturais:</strong> Alteram o layout do DOM. Exemplos: <code>*ngIf</code>, <code>*ngFor</code>.</li>
-                    <li><strong>Diretivas de Atributo:</strong> Alteram a aparência ou comportamento de um elemento. Exemplo: <code>ngClass</code>, <code>ngStyle</code>.</li>
-                </ul>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Diretivas são como "extensões" do HTML! Elas permitem que vocês criem comportamentos personalizados e reutilizem lógica em diferentes partes da aplicação. Pensem nelas como uma forma de ensinar novos "truques" ao HTML.</p>
-                </div>
-                
-                <div class="tabs">
-                    <div class="tab active" onclick="openTab(event, 'ngif')">*ngIf</div>
-                    <div class="tab" onclick="openTab(event, 'ngfor')">*ngFor</div>
-                    <div class="tab" onclick="openTab(event, 'ngclass')">ngClass</div>
-                    <div class="tab" onclick="openTab(event, 'custom')">Diretivas Personalizadas</div>
-                </div>
-                
-                <div id="ngif" class="tab-content active">
-                    <p><strong>*ngIf:</strong> Adiciona ou remove elementos do DOM com base em uma condição booleana. É uma diretiva estrutural, por isso o asterisco (*) no início.</p>
-                    
-                    <div class="code-block">
-&lt;!-- Exemplos de *ngIf --&gt;
-&lt;div *ngIf="mostrar"&gt;Este elemento será exibido apenas se 'mostrar' for true&lt;/div&gt;
-
-&lt;!-- Com else --&gt;
-&lt;div *ngIf="usuarioLogado; else loginTemplate"&gt;
-    Bem-vindo, {{ usuario.nome }}!
-&lt;/div&gt;
-
-&lt;ng-template #loginTemplate&gt;
-    &lt;button&gt;Fazer Login&lt;/button&gt;
-&lt;/ng-template&gt;
-
-&lt;!-- Com then e else --&gt;
-&lt;div *ngIf="idade >= 18; then adulto; else menor"&gt;&lt;/div&gt;
-&lt;ng-template #adulto&gt;Você é maior de idade&lt;/ng-template&gt;
-&lt;ng-template #menor&gt;Você é menor de idade&lt;/ng-template&gt;
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>Diferença entre *ngIf e [hidden]</h4>
-                        <p>Enquanto <code>*ngIf</code> adiciona ou remove elementos do DOM, <code>[hidden]</code> apenas os oculta visualmente (com <code>display: none</code>). Use <code>*ngIf</code> quando o elemento não deve existir na página (para melhorar performance) e <code>[hidden]</code> quando você precisa apenas ocultá-lo temporariamente.</p>
-                    </div>
-                </div>
-                
-                <div id="ngfor" class="tab-content">
-                    <p><strong>*ngFor:</strong> Itera sobre uma lista e renderiza elementos para cada item. Também é uma diretiva estrutural.</p>
-                    
-                    <div class="code-block">
-&lt;!-- Exemplos de *ngFor --&gt;
-&lt;ul&gt;
-    &lt;li *ngFor="let item of itens"&gt;{{ item.nome }}&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;!-- Com index --&gt;
-&lt;ul&gt;
-    &lt;li *ngFor="let item of itens; let i = index"&gt;
-        {{ i + 1 }}. {{ item.nome }}
-    &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;!-- Com first, last, even, odd --&gt;
-&lt;div *ngFor="let item of itens; let first = first; let last = last; let even = even; let odd = odd"
-     [class.first]="first"
-     [class.last]="last"
-     [class.even]="even"
-     [class.odd]="odd"&gt;
-    {{ item.nome }}
-&lt;/div&gt;
-
-&lt;!-- Com trackBy para melhorar performance --&gt;
-&lt;ul&gt;
-    &lt;li *ngFor="let item of itens; trackBy: trackById"&gt;{{ item.nome }}&lt;/li&gt;
-&lt;/ul&gt;
-
-// No componente
-trackById(index: number, item: any): number {
-    return item.id; // ou qualquer identificador único
-}
-                    </div>
-                    
-                    <div class="professor-note">
-                        <h4>Nota do Professor</h4>
-                        <p>O <code>trackBy</code> é muito importante para performance em listas grandes! Sem ele, Angular recria todos os elementos da lista sempre que houver uma mudança, mesmo que apenas um item tenha sido alterado. Com <code>trackBy</code>, Angular pode identificar quais itens realmente mudaram e atualizar apenas eles.</p>
-                    </div>
-                </div>
-                
-                <div id="ngclass" class="tab-content">
-                    <p><strong>ngClass:</strong> Adiciona ou remove classes CSS dinamicamente com base em expressões. É uma diretiva de atributo.</p>
-                    
-                    <div class="code-block">
-&lt;!-- Exemplos de ngClass --&gt;
-&lt;!-- String --&gt;
-&lt;div [ngClass]="'classe1 classe2'"&gt;Conteúdo&lt;/div&gt;
-
-&lt;!-- Array --&gt;
-&lt;div [ngClass]="['classe1', 'classe2']"&gt;Conteúdo&lt;/div&gt;
-
-&lt;!-- Object --&gt;
-&lt;div [ngClass]="{ 'active': isActive, 'error': hasError }"&gt;Conteúdo&lt;/div&gt;
-
-&lt;!-- Exemplo prático --&gt;
-&lt;div [ngClass]="{
-    'card': true,
-    'card-primary': tipo === 'primary',
-    'card-success': tipo === 'success',
-    'card-danger': tipo === 'danger'
-}"&gt;
-    Conteúdo do card
-&lt;/div&gt;
-                    </div>
-                    
-                    <div class="key-point">
-                        <h4>ngClass vs ngStyle</h4>
-                        <p>Enquanto <code>ngClass</code> manipula classes CSS, <code>ngStyle</code> manipula estilos inline. Use <code>ngClass</code> para estilos mais complexos e reutilizáveis (definidos em arquivos CSS) e <code>ngStyle</code> para estilos dinâmicos simples que não valem a pena definir em classes separadas.</p>
-                    </div>
-                </div>
-                
-                <div id="custom" class="tab-content">
-                    <p><strong>Diretivas Personalizadas:</strong> Além das diretivas embutidas, você pode criar suas próprias diretivas para encapsular comportamentos reutilizáveis.</p>
-                    
-                    <div class="code-block">
-// Exemplo de diretiva de atributo personalizada
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
-
-@Directive({
-    selector: '[appHighlight]'
-})
-export class HighlightDirective {
-    @Input() appHighlight = '';
-    
-    constructor(private el: ElementRef) { }
-    
-    @HostListener('mouseenter') onMouseEnter() {
-        this.highlight(this.appHighlight || 'yellow');
-    }
-    
-    @HostListener('mouseleave') onMouseLeave() {
-        this.highlight('');
-    }
-    
-    private highlight(color: string) {
-        this.el.nativeElement.style.backgroundColor = color;
-    }
-}
-
-// Uso da diretiva
-&lt;div appHighlight="lightblue"&gt;Passe o mouse sobre mim&lt;/div&gt;
-                    </div>
-                    
-                    <div class="professor-note">
-                        <h4>Nota do Professor</h4>
-                        <p>Diretivas personalizadas são uma forma poderosa de encapsular comportamentos que você precisa reutilizar em vários componentes. Em vez de repetir o mesmo código em múltiplos componentes, você cria uma diretiva e a aplica onde necessário. Isso segue o princípio DRY (Don't Repeat Yourself).</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-cogs"></i> Serviços e Injeção de Dependência</h3>
-                <p>Serviços são classes que encapsulam lógica de negócio que pode ser reutilizada em vários componentes. A injeção de dependência (DI) é um padrão de projeto usado para fornecer dependências a uma classe.</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>A injeção de dependência é um dos conceitos mais importantes do Angular! Ela permite que vocês criem código desacoplado, mais fácil de testar e mais fácil de manter. Pensem na DI como um "entregador" que leva as dependências (serviços, etc.) para as classes que precisam delas, em vez de as classes criarem suas próprias dependências.</p>
-                </div>
-                
-                <div class="diagram">
-                    <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Dependency Injection -->
-                        <rect x="50" y="30" width="400" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                        <text x="250" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Dependency Injection</text>
-                        
-                        <!-- Component -->
-                        <rect x="80" y="60" width="120" height="80" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                        <text x="140" y="90" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Component</text>
-                        <text x="140" y="110" font-family="Arial" font-size="12" text-anchor="middle">constructor(private</text>
-                        <text x="140" y="130" font-family="Arial" font-size="12" text-anchor="middle">service: Service) {}</text>
-                        
-                        <!-- Service -->
-                        <rect x="300" y="60" width="120" height="80" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                        <text x="360" y="90" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Service</text>
-                        <text x="360" y="110" font-family="Arial" font-size="12" text-anchor="middle">@Injectable({</text>
-                        <text x="360" y="130" font-family="Arial" font-size="12" text-anchor="middle">providedIn: 'root'</text>
-                        <text x="360" y="150" font-family="Arial" font-size="12" text-anchor="middle">})</text>
-                        
-                        <!-- Injector -->
-                        <rect x="190" y="180" width="120" height="60" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                        <text x="250" y="210" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold">Injector</text>
-                        
-                        <!-- Arrows -->
-                        <path d="M140,140 L140,170 L220,170 L220,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M360,140 L360,170 L280,170 L280,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M190,210 L140,210 L140,150" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
-                        <path d="M310,210 L360,210 L360,150" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
-                        
-                        <!-- Arrow marker -->
-                        <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-                
-                <p>Exemplo de serviço:</p>
-                <div class="code-block">
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-@Injectable({
-    providedIn: 'root'
-})
-export class DataService {
-    private apiUrl = 'https://api.example.com/data';
-    
-    constructor(private http: HttpClient) { }
-    
-    obterDados(): Observable<any[]> {
-        return this.http.get<any[]>(this.apiUrl);
-    }
-    
-    obterPorId(id: number): Observable<any> {
-        return this.http.get<any>(`${this.apiUrl}/${id}`);
-    }
-    
-    criar(dado: any): Observable<any> {
-        return this.http.post<any>(this.apiUrl, dado);
-    }
-    
-    atualizar(id: number, dado: any): Observable<any> {
-        return this.http.put<any>(`${this.apiUrl}/${id}`, dado);
-    }
-    
-    excluir(id: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`);
-    }
-}
-                </div>
-                
-                <p>Para usar o serviço em um componente:</p>
-                <div class="code-block">
-import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
-
-@Component({
-    selector: 'app-meu-componente',
-    templateUrl: './meu-componente.component.html'
-})
-export class MeuComponenteComponent implements OnInit {
-    dados: any[];
-    
-    constructor(private dataService: DataService) { }
-    
-    ngOnInit() {
-        this.carregarDados();
-    }
-    
-    carregarDados() {
-        this.dataService.obterDados().subscribe(
-            (response) => {
-                this.dados = response;
-            },
-            (error) => {
-                console.error('Erro ao carregar dados', error);
-            }
-        );
-    }
-}
-                </div>
-                
-                <div class="key-point">
-                    <h4>Vantagens da Injeção de Dependência</h4>
-                    <ul>
-                        <li><strong>Desacoplamento:</strong> Componentes não precisam saber como criar seus serviços.</li>
-                        <li><strong>Testabilidade:</strong> Fácil de substituir serviços por mocks em testes unitários.</li>
-                        <li><strong>Reutilização:</strong> Serviços podem ser compartilhados entre múltiplos componentes.</li>
-                        <li><strong>Manutenção:</strong> Centraliza a lógica de negócio em serviços, facilitando manutenção.</li>
-                    </ul>
-                </div>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Uma boa prática é manter os componentes "leves", focados na apresentação, e delegar a lógica de negócio para serviços. Isso torna seus componentes mais fáceis de entender, testar e reutilizar. Lembrem-se: componentes são para apresentação, serviços são para lógica!</p>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-layer-group"></i> Módulos</h3>
-                <p>Módulos (NgModule) organizam a aplicação em blocos coesos de funcionalidade. Todo aplicativo Angular tem pelo menos um módulo, o módulo raiz (AppModule).</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Módulos são como "contêineres" que agrupam componentes, diretivas, pipes e serviços relacionados. Eles ajudam a organizar aplicações grandes, definem limites claros e permitem o lazy loading (carregamento sob demanda) para melhorar a performance inicial da aplicação.</p>
-                </div>
-                
-                <p>Exemplo de módulo:</p>
-                <div class="code-block">
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-
-import { AppComponent } from './app.component';
-import { MeuComponenteComponent } from './meu-componente/meu-componente.component';
-import { OutroComponenteComponent } from './outro-componente/outro-componente.component';
-
-import { DataService } from './data.service';
-
-@NgModule({
-    declarations: [
-        AppComponent,
-        MeuComponenteComponent,
-        OutroComponenteComponent
-    ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        FormsModule,
-        RouterModule.forRoot([
-            { path: '', component: MeuComponenteComponent },
-            { path: 'outro', component: OutroComponenteComponent }
-        ])
-    ],
-    providers: [
-        DataService
-    ],
-    bootstrap: [AppComponent]
-})
-export class AppModule { }
-                </div>
-                
-                <div class="diagram">
-                    <svg width="500" height="300" viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg">
-                        <!-- NgModule Structure -->
-                        <rect x="50" y="30" width="400" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                        <text x="250" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">NgModule Structure</text>
-                        
-                        <!-- @NgModule -->
-                        <rect x="80" y="60" width="340" height="30" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                        <text x="250" y="80" font-family="Arial" font-size="14" text-anchor="middle">@NgModule</text>
-                        
-                        <!-- declarations -->
-                        <rect x="80" y="100" width="160" height="30" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                        <text x="160" y="120" font-family="Arial" font-size="14" text-anchor="middle">declarations</text>
-                        
-                        <!-- imports -->
-                        <rect x="260" y="100" width="160" height="30" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                        <text x="340" y="120" font-family="Arial" font-size="14" text-anchor="middle">imports</text>
-                        
-                        <!-- providers -->
-                        <rect x="80" y="140" width="160" height="30" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
-                        <text x="160" y="160" font-family="Arial" font-size="14" text-anchor="middle">providers</text>
-                        
-                        <!-- bootstrap -->
-                        <rect x="260" y="140" width="160" height="30" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="2"/>
-                        <text x="340" y="160" font-family="Arial" font-size="14" text-anchor="middle">bootstrap</text>
-                        
-                        <!-- Content -->
-                        <rect x="80" y="180" width="340" height="70" rx="5" fill="white" stroke="#333" stroke-width="1"/>
-                        <text x="250" y="200" font-family="Arial" font-size="12" text-anchor="middle">Components, Directives, Pipes</text>
-                        <text x="250" y="220" font-family="Arial" font-size="12" text-anchor="middle">Other Modules</text>
-                        <text x="250" y="240" font-family="Arial" font-size="12" text-anchor="middle">Services</text>
-                    </svg>
-                </div>
-                
-                <p>O decorador <code>@NgModule</code> define o módulo com as seguintes propriedades:</p>
-                <ul>
-                    <li><code>declarations</code>: Componentes, diretivas e pipes que pertencem ao módulo.</li>
-                    <li><code>imports</code>: Outros módulos cujas classes são necessárias para os componentes do módulo atual.</li>
-                    <li><code>providers</code>: Serviços que o módulo disponibiliza para a injeção de dependência.</li>
-                    <li><code>bootstrap</code>: Componente raiz que o Angular cria e insere no <code>index.html</code>.</li>
-                </ul>
-                
-                <div class="key-point">
-                    <h4>Feature Modules e Lazy Loading</h4>
-                    <p>Para aplicações maiores, você pode criar feature modules para organizar funcionalidades específicas. Além disso, você pode configurar o lazy loading para que esses módulos sejam carregados apenas quando necessários, melhorando a performance inicial da aplicação.</p>
-                    
-                    <div class="code-block">
-// Exemplo de lazy loading no roteamento
-const routes: Routes = [
-    {
-        path: 'admin',
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)
-    }
-];
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-sync-alt"></i> Ciclo de Vida dos Componentes</h3>
-                <p>Os componentes têm um ciclo de vida gerenciado pelo Angular. Os hooks mais importantes são:</p>
-                <ul>
-                    <li><strong>ngOnInit:</strong> Chamado após a inicialização das propriedades do componente. Ideal para inicializações.</li>
-                    <li><strong>ngOnDestroy:</strong> Chamado antes da destruição do componente. Ideal para limpeza de recursos.</li>
-                </ul>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Entender o ciclo de vida dos componentes é fundamental para controlar quando certas operações devem acontecer. Por exemplo, você não pode acessar elementos do DOM no construtor, mas pode no ngOnInit. E você deve cancelar inscrições em Observables no ngOnDestroy para evitar memory leaks!</p>
-                </div>
-                
-                <div class="diagram">
-                    <svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Component Lifecycle -->
-                        <rect x="50" y="30" width="500" height="340" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                        <text x="300" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Component Lifecycle</text>
-                        
-                        <!-- Constructor -->
-                        <rect x="200" y="60" width="200" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                        <text x="300" y="85" font-family="Arial" font-size="14" text-anchor="middle">constructor()</text>
-                        
-                        <!-- ngOnChanges -->
-                        <rect x="200" y="120" width="200" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                        <text x="300" y="145" font-family="Arial" font-size="14" text-anchor="middle">ngOnChanges()</text>
-                        
-                        <!-- ngOnInit -->
-                        <rect x="200" y="180" width="200" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                        <text x="300" y="205" font-family="Arial" font-size="14" text-anchor="middle">ngOnInit()</text>
-                        
-                        <!-- ngDoCheck -->
-                        <rect x="200" y="240" width="200" height="40" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
-                        <text x="300" y="265" font-family="Arial" font-size="14" text-anchor="middle">ngDoCheck()</text>
-                        
-                        <!-- ngOnDestroy -->
-                        <rect x="200" y="300" width="200" height="40" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="2"/>
-                        <text x="300" y="325" font-family="Arial" font-size="14" text-anchor="middle">ngOnDestroy()</text>
-                        
-                        <!-- Arrows -->
-                        <path d="M300,100 L300,120" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M300,160 L300,180" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M300,220 L300,240" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M300,280 L300,300" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        
-                        <!-- Notes -->
-                        <text x="100" y="85" font-family="Arial" font-size="12" text-anchor="middle">Inicialização</text>
-                        <text x="100" y="145" font-family="Arial" font-size="12" text-anchor="middle">@Input changes</text>
-                        <text x="100" y="205" font-family="Arial" font-size="12" text-anchor="middle">Inicialização</text>
-                        <text x="100" y="265" font-family="Arial" font-size="12" text-anchor="middle">Change detection</text>
-                        <text x="100" y="325" font-family="Arial" font-size="12" text-anchor="middle">Cleanup</text>
-                        
-                        <!-- Arrow marker -->
-                        <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-                
-                <p>Exemplo:</p>
-                <div class="code-block">
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DataService } from './data.service';
-
-@Component({
-    selector: 'app-meu-componente',
-    templateUrl: './meu-componente.component.html'
-})
-export class MeuComponenteComponent implements OnInit, OnDestroy {
-    dados: any[];
-    private subscription: Subscription;
-    
-    constructor(private dataService: DataService) {
-        console.log('Construtor chamado');
-        // Não é recomendado fazer chamadas HTTP aqui
-    }
-    
-    ngOnInit() {
-        console.log('ngOnInit chamado');
-        // Ideal para inicializações e chamadas a serviços
-        this.subscription = this.dataService.obterDados().subscribe(
-            (response) => {
-                this.dados = response;
-            }
-        );
-    }
-    
-    ngOnDestroy() {
-        console.log('ngOnDestroy chamado');
-        // Importante para limpar recursos e evitar memory leaks
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
-}
-                </div>
-                
-                <div class="key-point">
-                    <h4>Quando usar cada hook?</h4>
-                    <ul>
-                        <li><strong>constructor():</strong> Injeção de dependências e inicialização de propriedades simples.</li>
-                        <li><strong>ngOnChanges():</strong> Reagir a mudanças em propriedades @Input.</li>
-                        <li><strong>ngOnInit():</strong> Inicializações complexas, chamadas a serviços, acesso a elementos do DOM.</li>
-                        <li><strong>ngDoCheck():</strong> Lógica de detecção de mudanças personalizada (use com cuidado).</li>
-                        <li><strong>ngOnDestroy():</strong> Limpeza de recursos, cancelamento de inscrições, remoção de event listeners.</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-route"></i> Roteamento</h3>
-                <p>O roteamento permite navegar entre diferentes views da aplicação. O módulo <code>RouterModule</code> é responsável por essa funcionalidade.</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>O roteamento é essencial para criar Single Page Applications (SPAs). Ele permite que vocês tenham múltiplas "páginas" em uma aplicação de página única, sem recarregar o navegador inteiro. Isso proporciona uma experiência de usuário mais fluida e rápida.</p>
-                </div>
-                
-                <p>Exemplo de configuração de rotas:</p>
-                <div class="code-block">
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { SobreComponent } from './sobre/sobre.component';
-import { ContatoComponent } from './contato/contato.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
-const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'sobre', component: SobreComponent },
-    { path: 'contato', component: ContatoComponent },
-    { path: '**', component: PageNotFoundComponent } // Rota curinga
-];
-
-@NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-})
-export class AppRoutingModule { }
-                </div>
-                
-                <p>Para navegar programaticamente:</p>
-                <div class="code-block">
-import { Router } from '@angular/router';
-
-export class MeuComponenteComponent {
-    constructor(private router: Router) { }
-    
-    irParaSobre() {
-        this.router.navigate(['/sobre']);
-    }
-    
-    irParaContato() {
-        this.router.navigate(['/contato']);
-    }
-    
-    irParaComParametros() {
-        this.router.navigate(['/produto', 123]);
-    }
-}
-                </div>
-                
-                <div class="diagram">
-                    <svg width="600" height="300" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Routing Flow -->
-                        <rect x="50" y="30" width="500" height="240" rx="10" fill="#f0f0f0" stroke="#333" stroke-width="2"/>
-                        <text x="300" y="20" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold">Routing Flow</text>
-                        
-                        <!-- URL -->
-                        <rect x="80" y="60" width="120" height="40" rx="5" fill="#e3f2fd" stroke="#1976d2" stroke-width="2"/>
-                        <text x="140" y="85" font-family="Arial" font-size="14" text-anchor="middle">URL</text>
-                        
-                        <!-- Router -->
-                        <rect x="240" y="60" width="120" height="40" rx="5" fill="#e8f5e9" stroke="#388e3c" stroke-width="2"/>
-                        <text x="300" y="85" font-family="Arial" font-size="14" text-anchor="middle">Router</text>
-                        
-                        <!-- Routes Config -->
-                        <rect x="400" y="60" width="120" height="40" rx="5" fill="#fff3e0" stroke="#f57c00" stroke-width="2"/>
-                        <text x="460" y="85" font-family="Arial" font-size="14" text-anchor="middle">Routes Config</text>
-                        
-                        <!-- Component -->
-                        <rect x="240" y="160" width="120" height="80" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
-                        <text x="300" y="190" font-family="Arial" font-size="14" text-anchor="middle">Component</text>
-                        <text x="300" y="210" font-family="Arial" font-size="12" text-anchor="middle">Template</text>
-                        <text x="300" y="230" font-family="Arial" font-size="12" text-anchor="middle">Rendered</text>
-                        
-                        <!-- Router Outlet -->
-                        <rect x="80" y="180" width="120" height="40" rx="5" fill="#ffebee" stroke="#d32f2f" stroke-width="2"/>
-                        <text x="140" y="205" font-family="Arial" font-size="14" text-anchor="middle">&lt;router-outlet&gt;</text>
-                        
-                        <!-- Arrows -->
-                        <path d="M200,80 L240,80" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M360,80 L400,80" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M300,100 L300,160" stroke="#333" stroke-width="1" marker-end="url(#arrowhead)"/>
-                        <path d="M140,220 L240,200" stroke="#333" stroke-width="1" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
-                        
-                        <!-- Arrow marker -->
-                        <defs>
-                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                                <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
-                            </marker>
-                        </defs>
-                    </svg>
-                </div>
-                
-                <p>Para exibir o componente correspondente à rota atual, use a diretiva <code>&lt;router-outlet&gt;&lt;/router-outlet&gt;</code> no template:</p>
-                <div class="code-block">
-&lt;!-- No app.component.html --&gt;
-&lt;header&gt;
-    &lt;nav&gt;
-        &lt;a routerLink="/" routerLinkActive="active"&gt;Home&lt;/a&gt;
-        &lt;a routerLink="/sobre" routerLinkActive="active"&gt;Sobre&lt;/a&gt;
-        &lt;a routerLink="/contato" routerLinkActive="active"&gt;Contato&lt;/a&gt;
-    &lt;/nav&gt;
-&lt;/header&gt;
-
-&lt;main&gt;
-    &lt;router-outlet&gt;&lt;/router-outlet&gt;
-&lt;/main&gt;
-
-&lt;footer&gt;
-    &lt;p&gt;© 2025 Minha Aplicação&lt;/p&gt;
-&lt;/footer&gt;
-                </div>
-                
-                <div class="key-point">
-                    <h4>Recursos avançados de roteamento</h4>
-                    <ul>
-                        <li><strong>Rotas com parâmetros:</strong> <code>{ path: 'produto/:id', component: ProdutoComponent }</code></li>
-                        <li><strong>Rotas filhas:</strong> Permitem aninhar componentes dentro de outros.</li>
-                        <li><strong>Guardas de rota:</strong> Controlam o acesso às rotas (CanActivate, CanDeactivate, etc.).</li>
-                        <li><strong>Resolvers:</strong> Pré-carregam dados antes de ativar uma rota.</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="card">
-                <h3><i class="fas fa-filter"></i> Pipes</h3>
-                <p>Pipes são usados para transformar dados no template. Angular oferece vários pipes embutidos (Date, UpperCase, LowerCase, Currency, etc.) e permite criar pipes personalizados.</p>
-                
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Pipes são como "funções de transformação" que você pode aplicar diretamente no template. Eles são muito úteis para formatar dados sem modificar a fonte original. Por exemplo, você pode exibir uma data em diferentes formatos, converter texto para maiúsculas, ou formatar números como moeda.</p>
-                </div>
-                
-                <p>Exemplo de uso de pipe:</p>
-                <div class="code-block">
-&lt;!-- Pipes embutidos --&gt;
-&lt;p&gt;{{ data | date:'short' }}&lt;/p&gt;
-&lt;p&gt;{{ texto | uppercase }}&lt;/p&gt;
-&lt;p&gt;{{ valor | currency:'BRL' }}&lt;/p&gt;
-&lt;p&gt;{{ texto | slice:0:10 }}&lt;/p&gt;
-&lt;p&gt;{{ array | json }}&lt;/p&gt;
-
-&lt;!-- Encadeando pipes --&gt;
-&lt;p&gt;{{ data | date:'fullDate' | uppercase }}&lt;/p&gt;
-
-&lt;!-- Pipes com parâmetros --&gt;
-&lt;p&gt;{{ numero | number:'1.2-2' }}&lt;/p&gt;
-&lt;p&gt;{{ texto | truncate:20 }}&lt;/p&gt;
-                </div>
-                
-                <h4>Async Pipe</h4>
-                <p>O async pipe é usado para lidar com Observables e Promises no template. Ele automaticamente se inscreve no Observable e atualiza o template quando novos valores são emitidos.</p>
-                
-                <div class="code-block">
-&lt;!-- No componente --&gt;
-export class MeuComponenteComponent {
-    dados$ = this.meuService.obterDadosAsync();
-    
-    constructor(private meuService: MeuService) { }
-}
-
-&lt;!-- No template --&gt;
-&lt;!-- Com async pipe --&gt;
-&lt;div *ngIf="dados$ | async as dados"&gt;
-    &lt;p&gt;{{ dados.nome }}&lt;/p&gt;
-    &lt;p&gt;{{ dados.valor | currency }}&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;!-- Equivalente sem async pipe --&gt;
-&lt;div *ngIf="dados"&gt;
-    &lt;p&gt;{{ dados.nome }}&lt;/p&gt;
-    &lt;p&gt;{{ dados.valor | currency }}&lt;/p&gt;
-&lt;/div&gt;
-
-&lt;!-- E no componente --&gt;
-export class MeuComponenteComponent implements OnInit, OnDestroy {
-    dados: any;
-    private subscription: Subscription;
-    
-    constructor(private meuService: MeuService) { }
-    
-    ngOnInit() {
-        this.subscription = this.meuService.obterDadosAsync().subscribe(
-            response => this.dados = response
-        );
-    }
-    
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
-    }
-}
-                </div>
-                
-                <div class="key-point">
-                    <h4>Vantagens do Async Pipe</h4>
-                    <ul>
-                        <li><strong>Simplicidade:</strong> Reduz significativamente a quantidade de código necessário.</li>
-                        <li><strong>Gerenciamento automático:</strong> Lida automaticamente com inscrição e cancelamento de inscrição.</li>
-                        <li><strong>Performance:</strong> Evita memory leaks e otimiza o uso de recursos.</li>
-                        <li><strong>Reatividade:</strong> Atualiza automaticamente o template quando novos valores são emitidos.</li>
-                    </ul>
-                </div>
-                
-                <h4>Criando Pipes Personalizados</h4>
-                <p>Você pode criar seus próprios pipes para transformações específicas:</p>
-                <div class="code-block">
-import { Pipe, PipeTransform } from '@angular/core';
-
-@Pipe({
-    name: 'truncate'
-})
-export class TruncatePipe implements PipeTransform {
-    transform(value: string, limit = 25, completeWords = false, ellipsis = '...'): string {
-        if (!value) return '';
         
-        if (value.length <= limit) {
-            return value;
-        }
+        <!-- Slide 1: Título e Objetivos -->
+        <div class="slide active">
+            <div class="slide-content">
+                <h1 class="slide-title">Machine Learning com Python</h1>
+                <h2 class="slide-subtitle">Classificação de Espécies de Flores Iris</h2>
+                <div class="slide-visual">
+                    <div class="visual-item">
+                        <i class="fas fa-brain feature-icon"></i>
+                        <h3>Aprendizado de Máquina</h3>
+                        <p>Técnicas avançadas para classificação de dados</p>
+                    </div>
+                    <div class="visual-item">
+                        <i class="fas fa-code feature-icon"></i>
+                        <h3>Python & TensorFlow</h3>
+                        <p>Ferramentas poderosas para implementação</p>
+                    </div>
+                </div>
+                <div class="slide-list">
+                    <li>Compreender os conceitos fundamentais de Machine Learning</li>
+                    <li>Implementar um modelo de classificação usando TensorFlow</li>
+                    <li>Entender a importância do pré-processamento de dados</li>
+                    <li>Avaliar a performance de um modelo de Machine Learning</li>
+                </div>
+            </div>
+        </div>
         
-        if (completeWords) {
-            limit = value.substr(0, limit).lastIndexOf(' ');
-        }
+        <!-- Slide 2: Introdução ao Machine Learning -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">O que é Machine Learning?</h1>
+                <p class="slide-text">Subcampo da inteligência artificial que permite que sistemas aprendam e melhorem a partir da experiência sem serem explicitamente programados.</p>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap feature-icon"></i>
+                        <h3 class="feature-title">Aprendizado Supervisionado</h3>
+                        <p class="feature-desc">O modelo aprende a partir de dados rotulados</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-tags feature-icon"></i>
+                        <h3 class="feature-title">Classificação</h3>
+                        <p class="feature-desc">Prever categorias discretas (ex: espécies de flores)</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-line feature-icon"></i>
+                        <h3 class="feature-title">Regressão</h3>
+                        <p class="feature-desc">Prever valores contínuos (ex: preços de imóveis)</p>
+                    </div>
+                </div>
+                
+                <div class="model-diagram">
+                    <div class="model-layer input-layer">Dados de Entrada</div>
+                    <i class="fas fa-arrow-down model-arrow"></i>
+                    <div class="model-layer hidden-layer">Pré-processamento</div>
+                    <i class="fas fa-arrow-down model-arrow"></i>
+                    <div class="model-layer hidden-layer">Treinamento do Modelo</div>
+                    <i class="fas fa-arrow-down model-arrow"></i>
+                    <div class="model-layer hidden-layer">Avaliação</div>
+                    <i class="fas fa-arrow-down model-arrow"></i>
+                    <div class="model-layer output-layer">Previsões</div>
+                </div>
+            </div>
+        </div>
         
-        return `${value.substr(0, limit)}${ellipsis}`;
-    }
-}
-
-// Uso do pipe personalizado
-&lt;p&gt;{{ textoLongo | truncate:30 }}&lt;/p&gt;
-&lt;p&gt;{{ textoLongo | truncate:30:true }}&lt;/p&gt;
+        <!-- Slide 3: Ferramentas Necessárias -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Ambiente de Desenvolvimento</h1>
+                <h2 class="slide-subtitle">Google Colab</h2>
+                <p class="slide-text">Ferramenta gratuita que permite escrever e executar código Python diretamente no navegador.</p>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Vantagens:</h3>
+                        <ul class="slide-list">
+                            <li>Acesso gratuito a GPUs</li>
+                            <li>Ambiente pré-configurado com bibliotecas populares</li>
+                            <li>Armazenamento integrado com Google Drive</li>
+                            <li>Compartilhamento fácil de notebooks</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Bibliotecas Utilizadas:</h3>
+                        <ul class="slide-list">
+                            <li><span class="highlight">TensorFlow</span> - para construção e treinamento do modelo</li>
+                            <li><span class="highlight">Pandas</span> - para manipulação de dados</li>
+                            <li><span class="highlight">Scikit-learn</span> - para carregar o dataset e pré-processamento</li>
+                        </ul>
+                    </div>
                 </div>
                 
-                <div class="professor-note">
-                    <h4>Nota do Professor</h4>
-                    <p>Pipes personalizados são uma ótima maneira de encapsular lógica de formatação que você precisa reutilizar em vários lugares da aplicação. Em vez de repetir a mesma lógica de transformação em múltiplos componentes, você cria um pipe e o aplica onde necessário.</p>
+                <div class="code-block">
+                    # Acesso ao Google Colab:<br>
+                    https://colab.research.google.com/
                 </div>
             </div>
         </div>
-    </section>
-
-    <section id="quiz" class="quiz-section">
-        <div class="container">
-            <div class="section-title">
-                <h2>Quiz Angular</h2>
-                <p>Teste seus conhecimentos sobre Angular com base nos exercícios da Aula Atividade Tutor</p>
-            </div>
-            
-            <div class="professor-note">
-                <h4>Nota do Professor</h4>
-                <p>Este quiz foi preparado para ajudar vocês a testarem seus conhecimentos sobre Angular e se prepararem para os exercícios da Aula Atividade Tutor. Tentem responder cada pergunta antes de verificar a resposta correta. Se errarem, leiam atentamente a explicação para entender o conceito.</p>
-            </div>
-            
-            <div class="quiz-container">
-                <div class="quiz-question">
-                    <h3>1. Qual é o comando para criar um novo componente Angular usando a CLI?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, false)">ng new component MeuComponente</li>
-                        <li onclick="checkAnswer(this, true)">ng generate component MeuComponente</li>
-                        <li onclick="checkAnswer(this, false)">angular create component MeuComponente</li>
-                        <li onclick="checkAnswer(this, false)">npm create component MeuComponente</li>
-                        <li onclick="checkAnswer(this, false)">ng add component MeuComponente</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O Angular CLI usa o comando <code>ng generate component</code> (ou sua forma abreviada <code>ng g c</code>) para criar novos componentes. A alternativa correta é a segunda opção. O comando <code>ng new</code> é usado para criar um novo projeto Angular, não um componente.</p>
-                    </div>
+        
+        <!-- Slide 4: O Problema - Classificação de Flores Iris -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Classificação de Flores Iris</h1>
+                <p class="slide-text">Criar um modelo de Machine Learning que classifica espécies de flores Iris com base em características como comprimento e largura das sépalas e pétalas.</p>
+                
+                <div class="chart-container">
+                    <canvas id="irisChart"></canvas>
                 </div>
                 
-                <div class="quiz-question">
-                    <h3>2. Qual decorador é usado para definir um componente Angular?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, true)">@Component</li>
-                        <li onclick="checkAnswer(this, false)">@NgModule</li>
-                        <li onclick="checkAnswer(this, false)">@Directive</li>
-                        <li onclick="checkAnswer(this, false)">@Injectable</li>
-                        <li onclick="checkAnswer(this, false)">@Pipe</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O decorador <code>@Component</code> é usado para definir uma classe como um componente Angular, incluindo metadados como selector e templateUrl. <code>@NgModule</code> é usado para definir módulos, <code>@Directive</code> para diretivas, <code>@Injectable</code> para serviços e <code>@Pipe</code> para pipes.</p>
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Dataset Iris:</h3>
+                        <ul class="slide-list">
+                            <li>150 amostras de flores Iris</li>
+                            <li>3 espécies: Setosa, Versicolor e Virginica</li>
+                            <li>4 características para cada flor</li>
+                        </ul>
                     </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>3. Como você faz binding de uma propriedade em Angular?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, false)">{{propriedade}}</li>
-                        <li onclick="checkAnswer(this, true)">[propriedade]="valor"</li>
-                        <li onclick="checkAnswer(this, false)">(propriedade)="valor"</li>
-                        <li onclick="checkAnswer(this, false)">*ngIf="propriedade"</li>
-                        <li onclick="checkAnswer(this, false)">#propriedade</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O binding de propriedade usa colchetes <code>[]</code> para passar dados do componente para o template. Isso é conhecido como property binding. A sintaxe <code>{{ }}</code> é usada para interpolação, <code>()</code> para event binding, <code>*ngIf</code> é uma diretiva estrutural e <code>#</code> é usado para referências de template.</p>
-                    </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>4. Qual diretiva é usada para renderizar elementos condicionalmente?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, false)">*ngFor</li>
-                        <li onclick="checkAnswer(this, true)">*ngIf</li>
-                        <li onclick="checkAnswer(this, false)">[ngSwitch]</li>
-                        <li onclick="checkAnswer(this, false)">[ngClass]</li>
-                        <li onclick="checkAnswer(this, false)">*ngWhile</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> A diretiva <code>*ngIf</code> adiciona ou remove elementos do DOM com base em uma condição booleana, permitindo a renderização condicional de elementos. <code>*ngFor</code> é usada para iterar sobre listas, <code>ngSwitch</code> para múltiplas condições, <code>ngClass</code> para manipular classes CSS e não existe uma diretiva <code>*ngWhile</code> nativa no Angular.</p>
-                    </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>5. Qual serviço é usado para navegação entre rotas?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, true)">Router</li>
-                        <li onclick="checkAnswer(this, false)">Route</li>
-                        <li onclick="checkAnswer(this, false)">Navigation</li>
-                        <li onclick="checkAnswer(this, false)">HttpClient</li>
-                        <li onclick="checkAnswer(this, false)">Location</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O serviço <code>Router</code> do pacote <code>@angular/router</code> é usado para gerenciar a navegação programática entre rotas na aplicação. O método <code>navigate()</code> é usado para navegar para uma rota específica. <code>Route</code> é usado para definir configurações de rota, <code>HttpClient</code> para requisições HTTP e <code>Location</code> para interagir com a URL do navegador.</p>
-                    </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>6. Como você captura eventos no template?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, true)">(evento)="metodo()"</li>
-                        <li onclick="checkAnswer(this, false)">[evento]="metodo()"</li>
-                        <li onclick="checkAnswer(this, false)">{{evento}}</li>
-                        <li onclick="checkAnswer(this, false)">#evento</li>
-                        <li onclick="checkAnswer(this, false)">*ngEvent="metodo()"</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> Parênteses <code>()</code> são usados para binding de eventos como <code>(click)</code> ou <code>(keyup)</code>, permitindo capturar eventos do DOM e executar métodos do componente. A sintaxe <code>[]</code> é para property binding, <code>{{ }}</code> para interpolação, <code>#</code> para referências de template e não existe uma diretiva <code>*ngEvent</code> nativa.</p>
-                    </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>7. Qual é a finalidade do ngOnInit()?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, true)">Inicializar propriedades do componente</li>
-                        <li onclick="checkAnswer(this, false)">Lidar com destruição do componente</li>
-                        <li onclick="checkAnswer(this, false)">Atualizar o DOM</li>
-                        <li onclick="checkAnswer(this, false)">Gerenciar inputs do usuário</li>
-                        <li onclick="checkAnswer(this, false)">Fazer chamadas HTTP</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O método <code>ngOnInit()</code> é um lifecycle hook chamado após a criação do componente, ideal para inicializar propriedades, fazer chamadas a serviços e outras inicializações necessárias. A destruição do componente é tratada por <code>ngOnDestroy()</code>, e embora seja comum fazer chamadas HTTP em <code>ngOnInit()</code>, essa não é sua única finalidade.</p>
-                    </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>8. Qual comando instala o Angular CLI globalmente?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, true)">npm install -g @angular/cli</li>
-                        <li onclick="checkAnswer(this, false)">ng install angular</li>
-                        <li onclick="checkAnswer(this, false)">npm add angular-cli</li>
-                        <li onclick="checkAnswer(this, false)">yarn global add angular</li>
-                        <li onclick="checkAnswer(this, false)">npm i angular</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O comando <code>npm install -g @angular/cli</code> instala globalmente o pacote <code>@angular/cli</code> via npm, tornando o comando <code>ng</code> disponível em todo o sistema. O flag <code>-g</code> indica uma instalação global. As outras alternativas não são comandos válidos para instalar a CLI do Angular.</p>
-                    </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>9. Qual é a função do async pipe?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, true)">Tratar Promises/Observables no template</li>
-                        <li onclick="checkAnswer(this, false)">Validação assíncrona</li>
-                        <li onclick="checkAnswer(this, false)">Chamadas HTTP</li>
-                        <li onclick="checkAnswer(this, false)">Gerenciamento de estado</li>
-                        <li onclick="checkAnswer(this, false)">Compartilhamento de dados</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O async pipe (<code>| async</code>) automaticamente inscreve/unsubscribe em Observables ou Promises no template, facilitando o trabalho com dados assíncronos. Ele lida com o gerenciamento do ciclo de vida da inscrição, evitando memory leaks e simplificando o código.</p>
-                    </div>
-                </div>
-                
-                <div class="quiz-question">
-                    <h3>10. Como declarar um módulo raiz no Angular?</h3>
-                    <ul class="quiz-options">
-                        <li onclick="checkAnswer(this, true)">@NgModule({ declarations: [...] })</li>
-                        <li onclick="checkAnswer(this, false)">@Component({ providers: [...] })</li>
-                        <li onclick="checkAnswer(this, false)">@Directive({ selector: [...] })</li>
-                        <li onclick="checkAnswer(this, false)">@Injectable({ providedIn: [...] })</li>
-                        <li onclick="checkAnswer(this, false)">@Pipe({ name: [...] })</li>
-                    </ul>
-                    <div class="explanation">
-                        <p><strong>Explicação:</strong> O decorador <code>@NgModule</code> é usado para declarar um módulo Angular, organizando componentes, diretivas, pipes e serviços em blocos coesos de funcionalidade. A propriedade <code>declarations</code> é usada para listar os componentes, diretivas e pipes que pertencem ao módulo.</p>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Características:</h3>
+                        <ul class="slide-list">
+                            <li>Comprimento da sépala</li>
+                            <li>Largura da sépala</li>
+                            <li>Comprimento da pétala</li>
+                            <li>Largura da pétala</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>Frameworks para Desenvolvimento de Software - Material de Apoio</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
+        
+        <!-- Slide 5: Passo 1 - Importar Bibliotecas e Carregar Dados -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Passo 1: Importar Bibliotecas e Carregar Dados</h1>
+                
+                <div class="code-block">
+                    # Importar bibliotecas<br>
+                    import tensorflow as tf<br>
+                    import pandas as pd<br>
+                    from sklearn.datasets import load_iris<br>
+                    from sklearn.model_selection import train_test_split<br>
+                    from sklearn.preprocessing import StandardScaler<br><br>
+                    
+                    # Carregar conjunto de dados Iris<br>
+                    iris = load_iris()<br>
+                    X = iris.data  # características das flores<br>
+                    y = iris.target  # espécies (0: Setosa, 1: Versicolor, 2: Virginica)
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Explicação:</h3>
+                        <ul class="slide-list">
+                            <li><span class="highlight">load_iris()</span> carrega o dataset diretamente do scikit-learn</li>
+                            <li><span class="highlight">X</span> contém as características (features) das flores</li>
+                            <li><span class="highlight">y</span> contém os rótulos (labels) com as espécies codificadas numericamente</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <div class="visual-item">
+                            <i class="fas fa-database feature-icon"></i>
+                            <h3>Estrutura dos Dados</h3>
+                            <p>X: Matriz 150x4 (150 amostras, 4 características)</p>
+                            <p>y: Vetor 150 (rótulos das espécies)</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <p>&copy; 2025 - Todos os direitos reservados</p>
         </div>
-    </footer>
-
+        
+        <!-- Slide 6: Passo 2 - Pré-processamento dos Dados -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Passo 2: Pré-processamento dos Dados</h1>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Divisão entre Treino e Teste:</h3>
+                        <div class="code-block">
+                            # Dividir o conjunto de dados em treinamento (80%) e teste (20%)<br>
+                            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Normalização dos Dados:</h3>
+                        <div class="code-block">
+                            # Normalizar os dados<br>
+                            scaler = StandardScaler()<br>
+                            X_train = scaler.fit_transform(X_train)<br>
+                            X_test = scaler.transform(X_test)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-shield-alt feature-icon"></i>
+                        <h3 class="feature-title">Evita Overfitting</h3>
+                        <p class="feature-desc">Dividir os dados evita que o modelo memorize os dados em vez de aprender</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-balance-scale feature-icon"></i>
+                        <h3 class="feature-title">Normalização</h3>
+                        <p class="feature-desc">Coloca todas as características na mesma escala, evitando que características com valores maiores dominem o aprendizado</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-lock feature-icon"></i>
+                        <h3 class="feature-title">Fit Transform</h3>
+                        <p class="feature-desc">Usamos fit_transform nos dados de treino e apenas transform nos dados de teste para evitar vazamento de informações</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: Passo 3 - Construir o Modelo -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Passo 3: Construir o Modelo</h1>
+                <h2 class="slide-subtitle">Arquitetura da Rede Neural</h2>
+                
+                <div class="code-block">
+                    # Construir o modelo<br>
+                    model = tf.keras.Sequential([<br>
+                    &nbsp;&nbsp;tf.keras.layers.Dense(10, activation='relu', input_shape=(4,)),<br>
+                    &nbsp;&nbsp;tf.keras.layers.Dense(10, activation='relu'),<br>
+                    &nbsp;&nbsp;tf.keras.layers.Dense(3, activation='softmax')<br>
+                    ])<br><br>
+                    
+                    # Compilar o modelo<br>
+                    model.compile(optimizer='adam',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loss='sparse_categorical_crossentropy',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metrics=['accuracy'])
+                </div>
+                
+                <div class="model-diagram">
+                    <div class="model-layer input-layer">Entrada (4 características)</div>
+                    <i class="fas fa-arrow-down model-arrow"></i>
+                    <div class="model-layer hidden-layer">Camada Oculta (10 neurônios)</div>
+                    <i class="fas fa-arrow-down model-arrow"></i>
+                    <div class="model-layer hidden-layer">Camada Oculta (10 neurônios)</div>
+                    <i class="fas fa-arrow-down model-arrow"></i>
+                    <div class="model-layer output-layer">Saída (3 neurônios)</div>
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Componentes:</h3>
+                        <ul class="slide-list">
+                            <li><span class="highlight">Sequential</span>: Modelo de camadas sequenciais</li>
+                            <li><span class="highlight">Dense</span>: Camada totalmente conectada</li>
+                            <li><span class="highlight">relu</span>: Função de ativação (introduz não-linearidade)</li>
+                            <li><span class="highlight">softmax</span>: Função de ativação na camada de saída (para classificação multiclasse)</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Compilação:</h3>
+                        <ul class="slide-list">
+                            <li><span class="highlight">adam</span>: Otimizador eficiente para treinamento</li>
+                            <li><span class="highlight">sparse_categorical_crossentropy</span>: Função de perda para classificação multiclasse</li>
+                            <li><span class="highlight">accuracy</span>: Métrica para avaliar o modelo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 8: Passo 4 - Treinar o Modelo -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Passo 4: Treinar o Modelo</h1>
+                
+                <div class="code-block">
+                    # Treinar o modelo<br>
+                    history = model.fit(X_train, y_train, epochs=100, validation_split=0.2)
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Parâmetros Importantes:</h3>
+                        <ul class="slide-list">
+                            <li><span class="highlight">epochs</span>: Número de vezes que o modelo verá todo o conjunto de treinamento</li>
+                            <li><span class="highlight">validation_split</span>: Porcentagem dos dados de treino usados para validação durante o treinamento</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Monitoramento:</h3>
+                        <ul class="slide-list">
+                            <li>Acompanhe a acurácia e a perda ao longo das épocas</li>
+                            <li>Valide se o modelo está aprendendo (acurácia aumentando e perda diminuindo)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="trainingChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 9: Passo 5 - Avaliar o Modelo -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Passo 5: Avaliar o Modelo</h1>
+                
+                <div class="code-block">
+                    # Avaliar a precisão do modelo usando os dados de teste<br>
+                    test_loss, test_acc = model.evaluate(X_test, y_test)<br>
+                    print(f'Acurácia no teste: {test_acc:.4f}')
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Métricas de Avaliação:</h3>
+                        <ul class="slide-list">
+                            <li><span class="highlight">Acurácia</span>: Proporção de previsões corretas</li>
+                            <li><span class="highlight">Matriz de Confusão</span>: Mostra quais classes o modelo confunde</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <div class="code-block">
+                            # Matriz de confusão<br>
+                            from sklearn.metrics import confusion_matrix<br>
+                            import numpy as np<br><br>
+                            
+                            y_pred = model.predict(X_test)<br>
+                            y_pred_classes = np.argmax(y_pred, axis=1)<br><br>
+                            
+                            confusion_matrix(y_test, y_pred_classes)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="confusionMatrix"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: Passo 6 - Fazer Previsões -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Passo 6: Fazer Previsões</h1>
+                
+                <div class="code-block">
+                    # Fazer previsões com o modelo treinado<br>
+                    # Exemplo: prever a espécie de uma flor com características específicas<br>
+                    nova_flor = [[5.1, 3.5, 1.4, 0.2]]  # valores das características<br>
+                    nova_flor_normalizada = scaler.transform(nova_flor)<br>
+                    previsao = model.predict(nova_flor_normalizada)<br><br>
+                    
+                    # Interpretar o resultado<br>
+                    classe_prevista = np.argmax(previsao, axis=1)<br>
+                    nomes_classes = ['Setosa', 'Versicolor', 'Virginica']<br>
+                    print(f'Espécie prevista: {nomes_classes[classe_prevista[0]]}')
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Explicação:</h3>
+                        <ul class="slide-list">
+                            <li>As características da nova flor devem ser normalizadas usando o mesmo scaler dos dados de treinamento</li>
+                            <li>O modelo retorna probabilidades para cada classe</li>
+                            <li><span class="highlight">argmax</span> seleciona a classe com maior probabilidade</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <div class="visual-item">
+                            <i class="fas fa-seedling feature-icon"></i>
+                            <h3>Resultado da Previsão</h3>
+                            <p>Para a flor com características [5.1, 3.5, 1.4, 0.2], o modelo prevê a espécie: <span class="highlight">Setosa</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 11: A Importância do Pré-processamento de Dados -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">A Importância do Pré-processamento de Dados</h1>
+                <h2 class="slide-subtitle">Resposta à Questão Proposta</h2>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-cut feature-icon"></i>
+                        <h3 class="feature-title">Divisão entre Treino e Teste</h3>
+                        <p class="feature-desc">Evita overfitting: quando o modelo se ajusta demais aos dados de treinamento e não generaliza para novos dados</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-chart-pie feature-icon"></i>
+                        <h3 class="feature-title">Normalização</h3>
+                        <p class="feature-desc">Coloca todas as características na mesma escala, evitando que características com valores maiores dominem o processo de aprendizado</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-sync-alt feature-icon"></i>
+                        <h3 class="feature-title">Melhora a Convergência</h3>
+                        <p class="feature-desc">Melhora a convergência do algoritmo de otimização, especialmente importante para redes neurais e algoritmos baseados em gradiente</p>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="normalizationEffect"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 12: Checklist para Entrega -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Checklist para Entrega</h1>
+                <h2 class="slide-subtitle">Itens Obrigatórios</h2>
+                
+                <div class="checklist">
+                    <h3 class="checklist-title">Atividades a serem realizadas:</h3>
+                    <div class="checklist-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Acessar o Google Colab e criar um novo notebook</span>
+                    </div>
+                    <div class="checklist-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Copiar e colar o código inicial no notebook</span>
+                    </div>
+                    <div class="checklist-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Implementar as funcionalidades relacionadas e construir a exibição do relatório final</span>
+                    </div>
+                    <div class="checklist-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Testar o código com diferentes entradas</span>
+                    </div>
+                    <div class="checklist-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Comentar o código para explicar a lógica implementada</span>
+                    </div>
+                    <div class="checklist-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Tirar um print do código executado pelo menos uma vez</span>
+                    </div>
+                </div>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Formato da Entrega:</h3>
+                        <ul class="slide-list">
+                            <li>Arquivo em PDF contendo:</li>
+                            <li>Capa</li>
+                            <li>Folha de rosto com os dados da disciplina e do aluno</li>
+                            <li>Codificação completa do exercício</li>
+                            <li>Prints de execução do aplicativo</li>
+                            <li>Referências bibliográficas (se aplicável)</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <div class="visual-item">
+                            <i class="fas fa-file-pdf feature-icon"></i>
+                            <h3>Resultado Final</h3>
+                            <p>Um documento PDF completo com todas as etapas do desenvolvimento do modelo de Machine Learning</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 13: Exemplo de Código Completo -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Exemplo de Código Completo</h1>
+                
+                <div class="code-block" style="max-height: 400px; overflow-y: auto;">
+                    # Importar bibliotecas<br>
+                    import tensorflow as tf<br>
+                    import pandas as pd<br>
+                    import numpy as np<br>
+                    from sklearn.datasets import load_iris<br>
+                    from sklearn.model_selection import train_test_split<br>
+                    from sklearn.preprocessing import StandardScaler<br>
+                    from sklearn.metrics import confusion_matrix<br>
+                    import matplotlib.pyplot as plt<br><br>
+                    
+                    # Carregar conjunto de dados Iris<br>
+                    iris = load_iris()<br>
+                    X = iris.data  # características das flores<br>
+                    y = iris.target  # espécies<br><br>
+                    
+                    # Dividir o conjunto de dados em treinamento e teste<br>
+                    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)<br><br>
+                    
+                    # Normalizar os dados<br>
+                    scaler = StandardScaler()<br>
+                    X_train = scaler.fit_transform(X_train)<br>
+                    X_test = scaler.transform(X_test)<br><br>
+                    
+                    # Construir o modelo<br>
+                    model = tf.keras.Sequential([<br>
+                    &nbsp;&nbsp;tf.keras.layers.Dense(10, activation='relu', input_shape=(4,)),<br>
+                    &nbsp;&nbsp;tf.keras.layers.Dense(10, activation='relu'),<br>
+                    &nbsp;&nbsp;tf.keras.layers.Dense(3, activation='softmax')<br>
+                    ])<br><br>
+                    
+                    # Compilar o modelo<br>
+                    model.compile(optimizer='adam',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;loss='sparse_categorical_crossentropy',<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;metrics=['accuracy'])<br><br>
+                    
+                    # Treinar o modelo<br>
+                    history = model.fit(X_train, y_train, epochs=100, validation_split=0.2, verbose=0)<br><br>
+                    
+                    # Avaliar o modelo<br>
+                    test_loss, test_acc = model.evaluate(X_test, y_test, verbose=0)<br>
+                    print(f'Acurácia no teste: {test_acc:.4f}')<br><br>
+                    
+                    # Fazer previsões<br>
+                    y_pred = model.predict(X_test)<br>
+                    y_pred_classes = np.argmax(y_pred, axis=1)<br><br>
+                    
+                    # Exibir matriz de confusão<br>
+                    print('Matriz de Confusão:')<br>
+                    print(confusion_matrix(y_test, y_pred_classes))<br><br>
+                    
+                    # Exemplo de previsão com nova flor<br>
+                    nova_flor = [[5.1, 3.5, 1.4, 0.2]]<br>
+                    nova_flor_normalizada = scaler.transform(nova_flor)<br>
+                    previsao = model.predict(nova_flor_normalizada)<br>
+                    nomes_classes = ['Setosa', 'Versicolor', 'Virginica']<br>
+                    classe_prevista = np.argmax(previsao, axis=1)<br>
+                    print(f'Espécie prevista: {nomes_classes[classe_prevista[0]]}')
+                </div>
+                
+                <div class="visual-item">
+                    <i class="fas fa-laptop-code feature-icon"></i>
+                    <h3>Implementação Completa</h3>
+                    <p>Este código implementa todo o fluxo de desenvolvimento do modelo de Machine Learning para classificação de flores Iris</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 14: Resultados Esperados -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Resultados Esperados</h1>
+                <h2 class="slide-subtitle">Resultados de Aprendizagem</h2>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Ao final da atividade, espera-se que o aluno:</h3>
+                        <ul class="slide-list">
+                            <li>Seja capaz de produzir código em Python que implemente um modelo de Machine Learning</li>
+                            <li>Compreenda o fluxo completo de desenvolvimento de um modelo de classificação</li>
+                            <li>Entenda a importância do pré-processamento de dados</li>
+                            <li>Saiba avaliar a performance de um modelo usando métricas adequadas</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Possíveis Melhorias:</h3>
+                        <ul class="slide-list">
+                            <li>Experimentar diferentes arquiteturas de rede</li>
+                            <li>Testar diferentes otimizadores e taxas de aprendizado</li>
+                            <li>Implementar técnicas de regularização para evitar overfitting</li>
+                            <li>Explorar outros conjuntos de dados</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-trophy feature-icon"></i>
+                        <h3 class="feature-title">Acurácia Esperada</h3>
+                        <p class="feature-desc">O modelo deve atingir uma acurácia acima de 90% no conjunto de teste</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-brain feature-icon"></i>
+                        <h3 class="feature-title">Compreensão Conceitual</h3>
+                        <p class="feature-desc">Entendimento dos conceitos fundamentais de Machine Learning</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-code feature-icon"></i>
+                        <h3 class="feature-title">Habilidade Prática</h3>
+                        <p class="feature-desc">Capacidade de implementar soluções com TensorFlow</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 15: Conclusão e Próximos Passos -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Conclusão e Próximos Passos</h1>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Resumo da Aula:</h3>
+                        <ul class="slide-list">
+                            <li>Implementamos um modelo de Machine Learning para classificação de flores Iris</li>
+                            <li>Utilizamos TensorFlow para construir uma rede neural simples</li>
+                            <li>Realizamos o pré-processamento adequado dos dados</li>
+                            <li>Avaliamos o modelo e fizemos previsões</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Próximos Passos:</h3>
+                        <ul class="slide-list">
+                            <li><span class="highlight">Aprofundamento em Redes Neurais:</span> Explorar arquiteturas mais complexas</li>
+                            <li><span class="highlight">Outros Algoritmos:</span> Árvores de decisão, Random Forest, SVM</li>
+                            <li><span class="highlight">Tópicos Avançados:</span> Validação cruzada, otimização de hiperparâmetros</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <i class="fas fa-book feature-icon"></i>
+                        <h3 class="feature-title">Referências</h3>
+                        <p class="feature-desc">Documentação do TensorFlow: <a href="https://www.tensorflow.org/" target="_blank">tensorflow.org</a></p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-book-open feature-icon"></i>
+                        <h3 class="feature-title">Livro Recomendado</h3>
+                        <p class="feature-desc">"Hands-On Machine Learning" - Aurélien Géron</p>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fas fa-graduation-cap feature-icon"></i>
+                        <h3 class="feature-title">Curso Online</h3>
+                        <p class="feature-desc">Machine Learning Specialization - Coursera</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 16: Dúvidas e Atividades -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1 class="slide-title">Dúvidas e Atividades</h1>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Dúvidas Frequentes:</h3>
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <div class="step-title">Como melhorar a acurácia do modelo?</div>
+                                <div class="step-desc">Aumentar o número de épocas, ajustar a arquitetura da rede, experimentar diferentes otimizadores</div>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <div class="step-title">O que fazer se o modelo estiver com overfitting?</div>
+                                <div class="step-desc">Adicionar técnicas de regularização (Dropout, L1/L2), reduzir a complexidade do modelo, aumentar o conjunto de dados</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Atividade Prática:</h3>
+                        <p class="slide-text">Implemente o modelo conforme descrito e experimente:</p>
+                        <ul class="slide-list">
+                            <li>Modificar o número de neurônios nas camadas ocultas</li>
+                            <li>Alterar o número de épocas de treinamento</li>
+                            <li>Testar diferentes funções de ativação</li>
+                        </ul>
+                        <p class="slide-text">Compare os resultados e justifique suas observações.</p>
+                    </div>
+                </div>
+                
+                <div class="visual-item">
+                    <i class="fas fa-lightbulb feature-icon"></i>
+                    <h3>Experimentação é a Chave</h3>
+                    <p>Machine Learning envolve muita experimentação. Teste diferentes configurações e analise os resultados para entender melhor como os modelos funcionam.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script>
-        // Função para alternar abas
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            
-            tabcontent = document.getElementsByClassName("tab-content");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].classList.remove("active");
-            }
-            
-            tablinks = document.getElementsByClassName("tab");
-            for (i = 0; i < tablinks.length; i++) {
-                tablinks[i].classList.remove("active");
-            }
-            
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
-        }
+        // Slide Navigation
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const currentSlideSpan = document.getElementById('current-slide');
+        const totalSlidesSpan = document.getElementById('total-slides');
         
-        // Função para verificar respostas do quiz
-        function checkAnswer(element, isCorrect) {
-            // Remove classes anteriores
-            const options = element.parentElement.querySelectorAll('li');
-            options.forEach(option => {
-                option.classList.remove('correct', 'incorrect');
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+        
+        // Initialize
+        totalSlidesSpan.textContent = totalSlides;
+        updateSlideDisplay();
+        
+        // Event Listeners
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlideDisplay();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlideDisplay();
+            }
+        });
+        
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                currentSlide--;
+                updateSlideDisplay();
+            } else if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlideDisplay();
+            }
+        });
+        
+        // Update Slide Display
+        function updateSlideDisplay() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'prev');
+                
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else if (index < currentSlide) {
+                    slide.classList.add('prev');
+                }
             });
             
-            // Adiciona classe correta ou incorreta
-            if (isCorrect) {
-                element.classList.add('correct');
-            } else {
-                element.classList.add('incorrect');
-            }
+            currentSlideSpan.textContent = currentSlide + 1;
             
-            // Mostra explicação
-            const explanation = element.parentElement.nextElementSibling;
-            explanation.classList.add('show');
+            // Update button states
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
         }
         
-        // Smooth scrolling para links de navegação
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Iris Dataset Chart
+            const irisCtx = document.getElementById('irisChart').getContext('2d');
+            new Chart(irisCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Setosa',
+                        data: [
+                            {x: 5.1, y: 1.4}, {x: 4.9, y: 1.4}, {x: 4.7, y: 1.3},
+                            {x: 4.6, y: 1.5}, {x: 5.0, y: 1.4}, {x: 5.4, y: 1.7}
+                        ],
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Versicolor',
+                        data: [
+                            {x: 7.0, y: 4.7}, {x: 6.4, y: 4.5}, {x: 6.9, y: 4.9},
+                            {x: 5.5, y: 4.0}, {x: 6.5, y: 4.6}, {x: 5.7, y: 4.5}
+                        ],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Virginica',
+                        data: [
+                            {x: 6.3, y: 6.0}, {x: 5.8, y: 5.1}, {x: 7.1, y: 5.9},
+                            {x: 6.3, y: 5.6}, {x: 6.5, y: 5.8}, {x: 7.6, y: 6.6}
+                        ],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Comprimento da Sépala (cm)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Comprimento da Pétala (cm)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Distribuição das Espécies de Iris'
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+            
+            // Training Chart
+            const trainingCtx = document.getElementById('trainingChart').getContext('2d');
+            new Chart(trainingCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 20}, (_, i) => i + 1),
+                    datasets: [{
+                        label: 'Acurácia de Treinamento',
+                        data: [0.3, 0.5, 0.6, 0.7, 0.75, 0.8, 0.82, 0.85, 0.87, 0.88, 0.9, 0.91, 0.92, 0.93, 0.94, 0.95, 0.96, 0.97, 0.98, 0.99],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }, {
+                        label: 'Acurácia de Validação',
+                        data: [0.25, 0.45, 0.55, 0.65, 0.7, 0.75, 0.78, 0.8, 0.82, 0.83, 0.85, 0.86, 0.87, 0.88, 0.89, 0.9, 0.91, 0.92, 0.93, 0.94],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 1,
+                            title: {
+                                display: true,
+                                text: 'Acurácia'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Épocas'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Curvas de Aprendizado'
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+            
+            // Confusion Matrix
+            const confusionCtx = document.getElementById('confusionMatrix').getContext('2d');
+            new Chart(confusionCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Setosa', 'Versicolor', 'Virginica'],
+                    datasets: [{
+                        label: 'Setosa',
+                        data: [10, 0, 0],
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Versicolor',
+                        data: [0, 9, 1],
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Virginica',
+                        data: [0, 0, 10],
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Espécie Real'
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: 'Contagem'
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Matriz de Confusão'
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+            
+            // Normalization Effect Chart
+            const normalizationCtx = document.getElementById('normalizationEffect').getContext('2d');
+            new Chart(normalizationCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Amostra 1', 'Amostra 2', 'Amostra 3', 'Amostra 4', 'Amostra 5'],
+                    datasets: [{
+                        label: 'Antes da Normalização',
+                        data: [5.1, 7.0, 6.3, 4.9, 6.5],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        fill: false,
+                        tension: 0.1
+                    }, {
+                        label: 'Depois da Normalização',
+                        data: [-0.9, 1.0, 0.2, -1.2, 0.5],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        fill: false,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Valor da Característica'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Amostras'
+                            }
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Efeito da Normalização nos Dados'
+                        },
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
             });
         });
     </script>
