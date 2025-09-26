@@ -38,53 +38,35 @@
             font-family: 'Roboto', sans-serif;
             background-color: #f5f7fa;
             color: var(--dark);
-            overflow: hidden;
-            height: 100vh;
+            line-height: 1.6;
         }
         
         .presentation-container {
-            position: relative;
             width: 100%;
-            height: 100vh;
-            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
         .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            padding: 60px 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: translateX(100%);
-            transition: all 0.6s ease-in-out;
             background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
-        }
-        
-        .slide.active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-        
-        .slide.prev {
-            transform: translateX(-100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            overflow: hidden;
         }
         
         .slide-content {
-            max-width: 1000px;
-            width: 100%;
             text-align: center;
         }
         
         .slide-title {
             font-family: 'Poppins', sans-serif;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.2;
         }
         
@@ -92,14 +74,15 @@
             font-size: 1.5rem;
             font-weight: 500;
             color: var(--secondary);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         
         .slide-text {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             line-height: 1.6;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             color: #555;
+            text-align: left;
         }
         
         .slide-list {
@@ -131,67 +114,17 @@
             border-radius: 8px;
             text-align: left;
             font-family: monospace;
-            font-size: 1rem;
+            font-size: 0.95rem;
             line-height: 1.5;
             overflow: auto;
             margin: 20px 0;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-height: 300px;
         }
         
         .highlight {
             color: #f39c12;
             font-weight: bold;
-        }
-        
-        .navigation {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 100;
-        }
-        
-        .nav-btn {
-            background-color: var(--secondary);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        
-        .nav-btn:hover {
-            background-color: var(--primary);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-        }
-        
-        .nav-btn:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .slide-counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(44, 62, 80, 0.8);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            z-index: 100;
         }
         
         .slide-visual {
@@ -229,14 +162,14 @@
         
         .chart-container {
             width: 100%;
-            max-width: 600px;
-            height: 300px;
-            margin: 20px auto;
+            max-width: 700px;
+            height: 350px;
+            margin: 30px auto;
         }
         
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin: 30px 0;
         }
@@ -244,7 +177,7 @@
         .feature-card {
             background-color: white;
             border-radius: 10px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.08);
             text-align: center;
             transition: transform 0.3s ease;
@@ -269,13 +202,13 @@
         
         .feature-desc {
             color: #555;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
         
         .two-column {
             display: flex;
             gap: 30px;
-            margin: 20px 0;
+            margin: 30px 0;
         }
         
         .column {
@@ -285,7 +218,7 @@
         .process-step {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: left;
         }
         
@@ -311,37 +244,43 @@
             font-weight: 600;
             color: var(--primary);
             margin-bottom: 5px;
+            font-size: 1.1rem;
         }
         
         .step-desc {
             color: #555;
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
         
         .checklist {
             background-color: rgba(46, 204, 113, 0.1);
             border-left: 4px solid var(--success);
-            padding: 20px;
+            padding: 25px;
             border-radius: 0 8px 8px 0;
-            margin: 20px 0;
+            margin: 30px 0;
         }
         
         .checklist-title {
             font-weight: 600;
             color: var(--success);
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
         }
         
         .checklist-item {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         
         .checklist-item i {
             color: var(--success);
             margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .checklist-item span {
+            font-size: 1rem;
         }
         
         .model-diagram {
@@ -360,6 +299,7 @@
             text-align: center;
             font-weight: 600;
             position: relative;
+            font-size: 1.1rem;
         }
         
         .input-layer {
@@ -386,7 +326,7 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .slide {
-                padding: 40px 20px;
+                padding: 25px;
             }
             
             .slide-title {
@@ -413,32 +353,21 @@
                 grid-template-columns: 1fr;
             }
             
-            .nav-btn {
-                padding: 10px 16px;
-                font-size: 0.9rem;
+            .chart-container {
+                height: 250px;
+            }
+            
+            .code-block {
+                font-size: 0.85rem;
+                max-height: 200px;
             }
         }
     </style>
 </head>
 <body>
     <div class="presentation-container">
-        <!-- Slide Counter -->
-        <div class="slide-counter">
-            <span id="current-slide">1</span> / <span id="total-slides">16</span>
-        </div>
-        
-        <!-- Navigation -->
-        <div class="navigation">
-            <button class="nav-btn" id="prev-btn">
-                <i class="fas fa-arrow-left"></i> Anterior
-            </button>
-            <button class="nav-btn" id="next-btn">
-                Próximo <i class="fas fa-arrow-right"></i>
-            </button>
-        </div>
-        
         <!-- Slide 1: Título e Objetivos -->
-        <div class="slide active">
+        <div class="slide">
             <div class="slide-content">
                 <h1 class="slide-title">Machine Learning com Python</h1>
                 <h2 class="slide-subtitle">Classificação de Espécies de Flores Iris</h2>
@@ -905,7 +834,7 @@
             <div class="slide-content">
                 <h1 class="slide-title">Exemplo de Código Completo</h1>
                 
-                <div class="code-block" style="max-height: 400px; overflow-y: auto;">
+                <div class="code-block" style="max-height: 400px;">
                     # Importar bibliotecas<br>
                     import tensorflow as tf<br>
                     import pandas as pd<br>
@@ -1110,65 +1039,6 @@
     </div>
     
     <script>
-        // Slide Navigation
-        const slides = document.querySelectorAll('.slide');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const currentSlideSpan = document.getElementById('current-slide');
-        const totalSlidesSpan = document.getElementById('total-slides');
-        
-        let currentSlide = 0;
-        const totalSlides = slides.length;
-        
-        // Initialize
-        totalSlidesSpan.textContent = totalSlides;
-        updateSlideDisplay();
-        
-        // Event Listeners
-        prevBtn.addEventListener('click', () => {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateSlideDisplay();
-            }
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            if (currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlideDisplay();
-            }
-        });
-        
-        // Keyboard Navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft' && currentSlide > 0) {
-                currentSlide--;
-                updateSlideDisplay();
-            } else if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
-                currentSlide++;
-                updateSlideDisplay();
-            }
-        });
-        
-        // Update Slide Display
-        function updateSlideDisplay() {
-            slides.forEach((slide, index) => {
-                slide.classList.remove('active', 'prev');
-                
-                if (index === currentSlide) {
-                    slide.classList.add('active');
-                } else if (index < currentSlide) {
-                    slide.classList.add('prev');
-                }
-            });
-            
-            currentSlideSpan.textContent = currentSlide + 1;
-            
-            // Update button states
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === totalSlides - 1;
-        }
-        
         // Initialize Charts
         document.addEventListener('DOMContentLoaded', function() {
             // Iris Dataset Chart
