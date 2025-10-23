@@ -1,70 +1,370 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mapa Conceitual: Revolução Científica</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; text-align: center; }
-        h1 { color: #333; }
-        #mindmap {
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            display: inline-block; /* Centraliza o mapa */
-            margin-top: 20px;
-        }
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.min.js"></script>
-    <script>
-        // Configurações opcionais para o Mermaid
-        mermaid.initialize({ startOnLoad: true });
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Introdução ao PHP – Aula para Iniciantes</title>
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --light: #f5f7fa;
+      --dark: #2c3e50;
+      --accent: #e74c3c;
+      --gray: #7f8c8d;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--dark);
+      background-color: var(--light);
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    h2 {
+      color: var(--primary);
+      margin: 25px 0 15px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #eee;
+    }
+    h3 {
+      margin: 20px 0 10px;
+      color: #34495e;
+    }
+    p, li {
+      margin-bottom: 12px;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      margin-bottom: 25px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 14px;
+      margin: 15px 0;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      background: #f1f1f1;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .expandable {
+      margin-top: 10px;
+      padding: 12px;
+      background: #f9f9f9;
+      border-left: 4px solid var(--primary);
+      display: none;
+    }
+    .toggle-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      font-size: 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    ul, ol {
+      padding-left: 20px;
+      margin: 12px 0;
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--gray);
+      font-size: 0.9em;
+    }
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      .section { padding: 15px; }
+    }
+  </style>
 </head>
 <body>
 
-    <h1>Mapa Conceitual da Revolução Científica</h1>
-    <p>Relações entre **Racionalismo**, **Empirismo** e o **Método Científico**.</p>
-    
-    <div id="mindmap" class="mermaid">
-        graph TD
-            %% Nós Centrais
-            A[Revolução Científica] --> B(Método Científico);
-            A --> C(Racionalismo);
-            A --> D(Empirismo);
+<header>
+  <h1>Introdução ao PHP</h1>
+  <p><strong>Disciplina:</strong> Programação Web | <strong>Teleaula:</strong> 04</p>
+  <p>Profª Elisa Antolli – Conteúdo adaptado para estudo autônomo de iniciantes</p>
+</header>
 
-            %% Sub-ramificações do Método Científico
-            B --> B1(Crítica ao preconceito);
-            B --> B2(Diferenciação do saber anterior: De especulação dogmática para experimentação verificável);
+<div class="section">
+  <h2>1. O que é PHP?</h2>
+  <p>PHP é uma linguagem de programação muito usada para criar <strong>páginas web dinâmicas</strong>. Seu nome é um acrônimo recursivo: <em>PHP: Hypertext Preprocessor</em>.</p>
+  <p>Características principais:</p>
+  <ul>
+    <li>É <strong>gratuita</strong> e de código aberto (<em>open source</em>)</li>
+    <li>Roda no <strong>servidor</strong> (não no navegador do usuário)</li>
+    <li>Pode ser <strong>embutida dentro do HTML</strong></li>
+    <li>Funciona em vários sistemas: Windows, Linux, macOS, etc.</li>
+    <li>É <strong>fracamente tipada</strong> (não precisa declarar o tipo da variável)</li>
+    <li>Suporta <strong>Programação Orientada a Objetos (POO)</strong></li>
+  </ul>
 
-            %% Sub-ramificações do Racionalismo
-            C --> C1(Conceito Chave: Razão);
-            C1 --> C2(Caminho: Dúvida Metódica -> Cogito -> Deduções lógicas);
-            C --> C3(Relação: Oposto/complementar ao Empirismo);
+  <button class="toggle-btn" onclick="toggle(this)">+</button>
+  <div class="expandable">
+    <p><strong>Por que PHP é importante?</strong> Quando você acessa um site como um e-commerce, o que aparece na tela (seu nome, carrinho, produtos) muitas vezes vem de um banco de dados. O PHP é quem "busca" essas informações e monta a página antes de enviar ao seu navegador. Por isso, ele é essencial no desenvolvimento web do lado do servidor.</p>
+  </div>
+</div>
 
-            %% Sub-ramificações do Empirismo
-            D --> D1(Conceito Chave: Experiência);
-            D1 --> D2(Caminho: Superar Ídolos da Mente -> Coleta de fatos -> Generalizações sistemáticas);
-            D --> D3(Relação: Oposto/complementar ao Racionalismo);
+<div class="section">
+  <h2>2. Sintaxe Básica</h2>
+  <p>O código PHP deve estar entre as tags delimitadoras:</p>
+  <pre><?php
+// Seu código aqui
+?></pre>
+  <p>Cada instrução termina com ponto e vírgula (<code>;</code>).</p>
 
-            %% Conexões Transversais (Debate Central e Ferramentas)
-            C1 <-->|Debate central; Formam método científico híbrido| D1;
-            C2 -->|Ferramenta Crítica| B;
-            D2 -->|Ferramenta Crítica| B;
+  <button class="toggle-btn" onclick="toggle(this)">+</button>
+  <div class="expandable">
+    <p><strong>Exemplo completo:</strong></p>
+    <pre><html>
+<body>
+  <h1>Bem-vindo!</h1>
+  <?php
+    $mensagem = "Hoje é " . date("d/m/Y");
+    echo "<p>$mensagem</p>";
+  ?>
+</body>
+</html></pre>
+    <p>Esse código mostra uma página HTML com uma mensagem gerada dinamicamente pelo PHP.</p>
+  </div>
+</div>
 
-            %% Legado
-            B --> L(Legado: Influência na ciência atual);
-            L --> L1(Ex.: Método Hipotético-Dedutivo combina ambos);
+<div class="section">
+  <h2>3. Variáveis e Tipos de Dados</h2>
+  <p>Em PHP, variáveis começam com <code>$</code> e não precisam de declaração de tipo:</p>
+  <pre>$nome = "Ana";
+$idade = 25;
+$altura = 1.65;
+$ativo = true;</pre>
+  <p>Tipos comuns: string, inteiro, float (número com vírgula) e booleano.</p>
 
-            %% Estilos (Cores)
-            style A fill:#ffcc99,stroke:#333,stroke-width:2px
-            style B fill:#c3e6cb,stroke:#333
-            style C fill:#99ccff,stroke:#333
-            style D fill:#ff9999,stroke:#333
-            style C1 fill:#99ccff,stroke:#0055ff
-            style D1 fill:#ff9999,stroke:#ff0000
-    </div>
+  <button class="toggle-btn" onclick="toggle(this)">+</button>
+  <div class="expandable">
+    <p><strong>Escopo de variáveis:</strong></p>
+    <ul>
+      <li><strong>Local:</strong> só existe dentro de uma função.</li>
+      <li><strong>Global:</strong> acessível em todo o script (use <code>global</code> dentro de funções).</li>
+      <li><strong>Estática:</strong> mantém seu valor entre chamadas de função (<code>static</code>).</li>
+    </ul>
+    <pre>function contador() {
+  static $cont = 0;
+  $cont++;
+  echo $cont;
+}
+contador(); // 1
+contador(); // 2</pre>
+  </div>
+</div>
+
+<div class="section">
+  <h2>4. Saída de Dados</h2>
+  <p>Use <code>echo</code> ou <code>print</code> para mostrar algo no navegador:</p>
+  <pre>echo "Olá, mundo!";
+print "<p>Bem-vindo!</p>";</pre>
+  <p>Você pode misturar HTML e PHP livremente.</p>
+
+  <h3>Formatação com <code>printf()</code></h3>
+  <pre>printf("Preço: R$ %.2f", 19.9); // Mostra: Preço: R$ 19.90</pre>
+  <p>Especificadores comuns: <code>%s</code> (string), <code>%d</code> (inteiro), <code>%f</code> (float).</p>
+</div>
+
+<div class="section">
+  <h2>5. Operadores</h2>
+  <h3>Aritméticos</h3>
+  <ul>
+    <li><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code> (módulo), <code>**</code> (potência)</li>
+  </ul>
+  <h3>Comparação</h3>
+  <ul>
+    <li><code>==</code> (igual valor)</li>
+    <li><code>===</code> (igual valor e tipo)</li>
+    <li><code>!=</code> ou <code><></code> (diferente)</li>
+    <li><code><</code>, <code>></code>, <code><=</code>, <code>>=</code></li>
+  </ul>
+</div>
+
+<div class="section">
+  <h2>6. Estruturas de Controle</h2>
+  <h3>Condicional: <code>if</code></h3>
+  <pre>$hora = date("H");
+if ($hora < 12) {
+  echo "Bom dia!";
+} else {
+  echo "Boa tarde!";
+}</pre>
+
+  <h3>Repetição: <code>for</code> e <code>while</code></h3>
+  <pre>for ($i = 1; $i <= 3; $i++) {
+  echo "Contagem: $i<br>";
+}
+
+$i = 1;
+while ($i <= 3) {
+  echo "While: $i<br>";
+  $i++;
+}</pre>
+</div>
+
+<div class="section">
+  <h2>7. Funções</h2>
+  <h3>Funções internas</h3>
+  <ul>
+    <li><code>phpinfo()</code> – mostra configurações do PHP</li>
+    <li><code>mysqli_connect()</code> – conecta a um banco de dados</li>
+  </ul>
+
+  <h3>Funções criadas pelo usuário</h3>
+  <pre>function saudacao($nome) {
+  return "Olá, $nome!";
+}
+echo saudacao("Luciano"); // Olá, Luciano!</pre>
+</div>
+
+<div class="section">
+  <h2>8. Manipulação de Arquivos</h2>
+  <p>PHP pode ler, escrever e gerenciar arquivos no servidor.</p>
+  <h3>Modos comuns de abertura:</h3>
+  <ul>
+    <li><code>r</code> – leitura</li>
+    <li><code>w</code> – escrita (apaga conteúdo anterior)</li>
+    <li><code>a</code> – escrita no final do arquivo</li>
+  </ul>
+  <pre>$arq = fopen("dados.txt", "w");
+fwrite($arq, "Texto salvo!");
+fclose($arq);</pre>
+
+  <button class="toggle-btn" onclick="toggle(this)">+</button>
+  <div class="expandable">
+    <p><strong>Outras funções úteis:</strong></p>
+    <ul>
+      <li><code>fread()</code> – lê conteúdo</li>
+      <li><code>file()</code> – lê arquivo como array</li>
+      <li><code>copy()</code>, <code>unlink()</code> – copiar ou apagar</li>
+      <li><code>$_FILES</code> – usado em uploads de arquivos</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <h2>9. Banco de Dados</h2>
+  <p>PHP suporta vários bancos: MySQL, PostgreSQL, SQLite, MongoDB, etc.</p>
+  <p>Comandos SQL comuns:</p>
+  <ul>
+    <li><code>SELECT</code> – buscar dados</li>
+    <li><code>INSERT INTO</code> – inserir</li>
+    <li><code>UPDATE</code> – atualizar</li>
+    <li><code>DELETE</code> – apagar</li>
+  </ul>
+  <pre>$conexao = mysqli_connect("localhost", "usuario", "senha", "banco");</pre>
+
+  <button class="toggle-btn" onclick="toggle(this)">+</button>
+  <div class="expandable">
+    <p><strong>Exemplo de consulta:</strong></p>
+    <pre>$resultado = mysqli_query($conexao, "SELECT nome FROM clientes WHERE cidade = 'São Paulo'");
+while ($linha = mysqli_fetch_assoc($resultado)) {
+  echo $linha['nome'] . "<br>";
+}</pre>
+  </div>
+</div>
+
+<div class="section">
+  <h2>10. Cookies</h2>
+  <p>Cookies são pequenos dados salvos no navegador do usuário.</p>
+  <pre>setcookie("usuario", "Luciano", time() + 3600); // Dura 1 hora</pre>
+  <p>Úteis para lembrar preferências, login, etc.</p>
+</div>
+
+<div class="section">
+  <h2>11. Programação Orientada a Objetos (POO)</h2>
+  <p>Permite organizar o código em "classes" e "objetos".</p>
+  <pre>class Pessoa {
+  public $nome;
+  public function __construct($n) {
+    $this->nome = $n;
+  }
+  public function apresentar() {
+    return "Olá, eu sou $this->nome";
+  }
+}
+
+$p = new Pessoa("Clara");
+echo $p->apresentar();</pre>
+
+  <button class="toggle-btn" onclick="toggle(this)">+</button>
+  <div class="expandable">
+    <p><strong>Conceitos-chave:</strong></p>
+    <ul>
+      <li><strong>Classe:</strong> modelo (ex: "Carro")</li>
+      <li><strong>Objeto:</strong> instância da classe (ex: "meu carro vermelho")</li>
+      <li><strong>Propriedades:</strong> atributos (cor, marca)</li>
+      <li><strong>Métodos:</strong> ações (ligar, acelerar)</li>
+      <li><strong>$this:</strong> refere-se ao próprio objeto dentro da classe</li>
+      <li><strong>Visibilidade:</strong> <code>public</code>, <code>protected</code>, <code>private</code></li>
+    </ul>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Recapitulando</h2>
+  <p>Nesta aula, você aprendeu:</p>
+  <ul>
+    <li>O que é PHP e por que ele é usado</li>
+    <li>Como escrever e executar seu primeiro código</li>
+    <li>Uso de variáveis, operadores e estruturas de controle</li>
+    <li>Funções, manipulação de arquivos e cookies</li>
+    <li>Noções de banco de dados e POO</li>
+  </ul>
+  <p>Agora você está pronto para explorar atividades práticas!</p>
+</div>
+
+<footer>
+  <p>Conteúdo baseado nos slides da Teleaula 04 – Programação Web | Profª Elisa Antolli</p>
+  <p>Desenvolvido para estudo autônomo de alunos iniciantes.</p>
+</footer>
+
+<script>
+  function toggle(button) {
+    const expandable = button.nextElementSibling;
+    if (expandable.style.display === "block") {
+      expandable.style.display = "none";
+      button.textContent = "+";
+    } else {
+      expandable.style.display = "block";
+      button.textContent = "−";
+    }
+  }
+</script>
 
 </body>
 </html>
-
