@@ -83,7 +83,7 @@
         }
 
         main {
-            padding-top: 100px; /* Espaço para o nav fixo */
+            padding-top: 130px; /* Espaço para o nav fixo (aumentado para melhor espaçamento) */
             padding-bottom: 3rem;
         }
 
@@ -245,12 +245,17 @@
             font-size: 0.9rem;
         }
 
+        /* --- Ajuste Fino no Espaçamento do Primeiro Título --- */
+        section:first-of-type .card h2 {
+            margin-top: 0;
+        }
+
         /* --- Responsividade --- */
         @media (max-width: 768px) {
             h1 { font-size: 2rem; }
             h2 { font-size: 1.75rem; }
             h3 { font-size: 1.4rem; }
-            main { padding-top: 140px; }
+            main { padding-top: 170px; /* Ajustado para telas menores */ }
             .card { padding: 1.5rem; }
         }
     </style>
