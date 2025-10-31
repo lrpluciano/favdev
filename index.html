@@ -3,627 +3,480 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aula 04: Introdução à Linguagem PHP</title>
+    <title>Apresentação: Fundamentos de Algoritmos e Programação</title>
+    
+    <!-- Google Fonts (Recurso Externo) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* --- Configurações Globais e Reset --- */
-        :root {
-            --primary-color: #4F46E5;
-            --primary-dark: #3730A3;
-            --secondary-color: #10B981;
-            --background-color: #F9FAFB;
-            --surface-color: #FFFFFF;
-            --text-color: #1F2937;
-            --text-light-color: #6B7280;
-            --code-bg-color: #1F2937;
-            --code-text-color: #E5E7EB;
-            --border-color: #E5E7EB;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        }
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
+    <!-- CSS Embutido - Tema Claro -->
+    <style>
+        /* --- Configurações Globais e Fontes --- */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
+        html, body {
+            height: 100%;
             font-family: 'Roboto', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.7;
+            background-color: #f4f4f9; /* Fundo claro */
+            color: #333; /* Texto escuro */
         }
 
-        /* --- Tipografia --- */
-        h1, h2, h3, h4, h5, h6 {
+        /* --- Container Principal da Apresentação --- */
+        .presentation-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slides-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* --- Estilo de Cada Slide Individual --- */
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow-y: auto;
+        }
+
+        .slide h1 {
+            font-size: 3.5rem;
             font-weight: 700;
-            line-height: 1.2;
-            color: var(--text-color);
-        }
-
-        h1 { font-size: 2.5rem; }
-        h2 { font-size: 2rem; margin-top: 2.5rem; margin-bottom: 1.5rem; }
-        h3 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
-        h4 { font-size: 1.25rem; margin-top: 1.5rem; margin-bottom: 0.75rem; }
-
-        p {
             margin-bottom: 1rem;
-            color: var(--text-light-color);
+            color: #121212; /* Título mais escuro */
         }
 
-        a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
+        .slide h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #121212; /* Título mais escuro */
         }
 
-        a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
+        .slide h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: #555; /* Subtítulo cinza */
         }
 
-        strong, b {
-            color: var(--text-color);
-            font-weight: 500;
+        .slide p, .slide li {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            max-width: 800px;
+            margin-bottom: 1rem;
+            color: #444; /* Texto principal */
         }
 
-        /* --- Layout Principal --- */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
-
-        main {
-            padding-top: 130px; /* Espaço para o nav fixo (aumentado para melhor espaçamento) */
-            padding-bottom: 3rem;
-        }
-
-        section {
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #666; /* Subtítulo mais suave */
             margin-bottom: 3rem;
         }
 
-        /* --- Cabeçalho e Navegação --- */
-        header {
-            background-color: var(--surface-color);
-            box-shadow: var(--shadow);
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
+        .footer {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 1rem;
+            color: #777; /* Rodapé cinza */
         }
 
-        .header-content {
-            padding: 1rem 0;
-        }
-
-        .header-content h1 {
-            font-size: 1.5rem;
-            color: var(--primary-color);
-        }
-
-        .header-content p {
-            font-size: 0.9rem;
-            margin-bottom: 0;
-        }
-
-        nav ul {
-            list-style: none;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1rem;
-            padding-top: 0.5rem;
-        }
-
-        nav a {
+        /* --- Elementos de Destaque --- */
+        .highlight {
+            background-color: #1e88e5; /* Cor de destaque mantida */
+            color: white;
             padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-            transition: background-color 0.2s, color 0.2s;
+            border-radius: 8px;
+            font-weight: bold;
+            display: inline-block;
+            margin: 1rem 0;
         }
 
-        nav a:hover, nav a.active {
-            background-color: var(--primary-color);
-            color: var(--surface-color);
-            text-decoration: none;
+        blockquote {
+            border-left: 5px solid #1e88e5; /* Borda de destaque mantida */
+            padding-left: 1.5rem;
+            margin: 2rem 0;
+            font-style: italic;
+            color: #666; /* Texto da citação */
+            text-align: left;
+            max-width: 900px;
         }
 
-        /* --- Componentes de Conteúdo --- */
-        .card {
-            background-color: var(--surface-color);
-            border-radius: 0.75rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .info-box {
-            background-color: #EBF8FF;
-            border-left: 4px solid var(--primary-color);
-            padding: 1rem 1.5rem;
-            margin: 1.5rem 0;
-            border-radius: 0 0.5rem 0.5rem 0;
-        }
-
-        .info-box p {
-            margin-bottom: 0;
-            color: var(--primary-dark);
-        }
-
+        /* --- Listas --- */
         ul, ol {
-            padding-left: 2rem;
-            margin-bottom: 1rem;
+            list-style: none;
+            text-align: left;
+            max-width: 900px;
         }
 
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        /* --- Blocos de Código --- */
-        .code-container {
+        ul li, ol li {
             position: relative;
-            margin: 1.5rem 0;
-            border-radius: 0.75rem;
-            overflow: hidden;
-            box-shadow: var(--shadow);
+            padding-left: 2rem;
+            margin-bottom: 0.8rem;
         }
 
-        .code-header {
-            background-color: var(--code-bg-color);
-            color: var(--code-text-color);
-            padding: 0.75rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        ul li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #1e88e5; /* Marcador de lista mantido */
+            font-weight: bold;
         }
 
-        .code-lang {
-            color: var(--secondary-color);
+        ol li::before {
+            content: counter(list-item) ".";
+            position: absolute;
+            left: 0;
+            color: #1e88e5; /* Marcador de lista mantido */
+            font-weight: bold;
         }
 
-        .copy-button {
-            background-color: transparent;
-            border: 1px solid var(--code-text-color);
-            color: var(--code-text-color);
-            padding: 0.25rem 0.75rem;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-family: 'Roboto', sans-serif;
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-
-        .copy-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-        }
-
-        .copy-button.copied {
-            background-color: var(--secondary-color);
-            border-color: var(--secondary-color);
+        /* --- Caixa de Exemplo e Código --- */
+        .example-box {
+            background-color: #ffffff; /* Fundo branco para a caixa */
+            border: 1px solid #ddd; /* Borda clara */
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            text-align: left;
+            max-width: 900px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
         }
 
         pre {
-            margin: 0;
-            background-color: var(--code-bg-color);
-            padding: 1.5rem;
+            background-color: #f5f5f5; /* Fundo claro para código */
+            padding: 1rem;
+            border-radius: 5px;
             overflow-x: auto;
-        }
-
-        code {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            color: var(--code-text-color);
             white-space: pre-wrap;
             word-wrap: break-word;
         }
 
-        /* --- Rodapé --- */
-        footer {
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.2rem;
+            color: #333; /* Código escuro */
+        }
+
+        /* --- Controles de Navegação --- */
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background-color: rgba(255, 255, 255, 0.9); /* Fundo claro e semi-transparente */
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra mais definida */
+        }
+
+        .controls button {
+            background-color: #1e88e5; /* Cor de botão mantida */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .controls button:hover {
+            background-color: #1976d2; /* Hover mantido */
+            transform: scale(1.05);
+        }
+
+        .controls button:active {
+            transform: scale(0.98);
+        }
+
+        #slide-counter {
+            font-size: 1.1rem;
+            color: #333; /* Contador escuro */
+            min-width: 50px;
             text-align: center;
-            padding: 2rem 1rem;
-            background-color: var(--surface-color);
-            border-top: 1px solid var(--border-color);
-            color: var(--text-light-color);
-            font-size: 0.9rem;
         }
 
-        /* --- Ajustes Fino de Espaçamento --- */
-        section:first-of-type .card h2 {
-            margin-top: 0;
+        #fullscreen-btn {
+            background-color: #777; /* Botão de tela cheia cinza */
         }
-
-        /* Adiciona espaço entre o primeiro título e o primeiro parágrafo */
-        section:first-of-type .card p:first-of-type {
-            margin-top: 1.5rem;
-        }
-
-        /* --- Responsividade --- */
-        @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            h2 { font-size: 1.75rem; }
-            h3 { font-size: 1.4rem; }
-            main { padding-top: 170px; /* Ajustado para telas menores */ }
-            .card { padding: 1.5rem; }
+        #fullscreen-btn:hover {
+            background-color: #888; /* Hover mais claro */
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="container header-content">
-            <h1>Programação Web: Linguagem PHP</h1>
-            <p>Profa. Elisa Antolli | Unidade 04 | Teleaula 04</p>
-            <nav>
+    <main class="presentation-container">
+        <div class="slides-wrapper">
+            <!-- Slide 1: Título -->
+            <section class="slide">
+                <h1>Fundamentos de Algoritmos e Programação</h1>
+                <p class="subtitle">Um Guia Completo para Iniciantes</p>
+                <p class="footer">Preparado para a Unidade 1: Algoritmos e Linguagem de Programação</p>
+            </section>
+
+            <!-- Slide 2: Agenda -->
+            <section class="slide">
+                <h2>Agenda da Nossa Aula</h2>
                 <ul>
-                    <li><a href="#introducao">Introdução</a></li>
-                    <li><a href="#primeiros-passos">Primeiros Passos</a></li>
-                    <li><a href="#modularizacao">Modularização</a></li>
-                    <li><a href="#banco-de-dados">Banco de Dados e POO</a></li>
-                    <li><a href="#recapitulando">Recapitulando</a></li>
+                    <li><strong>1.</strong> O que é um Algoritmo? (Conceito e Características)</li>
+                    <li><strong>2.</strong> Como Descrevemos um Algoritmo? (Linguagem Natural, Fluxograma e Pseudocódigo)</li>
+                    <li><strong>3.</strong> Tipos e Qualidades (Classificação e o que faz um bom algoritmo)</li>
+                    <li><strong>4.</strong> O Processo de Desenvolvimento (Do problema à solução)</li>
+                    <li><strong>5.</strong> A Ponte para a Máquina (O papel das Linguagens de Programação)</li>
+                    <li><strong>6.</strong> Aplicações no Mundo Real (Onde os algoritmos estão presentes)</li>
                 </ul>
-            </nav>
+            </section>
+
+            <!-- Slide 3: Conceito de Algoritmo -->
+            <section class="slide">
+                <h2>O que é um Algoritmo?</h2>
+                <blockquote>
+                    <strong>Definição:</strong> Uma sequência <strong>finita</strong> de passos <strong>definidos</strong> e <strong>organizados logicamente</strong> para resolver um problema ou realizar uma tarefa.
+                </blockquote>
+                <p><strong>Pense em uma receita de bolo:</strong></p>
+                <ul>
+                    <li><strong>Ingredientes:</strong> São os seus dados de entrada.</li>
+                    <li><strong>Modo de Preparo:</strong> É a sequência de passos (o algoritmo).</li>
+                    <li><strong>Bolo Pronto:</strong> É o resultado final.</li>
+                </ul>
+                <p class="highlight">A Principal Característica: <strong>Sequência Lógica de Passos.</strong></p>
+            </section>
+
+            <!-- Slide 4: Linguagem Natural -->
+            <section class="slide">
+                <h2>Usando Linguagem Natural</h2>
+                <p>É simplesmente escrever os passos do algoritmo em uma linguagem comum, como o português.</p>
+                <p class="highlight">Vantagem Principal: <strong>Facilidade de Entendimento Humano.</strong></p>
+                <ul>
+                    <li>Qualquer pessoa pode ler e entender.</li>
+                    <li>É ótima para o primeiro rascunho.</li>
+                </ul>
+                <div class="example-box">
+                    <h3>Exemplo: Como Fazer um Café</h3>
+                    <ol>
+                        <li>Pegar um filtro de papel.</li>
+                        <li>Colocar o pó de café no filtro.</li>
+                        <li>Aquecer a água até ferver.</li>
+                        <li>Despejar a água quente sobre o pó.</li>
+                        <li>Servir.</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Slide 5: Fluxograma -->
+            <section class="slide">
+                <h2>Ilustrando a Lógica com Fluxogramas</h2>
+                <p>É um desenho que usa símbolos padronizados para mostrar o fluxo do algoritmo.</p>
+                <p class="highlight">Função Principal: <strong>Ilustrar Visualmente a Lógica.</strong></p>
+                <div class="example-box">
+                    <h3>Símbolos Mais Comuns:</h3>
+                    <ul>
+                        <li><strong>(Oval)</strong> Terminais: Início e Fim.</li>
+                        <li><strong>(Retângulo)</strong> Processamento: Uma ação a ser executada.</li>
+                        <li><strong>(Losango)</strong> Decisão: Uma pergunta com duas respostas (Sim/Não).</li>
+                        <li><strong>(Paralelogramo)</strong> Entrada/Saída: Ler dados ou mostrar resultados.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Slide 6: Pseudocódigo -->
+            <section class="slide">
+                <h2>A Ponte entre a Língua e o Código</h2>
+                <p>É uma forma de escrever o algoritmo que se parece com um programa, mas sem as regras rígidas de uma linguagem específica.</p>
+                <p class="highlight">Por que usamos? <strong>Para representar a lógica sem se preocupar com a sintaxe.</strong></p>
+                <div class="example-box">
+                    <h3>Exemplo: Verificar se um aluno foi aprovado</h3>
+                    <pre><code>INÍCIO
+  ESCREVA "Digite a nota do aluno:"
+  LEIA nota
+  
+  SE nota >= 7 ENTÃO
+    ESCREVA "Aluno Aprovado!"
+  SENÃO
+    ESCREVA "Aluno Reprovado."
+  FIM_SE
+FIM</code></pre>
+                </div>
+            </section>
+
+            <!-- Slide 7: Classificação -->
+            <section class="slide">
+                <h2>Tipos de Algoritmos</h2>
+                <p>Algoritmos podem ser classificados pelo tipo de tarefa que realizam.</p>
+                <p class="highlight"><strong>Algoritmo de Decisão:</strong> Tomar decisões baseadas em condições.</p>
+                <ul>
+                    <li><strong>Exemplo:</strong> Um sistema que decide se um cartão de crédito deve ser bloqueado.</li>
+                </ul>
+                <p><strong>Outros Tipos Comuns:</strong></p>
+                <ul>
+                    <li><strong>Ordenação:</strong> Organizam uma lista (ex: nomes em ordem alfabética).</li>
+                    <li><strong>Busca:</strong> Procuram por um item (ex: buscar um contato).</li>
+                </ul>
+            </section>
+
+            <!-- Slide 8: Qualidades -->
+            <section class="slide">
+                <h2>O que faz um Algoritmo ser Bom?</h2>
+                <p>Um algoritmo não só precisa funcionar, mas ser bem construído.</p>
+                <p class="highlight">Característica Principal: <strong>Clareza</strong></p>
+                <ul>
+                    <li>Deve ser fácil de ler e entender.</li>
+                    <li><strong>Evite ambiguidade.</strong></li>
+                </ul>
+                <p><strong>Outras Qualidades Essenciais:</strong></p>
+                <ul>
+                    <li><strong>Eficiência:</strong> Mínimo de recursos (tempo e memória).</li>
+                    <li><strong>Correção:</strong> Produz sempre o resultado esperado.</li>
+                    <li><strong>Finitude:</strong> Deve sempre terminar.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 9: Processo de Desenvolvimento -->
+            <section class="slide">
+                <h2>A Etapa Mais Importante: Análise do Problema</h2>
+                <p>Antes de escrever qualquer código, você precisa entender profundamente o que precisa ser resolvido.</p>
+                <p class="highlight"><strong>O Processo de Desenvolvimento:</strong></p>
+                <ol>
+                    <li><strong>1. Análise e Entendimento do Problema:</strong> O que precisa ser feito? <strong>(Esta etapa vem primeiro!)</strong></li>
+                    <li><strong>2. Planejamento da Solução:</strong> Desenhar um fluxograma ou escrever um pseudocódigo.</li>
+                    <li><strong>3. Implementação:</strong> Escrever o código em uma linguagem de programação.</li>
+                    <li><strong>4. Testes e Otimização:</strong> Verificar se o programa funciona corretamente.</li>
+                </ol>
+                <blockquote>"Não se pode resolver um problema que não se entende."</blockquote>
+            </section>
+
+            <!-- Slide 10: Linguagem de Programação -->
+            <section class="slide">
+                <h2>O Papel da Linguagem de Programação</h2>
+                <p>Um algoritmo é um plano abstrato. A linguagem de programação é a ferramenta que torna esse plano real para o computador.</p>
+                <p class="highlight">Papel Principal: <strong>Traduzir algoritmos em instruções compreensíveis pela máquina.</strong></p>
+                <ul>
+                    <li>O computador não entende português nem pseudocódigo.</li>
+                    <li>A linguagem de programação (Python, Java, C++) fornece as regras e o vocabulário que o computador executa.</li>
+                </ul>
+                <p><strong>Em resumo:</strong></p>
+                <ul>
+                    <li><strong>Algoritmo:</strong> A lógica, a estratégia.</li>
+                    <li><strong>Linguagem de Programação:</strong> O meio para comunicar essa estratégia.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 11: Aplicações -->
+            <section class="slide">
+                <h2>Onde os Algoritmos Estão?</h2>
+                <p>Algoritmos estão por toda parte no nosso mundo digital, tornando nossas vidas mais fáceis e eficientes.</p>
+                <p class="highlight">Aplicação Principal: <strong>Tomada de Decisão Automatizada.</strong></p>
+                <p><strong>Exemplos no seu dia a dia:</strong></p>
+                <ul>
+                    <li><strong>GPS (Google Maps, Waze):</strong> Usa algoritmos de busca e de "caminho mais curto".</li>
+                    <li><strong>Netflix e Spotify:</strong> Usam algoritmos para recomendar novos conteúdos.</li>
+                    <li><strong>Buscadores (Google):</strong> Usam algoritmos de ordenação para colocar os resultados mais relevantes no topo.</li>
+                    <li><strong>Bancos:</strong> Usam algoritmos para analisar seu perfil e decidir se concede um empréstimo.</li>
+                </ul>
+            </section>
+
+            <!-- Slide 12: Resumo -->
+            <section class="slide">
+                <h2>Resumo: O que Aprendemos?</h2>
+                <ul>
+                    <li><strong>Algoritmo</strong> é uma receita lógica para resolver problemas.</li>
+                    <li>Podemos descrevê-lo com <strong>Linguagem Natural</strong>, <strong>Fluxogramas</strong> (visual) e <strong>Pseudocódigo</strong> (estruturado).</li>
+                    <li>Um bom algoritmo é <strong>claro</strong>, <strong>correto</strong> e <strong>eficiente</strong>.</li>
+                    <li>O primeiro passo é <strong>analisar e entender o problema</strong>.</li>
+                    <li>A <strong>Linguagem de Programação</strong> é a ferramenta que transforma o algoritmo em um programa funcional.</li>
+                    <li>Eles são essenciais para a <strong>tomada de decisão automatizada</strong>.</li>
+                </ul>
+                <h3>Prepare-se para a Próxima Aula!</h3>
+                <ul>
+                    <li>Planeje seu tempo.</li>
+                    <li>Estude o material antes da teleaula.</li>
+                    <li>Faça anotações e esquemas.</li>
+                </ul>
+                <p class="highlight"><strong>Bons estudos!</strong></p>
+            </section>
         </div>
-    </header>
-
-    <main class="container">
-        <section id="introducao">
-            <div class="card">
-                <h2>1. Introdução ao PHP</h2>
-                <p>Seja bem-vindo ao mundo do PHP! Nesta aula, vamos desvendar uma das linguagens mais poderosas e populares para o desenvolvimento web. Vamos começar do zero?</p>
-
-                <h3>O que é PHP?</h3>
-                <p><strong>PHP</strong> é um acrônimo para "<strong>P</strong>HP <strong>H</strong>ypertext <strong>P</strong>reprocessor". Pense nele como uma ferramenta que roda no <strong>servidor</strong> (o computador que hospeda seu site) para criar páginas web dinâmicas. Ao invés de um site estático, onde o conteúdo é sempre o mesmo, o PHP permite que o site mude, interaja com o usuário e se conecte a bancos de dados.</p>
-                <div class="info-box">
-                    <p><strong>Dica:</strong> PHP é uma linguagem <em>embutida no HTML</em>. Isso significa que você pode misturar código PHP diretamente no seu arquivo HTML.</p>
-                </div>
-
-                <h3>Características Principais</h3>
-                <ul>
-                    <li><strong>Linguagem Interpretada:</strong> O código é executado linha por linha, sem precisar de uma compilação prévia.</li>
-                    <li><strong>Fracamente Tipada:</strong> Você não precisa declarar o tipo de uma variável (se é texto, número, etc.). O PHP tenta adivinhar!</li>
-                    <li><strong>Multiplataforma:</strong> Roda em Windows, Linux, macOS e muitos outros sistemas.</li>
-                    <li><strong>Orientada a Objetos:</strong> Permite organizar o código de forma estruturada e reutilizável.</li>
-                </ul>
-
-                <h3>A Sintaxe Básica</h3>
-                <p>Todo o código PHP deve estar dentro de suas tags especiais. A mais comum é <code>&lt;?php ... ?&gt;</code>. E não se esqueça: <strong>toda linha de código em PHP termina com um ponto e vírgula (;)</strong>!</p>
-                
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  // Isso é um comentário de uma linha
-  $nome = "Aluno"; // Declara uma variável
-  echo "Olá, " . $nome . "!"; // Imprime uma saída no navegador
-?&gt;</code></pre>
-                </div>
-            </div>
-        </section>
-
-        <section id="primeiros-passos">
-            <div class="card">
-                <h2>2. Primeiros Passos em PHP</h2>
-                <p>Agora que já sabemos o que é o PHP, vamos colocar a mão na massa! Veremos como armazenar dados, tomar decisões e repetir ações.</p>
-
-                <h3>Variáveis</h3>
-                <p>Variáveis são "caixas" onde guardamos informações. No PHP, toda variável começa com o cifrão (<code>$</code>).</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  $texto = "Aprendendo PHP"; // Uma string (texto)
-  $ano = 2023;              // Um número inteiro
-  $preco = 19.99;           // Um número com casas decimais (float)
-  $ehVerdade = true;        // Um booleano (verdadeiro ou falso)
-?&gt;</code></pre>
-                </div>
-
-                <h3>Operadores</h3>
-                <p>Podemos fazer cálculos e comparações com os valores das variáveis.</p>
-                <ul>
-                    <li><strong>Aritméticos:</strong> <code>+</code> (soma), <code>-</code> (subtração), <code>*</code> (multiplicação), <code>/</code> (divisão).</li>
-                    <li><strong>Comparação:</strong> <code>==</code> (igual), <code>!=</code> (diferente), <code>&gt;</code> (maior que), <code>&lt;</code> (menor que).</li>
-                </ul>
-
-                <h3>Estruturas de Controle</h3>
-                <p>Elas permitem que seu programa tome decisões e execute tarefas repetitivas.</p>
-                
-                <h4>Condicional <code>if</code></h4>
-                <p>Executa um bloco de código apenas se uma condição for verdadeira.</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  $idade = 18;
-  if ($idade >= 18) {
-    echo "Você é maior de idade.";
-  } else {
-    echo "Você é menor de idade.";
-  }
-?&gt;</code></pre>
-                </div>
-
-                <h4>Laço de Repetição <code>while</code></h4>
-                <p>Executa um bloco de código <strong>enquanto</strong> uma condição for verdadeira.</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  $contador = 1;
-  while ($contador <= 5) {
-    echo "O número é: " . $contador . "&lt;br&gt;";
-    $contador++; // Importante: incrementa o contador para não criar um loop infinito!
-  }
-?&gt;</code></pre>
-                </div>
-                
-                <h4>Laço de Repetição <code>for</code></h4>
-                <p>Ótimo para quando você sabe exatamente quantas vezes quer repetir algo.</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  for ($i = 0; $i < 5; $i++) {
-    echo "Executando o loop pela vez número " . ($i + 1) . "&lt;br&gt;";
-  }
-?&gt;</code></pre>
-                </div>
-
-                <h3>Funções</h3>
-                <p>Funções são blocos de código reutilizáveis que executam uma tarefa específica. Você pode criar as suas!</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  // Definindo a função
-  function saudacao($nome) {
-    return "Olá, " . $nome . "! Seja bem-vindo(a).";
-  }
-
-  // Chamando a função
-  echo saudacao("Maria");
-  echo saudacao("João");
-?&gt;</code></pre>
-                </div>
-            </div>
-        </section>
-
-        <section id="modularizacao">
-            <div class="card">
-                <h2>3. Modularização: Gerenciamento de Arquivos</h2>
-                <p>Um dos grandes poderes do PHP é a capacidade de interagir com o sistema de arquivos do servidor. Isso significa que seu script pode ler, escrever, copiar e deletar arquivos!</p>
-
-                <h3>Abrindo e Fechando Arquivos</h3>
-                <p>Para manipular um arquivo, primeiro você precisa <strong>abri-lo</strong> e informar o <strong>modo</strong> de abertura. No final, é uma boa prática <strong>fechá-lo</strong>.</p>
-                <ul>
-                    <li><code>'r'</code> - Leitura (apenas lê o arquivo).</li>
-                    <li><code>'w'</code> - Escrita (apaga o conteúdo existente e escreve do zero).</li>
-                    <li><code>'a'</code> - Adição (adiciona conteúdo ao final do arquivo).</li>
-                </ul>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  $arquivo = 'meu_arquivo.txt';
-  $conteudo = "Este é um novo conteúdo.\n";
-
-  // Abre o arquivo para escrita ('w')
-  $ponteiro = fopen($arquivo, 'w');
-
-  // Escreve o conteúdo no arquivo
-  fwrite($ponteiro, $conteudo);
-
-  // Fecha o arquivo
-  fclose($ponteiro);
-
-  echo "Arquivo escrito com sucesso!";
-?&gt;</code></pre>
-                </div>
-
-                <h3>Lendo um Arquivo</h3>
-                <p>Para ler o conteúdo, usamos a função <code>fread</code> ou <code>fgets</code> (para ler linha por linha).</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  $arquivo = 'meu_arquivo.txt';
-
-  // Verifica se o arquivo existe antes de tentar ler
-  if (file_exists($arquivo)) {
-    // Lê o conteúdo inteiro do arquivo para uma string
-    $conteudo = file_get_contents($arquivo);
-    echo $conteudo;
-  } else {
-    echo "O arquivo não foi encontrado.";
-  }
-?&gt;</code></pre>
-                </div>
-            </div>
-        </section>
-
-        <section id="banco-de-dados">
-            <div class="card">
-                <h2>4. Banco de Dados e POO</h2>
-                <p>Aqui entramos em dois tópicos avançados e essenciais: como o PHP se comunica com bancos de dados e como podemos usar a Programação Orientada a Objetos (POO) para organizar melhor nossos projetos.</p>
-
-                <h3>Banco de Dados</h3>
-                <p>Um site dinâmico quase sempre precisa armazenar informações (usuários, produtos, posts, etc.). Para isso, usamos um <strong>Sistema Gerenciador de Banco de Dados (SGBD)</strong>, como o <strong>MySQL</strong>.</p>
-                <p>O PHP se conecta ao MySQL, envia comandos em uma linguagem chamada <strong>SQL</strong> e recebe os dados para exibir na página.</p>
-                <div class="info-box">
-                    <p><strong>SQL (Structured Query Language)</strong> é a linguagem padrão para falar com a maioria dos bancos de dados relacionais.</p>
-                </div>
-
-                <h4>Conectando ao MySQL com PHP</h4>
-                <p>A forma mais moderna e segura de se conectar é usando a extensão <code>MySQLi</code> ou <code>PDO</code>. Vemos um exemplo com <code>MySQLi</code>.</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  $servidor = "localhost";
-  $usuario = "root";
-  $senha = "";
-  $nome_banco = "meu_site";
-
-  // Criar a conexão
-  $conn = new mysqli($servidor, $usuario, $senha, $nome_banco);
-
-  // Verificar a conexão
-  if ($conn->connect_error) {
-    die("Falha na conexão: " . $conn->connect_error);
-  }
-  echo "Conectado com sucesso!";
-?&gt;</code></pre>
-                </div>
-
-                <h3>Programação Orientada a Objetos (POO)</h3>
-                <p>POO é uma forma de programar que tenta "modelar" o mundo real. Em vez de pensarmos em variáveis e funções soltas, criamos <strong>objetos</strong>. Um objeto é uma instância de uma <strong>classe</strong>.</p>
-                <p>Uma <strong>classe</strong> é como um "molde" ou "planta". Ela define as <strong>propriedades</strong> (características) e os <strong>métodos</strong> (ações/comportamentos) que um objeto daquele tipo terá.</p>
-
-                <h4>Exemplo de Classe em PHP</h4>
-                <p>Vamos criar uma classe `Pessoa` com propriedades (nome, idade) e um método (se apresentar).</p>
-                <div class="code-container">
-                    <div class="code-header">
-                        <span class="code-lang">PHP</span>
-                        <button class="copy-button">Copiar</button>
-                    </div>
-                    <pre><code>&lt;?php
-  class Pessoa {
-    // Propriedades
-    public $nome;
-    public $idade;
-
-    // Método Construtor: executado quando o objeto é criado
-    function __construct($nome, $idade) {
-      $this->nome = $nome;
-      $this->idade = $idade;
-    }
-
-    // Método
-    public function seApresentar() {
-      return "Olá, meu nome é " . $this->nome . " e eu tenho " . $this->idade . " anos.";
-    }
-  }
-
-  // Criando um objeto (instância) da classe Pessoa
-  $pessoa1 = new Pessoa("Carlos", 30);
-
-  // Usando o método do objeto
-  echo $pessoa1->seApresentar();
-?&gt;</code></pre>
-                </div>
-                <div class="info-box">
-                    <p><strong>A palavra-chave <code>$this</code></strong> se refere ao próprio objeto em que o código está sendo executado. É como dizer "o nome <em>deste</em> objeto".</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="recapitulando">
-            <div class="card">
-                <h2>5. Recapitulando</h2>
-                <p>Ufa! Vimos bastante coisa, não é mesmo? Vamos relembrar os pontos principais desta jornada:</p>
-                <ul>
-                    <li><strong>PHP</strong> é uma linguagem de servidor para criar sites dinâmicos.</li>
-                    <li>Usamos <strong>variáveis</strong> (<code>$var</code>) para armazenar dados.</li>
-                    <li><strong>Estruturas de controle</strong> como <code>if</code>, <code>while</code> e <code>for</code> dão lógica ao nosso código.</li>
-                    <li><strong>Funções</strong> nos ajudam a reutilizar código.</li>
-                    <li>O PHP pode <strong>ler e escrever arquivos</strong> no servidor.</li>
-                    <li>A <strong>conexão com bancos de dados</strong> (como MySQL) permite armazenar e recuperar informações de forma persistente.</li>
-                    <li>A <strong>Programação Orientada a Objetos (POO)</strong> nos ajuda a organizar projetos complexos usando classes e objetos.</li>
-                </ul>
-                <p>Este é o começo de uma caminhada muito interessante no desenvolvimento web. Continue praticando, explorando e, acima de tudo, se divertindo criando!</p>
-            </div>
-        </section>
     </main>
 
-    <footer>
-        <p>&copy; 2023 - Programação Web | Material de apoio para a aula de PHP.</p>
-    </footer>
+    <nav class="controls">
+        <button id="prev-btn">‹ Anterior</button>
+        <span id="slide-counter">1 / 12</span>
+        <button id="next-btn">Próximo ›</button>
+        <button id="fullscreen-btn">⛶ Tela Cheia</button>
+    </nav>
 
+    <!-- JavaScript Embutido -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const copyButtons = document.querySelectorAll('.copy-button');
-            const navLinks = document.querySelectorAll('nav a');
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Seleção de Elementos do DOM ---
+            const slidesWrapper = document.querySelector('.slides-wrapper');
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const slideCounter = document.getElementById('slide-counter');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
 
-            // --- Funcionalidade de Copiar Código ---
-            copyButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const codeBlock = button.closest('.code-container').querySelector('code');
-                    const textToCopy = codeBlock.innerText;
+            // --- Estado da Aplicação ---
+            let currentSlide = 0;
+            const totalSlides = slides.length;
 
-                    navigator.clipboard.writeText(textToCopy).then(() => {
-                        button.textContent = 'Copiado!';
-                        button.classList.add('copied');
-                        
-                        setTimeout(() => {
-                            button.textContent = 'Copiar';
-                            button.classList.remove('copied');
-                        }, 2000);
-                    }).catch(err => {
-                        console.error('Falha ao copiar o texto: ', err);
-                        button.textContent = 'Erro!';
-                    });
-                });
-            });
+            // --- Funções Principais ---
 
-            // --- Navegação Ativa (Destaque no Menu) ---
-            const sections = document.querySelectorAll('main section[id]');
-            
-            const activateNavLink = () => {
-                let current = '';
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    if (scrollY >= (sectionTop - 200)) {
-                        current = section.getAttribute('id');
-                    }
-                });
+            /**
+             * Exibe o slide com base no índice fornecido.
+             * @param {number} slideIndex - O índice do slide a ser exibido.
+             */
+            const showSlide = (slideIndex) => {
+                // Garante que o índice esteja dentro dos limites (cria um loop infinito)
+                if (slideIndex < 0) {
+                    currentSlide = totalSlides - 1;
+                } else if (slideIndex >= totalSlides) {
+                    currentSlide = 0;
+                } else {
+                    currentSlide = slideIndex;
+                }
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href').slice(1) === current) {
-                        link.classList.add('active');
-                    }
-                });
+                // Move o container de slides horizontalmente
+                const offset = -currentSlide * 100;
+                slidesWrapper.style.transform = `translateX(${offset}vw)`;
+
+                // Atualiza o contador
+                updateCounter();
+            };
+
+            /**
+             * Atualiza o texto do contador de slides.
+             */
+            const updateCounter = () => {
+                slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
             };
             
-            window.addEventListener('scroll', activateNavLink);
-        });
-    </script>
-</body>
-</html>
+            /**
+             * Alterna o modo de tela cheia.
+             */
+            const toggleFullscreen = () => {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen().catch(err => {
+                        console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`);
+                    })
