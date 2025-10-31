@@ -474,9 +474,57 @@ FIM</code></pre>
             
             /**
              * Alterna o modo de tela cheia.
+             * CORREÇÃO: Adicionado um bloco try...catch para evitar erros em plataformas como GitHub Pages.
              */
             const toggleFullscreen = () => {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen().catch(err => {
-                        console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`);
-                    })
+                try {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().catch(err => {
+                            // Este catch interno captura erros da própria promise do requestFullscreen
+                            console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`);
+                        });
+                        fullscreenBtn.textContent = '◱ Sair Tela Cheia';
+                    } else {
+                        document.exitFullscreen();
+                        fullscreenBtn.textContent = '⛶ Tela Cheia';
+                    }
+                } catch (err) {
+                    // Este catch externo captura qualquer outro erro inesperado na função
+                    console.error("A função de tela cheia não pôde ser executada.", err);
+                }
+            };
+
+            // --- Event Listeners ---
+
+            // Navegação com botões
+            nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+            prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+
+            // Navegação com teclado
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'ArrowRight' || event.key === ' ') {
+                    event.preventDefault(); // Impede a barra de espaço rolar a página
+                    showSlide(currentSlide + 1);
+                } else if (event.key === 'ArrowLeft') {
+                    showSlide(currentSlide - 1);
+                }
+            });
+
+            // Controle de tela cheia
+            fullscreenBtn.addEventListener('click', toggleFullscreen);
+            
+            // Atualiza o botão de tela cheia se o estado mudar por outros meios (ex: tecla F11)
+            document.addEventListener('fullscreenchange', () => {
+                if (document.fullscreenElement) {
+                    fullscreenBtn.textContent = '◱ Sair Tela Cheia';
+                } else {
+                    fullscreenBtn.textContent = '⛶ Tela Cheia';
+                }
+            });
+
+            // --- Inicialização ---
+            showSlide(0); // Mostra o primeiro slide ao carregar a página
+        });
+    </script>
+</body>
+</html>
