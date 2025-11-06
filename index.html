@@ -1,530 +1,583 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apresentação: Fundamentos de Algoritmos e Programação</title>
-    
-    <!-- Google Fonts (Recurso Externo) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teleaula 02 — Banco de Dados (Para Iniciantes)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #0056b3;
+      --primary-light: #e6f0fa;
+      --accent: #00c1b5;
+      --bg: #f9f9fb;
+      --text: #333;
+      --text-light: #666;
+      --shadow: 0 4px 12px rgba(0,0,0,0.05);
+      --radius: 8px;
+      --transition: all 0.3s ease;
+    }
 
-    <!-- CSS Embutido - Tema Claro -->
-    <style>
-        /* --- Configurações Globais e Fontes --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html, body {
-            height: 100%;
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9; /* Fundo claro */
-            color: #333; /* Texto escuro */
-        }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-        /* --- Container Principal da Apresentação --- */
-        .presentation-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-        .slides-wrapper {
-            display: flex;
-            height: 100%;
-            transition: transform 0.5s ease-in-out;
-        }
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
 
-        /* --- Estilo de Cada Slide Individual --- */
-        .slide {
-            min-width: 100vw;
-            height: 100vh;
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow-y: auto;
-        }
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; margin-top: 2.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-light); }
+    h3 { font-size: 1.4rem; }
+    h4 { font-size: 1.2rem; }
 
-        .slide h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #121212; /* Título mais escuro */
-        }
+    p, li { margin-bottom: 1rem; }
+    ul, ol { padding-left: 1.5rem; margin: 1rem 0; }
 
-        .slide h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: #121212; /* Título mais escuro */
-        }
+    a { color: var(--primary); text-decoration: none; font-weight: 600; }
+    a:hover { text-decoration: underline; }
 
-        .slide h3 {
-            font-size: 1.8rem;
-            font-weight: 400;
-            margin-bottom: 1rem;
-            color: #555; /* Subtítulo cinza */
-        }
+    header {
+      background: white;
+      box-shadow: var(--shadow);
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-        .slide p, .slide li {
-            font-size: 1.4rem;
-            line-height: 1.8;
-            max-width: 800px;
-            margin-bottom: 1rem;
-            color: #444; /* Texto principal */
-        }
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .subtitle {
-            font-size: 1.8rem;
-            font-weight: 300;
-            color: #666; /* Subtítulo mais suave */
-            margin-bottom: 3rem;
-        }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
 
-        .footer {
-            position: absolute;
-            bottom: 2rem;
-            font-size: 1rem;
-            color: #777; /* Rodapé cinza */
-        }
+    .logo-icon {
+      background: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
 
-        /* --- Elementos de Destaque --- */
-        .highlight {
-            background-color: #1e88e5; /* Cor de destaque mantida */
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            font-weight: bold;
-            display: inline-block;
-            margin: 1rem 0;
-        }
+    nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
 
-        blockquote {
-            border-left: 5px solid #1e88e5; /* Borda de destaque mantida */
-            padding-left: 1.5rem;
-            margin: 2rem 0;
-            font-style: italic;
-            color: #666; /* Texto da citação */
-            text-align: left;
-            max-width: 900px;
-        }
+    nav a {
+      font-weight: 500;
+      color: var(--text-light);
+      transition: var(--transition);
+    }
 
-        /* --- Listas --- */
-        ul, ol {
-            list-style: none;
-            text-align: left;
-            max-width: 900px;
-        }
+    nav a:hover, nav a.active {
+      color: var(--primary);
+    }
 
-        ul li, ol li {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 0.8rem;
-        }
+    main { padding: 2rem 0; }
+    section { margin-bottom: 3rem; }
 
-        ul li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: #1e88e5; /* Marcador de lista mantido */
-            font-weight: bold;
-        }
+    .card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
 
-        ol li::before {
-            content: counter(list-item) ".";
-            position: absolute;
-            left: 0;
-            color: #1e88e5; /* Marcador de lista mantido */
-            font-weight: bold;
-        }
+    .highlight {
+      background-color: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
 
-        /* --- Caixa de Exemplo e Código --- */
-        .example-box {
-            background-color: #ffffff; /* Fundo branco para a caixa */
-            border: 1px solid #ddd; /* Borda clara */
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1.5rem;
-            text-align: left;
-            max-width: 900px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Sombra sutil */
-        }
+    .pause {
+      background: #fff8e6;
+      border-left: 4px solid #ffb300;
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
 
-        pre {
-            background-color: #f5f5f5; /* Fundo claro para código */
-            padding: 1rem;
-            border-radius: 5px;
-            overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
+    .did-you-know {
+      background: #e6f7f4;
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      border-radius: 0 var(--radius) var(--radius) 0;
+    }
 
-        code {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.2rem;
-            color: #333; /* Código escuro */
-        }
+    .acronym {
+      background: #f0f7ff;
+      border: 1px dashed var(--primary);
+      border-radius: 4px;
+      padding: 0.2rem 0.4rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
 
-        /* --- Controles de Navegação --- */
-        .controls {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background-color: rgba(255, 255, 255, 0.9); /* Fundo claro e semi-transparente */
-            padding: 10px 20px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra mais definida */
-        }
+    .code {
+      font-family: 'SFMono-Regular', Consolas, monospace;
+      background: #f0f4f8;
+      padding: 1rem;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
 
-        .controls button {
-            background-color: #1e88e5; /* Cor de botão mantida */
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.2s;
-        }
+    .btn {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
 
-        .controls button:hover {
-            background-color: #1976d2; /* Hover mantido */
-            transform: scale(1.05);
-        }
+    .btn:hover {
+      background: #004494;
+      transform: translateY(-2px);
+    }
 
-        .controls button:active {
-            transform: scale(0.98);
-        }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
 
-        #slide-counter {
-            font-size: 1.1rem;
-            color: #333; /* Contador escuro */
-            min-width: 50px;
-            text-align: center;
-        }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
 
-        #fullscreen-btn {
-            background-color: #777; /* Botão de tela cheia cinza */
-        }
-        #fullscreen-btn:hover {
-            background-color: #888; /* Hover mais claro */
-        }
-    </style>
+    .icon-text {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .icon-text i {
+      color: var(--accent);
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+      .header-content { flex-direction: column; gap: 1rem; }
+      nav ul { flex-wrap: wrap; justify-content: center; }
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
 
-    <main class="presentation-container">
-        <div class="slides-wrapper">
-            <!-- Slide 1: Título -->
-            <section class="slide">
-                <h1>Fundamentos de Algoritmos e Programação</h1>
-                <p class="subtitle">Um Guia Completo para Iniciantes</p>
-                <p class="footer">Preparado para a Unidade 1: Algoritmos e Linguagem de Programação</p>
-            </section>
+  <header>
+    <div class="container header-content">
+      <div class="logo">
+        <div class="logo-icon">BD</div>
+        <h1>Teleaula 02 — Banco de Dados</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#automacao" class="active">Automação</a></li>
+          <li><a href="#fk">Chaves FK</a></li>
+          <li><a href="#dml">DML</a></li>
+          <li><a href="#atividades">Atividades</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-            <!-- Slide 2: Agenda -->
-            <section class="slide">
-                <h2>Agenda da Nossa Aula</h2>
-                <ul>
-                    <li><strong>1.</strong> O que é um Algoritmo? (Conceito e Características)</li>
-                    <li><strong>2.</strong> Como Descrevemos um Algoritmo? (Linguagem Natural, Fluxograma e Pseudocódigo)</li>
-                    <li><strong>3.</strong> Tipos e Qualidades (Classificação e o que faz um bom algoritmo)</li>
-                    <li><strong>4.</strong> O Processo de Desenvolvimento (Do problema à solução)</li>
-                    <li><strong>5.</strong> A Ponte para a Máquina (O papel das Linguagens de Programação)</li>
-                    <li><strong>6.</strong> Aplicações no Mundo Real (Onde os algoritmos estão presentes)</li>
-                </ul>
-            </section>
+  <main class="container">
 
-            <!-- Slide 3: Conceito de Algoritmo -->
-            <section class="slide">
-                <h2>O que é um Algoritmo?</h2>
-                <blockquote>
-                    <strong>Definição:</strong> Uma sequência <strong>finita</strong> de passos <strong>definidos</strong> e <strong>organizados logicamente</strong> para resolver um problema ou realizar uma tarefa.
-                </blockquote>
-                <p><strong>Pense em uma receita de bolo:</strong></p>
-                <ul>
-                    <li><strong>Ingredientes:</strong> São os seus dados de entrada.</li>
-                    <li><strong>Modo de Preparo:</strong> É a sequência de passos (o algoritmo).</li>
-                    <li><strong>Bolo Pronto:</strong> É o resultado final.</li>
-                </ul>
-                <p class="highlight">A Principal Característica: <strong>Sequência Lógica de Passos.</strong></p>
-            </section>
+    <!-- Introdução -->
+    <section id="intro">
+      <div class="card">
+        <h2>👋 Olá, futuro(a) especialista em dados!</h2>
+        <p>Você está na <strong>segunda aula</strong> — e isso é ótimo! Estamos no começo da jornada, então vamos explicar **tudo com calma**, especialmente as siglas técnicas (como <span class="acronym">DBA</span>, <span class="acronym">DML</span>, <span class="acronym">FK</span>).</p>
 
-            <!-- Slide 4: Linguagem Natural -->
-            <section class="slide">
-                <h2>Usando Linguagem Natural</h2>
-                <p>É simplesmente escrever os passos do algoritmo em uma linguagem comum, como o português.</p>
-                <p class="highlight">Vantagem Principal: <strong>Facilidade de Entendimento Humano.</strong></p>
-                <ul>
-                    <li>Qualquer pessoa pode ler e entender.</li>
-                    <li>É ótima para o primeiro rascunho.</li>
-                </ul>
-                <div class="example-box">
-                    <h3>Exemplo: Como Fazer um Café</h3>
-                    <ol>
-                        <li>Pegar um filtro de papel.</li>
-                        <li>Colocar o pó de café no filtro.</li>
-                        <li>Aquecer a água até ferver.</li>
-                        <li>Despejar a água quente sobre o pó.</li>
-                        <li>Servir.</li>
-                    </ol>
-                </div>
-            </section>
-
-            <!-- Slide 5: Fluxograma -->
-            <section class="slide">
-                <h2>Ilustrando a Lógica com Fluxogramas</h2>
-                <p>É um desenho que usa símbolos padronizados para mostrar o fluxo do algoritmo.</p>
-                <p class="highlight">Função Principal: <strong>Ilustrar Visualmente a Lógica.</strong></p>
-                <div class="example-box">
-                    <h3>Símbolos Mais Comuns:</h3>
-                    <ul>
-                        <li><strong>(Oval)</strong> Terminais: Início e Fim.</li>
-                        <li><strong>(Retângulo)</strong> Processamento: Uma ação a ser executada.</li>
-                        <li><strong>(Losango)</strong> Decisão: Uma pergunta com duas respostas (Sim/Não).</li>
-                        <li><strong>(Paralelogramo)</strong> Entrada/Saída: Ler dados ou mostrar resultados.</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Slide 6: Pseudocódigo -->
-            <section class="slide">
-                <h2>A Ponte entre a Língua e o Código</h2>
-                <p>É uma forma de escrever o algoritmo que se parece com um programa, mas sem as regras rígidas de uma linguagem específica.</p>
-                <p class="highlight">Por que usamos? <strong>Para representar a lógica sem se preocupar com a sintaxe.</strong></p>
-                <div class="example-box">
-                    <h3>Exemplo: Verificar se um aluno foi aprovado</h3>
-                    <pre><code>INÍCIO
-  ESCREVA "Digite a nota do aluno:"
-  LEIA nota
-  
-  SE nota >= 7 ENTÃO
-    ESCREVA "Aluno Aprovado!"
-  SENÃO
-    ESCREVA "Aluno Reprovado."
-  FIM_SE
-FIM</code></pre>
-                </div>
-            </section>
-
-            <!-- Slide 7: Classificação -->
-            <section class="slide">
-                <h2>Tipos de Algoritmos</h2>
-                <p>Algoritmos podem ser classificados pelo tipo de tarefa que realizam.</p>
-                <p class="highlight"><strong>Algoritmo de Decisão:</strong> Tomar decisões baseadas em condições.</p>
-                <ul>
-                    <li><strong>Exemplo:</strong> Um sistema que decide se um cartão de crédito deve ser bloqueado.</li>
-                </ul>
-                <p><strong>Outros Tipos Comuns:</strong></p>
-                <ul>
-                    <li><strong>Ordenação:</strong> Organizam uma lista (ex: nomes em ordem alfabética).</li>
-                    <li><strong>Busca:</strong> Procuram por um item (ex: buscar um contato).</li>
-                </ul>
-            </section>
-
-            <!-- Slide 8: Qualidades -->
-            <section class="slide">
-                <h2>O que faz um Algoritmo ser Bom?</h2>
-                <p>Um algoritmo não só precisa funcionar, mas ser bem construído.</p>
-                <p class="highlight">Característica Principal: <strong>Clareza</strong></p>
-                <ul>
-                    <li>Deve ser fácil de ler e entender.</li>
-                    <li><strong>Evite ambiguidade.</strong></li>
-                </ul>
-                <p><strong>Outras Qualidades Essenciais:</strong></p>
-                <ul>
-                    <li><strong>Eficiência:</strong> Mínimo de recursos (tempo e memória).</li>
-                    <li><strong>Correção:</strong> Produz sempre o resultado esperado.</li>
-                    <li><strong>Finitude:</strong> Deve sempre terminar.</li>
-                </ul>
-            </section>
-
-            <!-- Slide 9: Processo de Desenvolvimento -->
-            <section class="slide">
-                <h2>A Etapa Mais Importante: Análise do Problema</h2>
-                <p>Antes de escrever qualquer código, você precisa entender profundamente o que precisa ser resolvido.</p>
-                <p class="highlight"><strong>O Processo de Desenvolvimento:</strong></p>
-                <ol>
-                    <li><strong>1. Análise e Entendimento do Problema:</strong> O que precisa ser feito? <strong>(Esta etapa vem primeiro!)</strong></li>
-                    <li><strong>2. Planejamento da Solução:</strong> Desenhar um fluxograma ou escrever um pseudocódigo.</li>
-                    <li><strong>3. Implementação:</strong> Escrever o código em uma linguagem de programação.</li>
-                    <li><strong>4. Testes e Otimização:</strong> Verificar se o programa funciona corretamente.</li>
-                </ol>
-                <blockquote>"Não se pode resolver um problema que não se entende."</blockquote>
-            </section>
-
-            <!-- Slide 10: Linguagem de Programação -->
-            <section class="slide">
-                <h2>O Papel da Linguagem de Programação</h2>
-                <p>Um algoritmo é um plano abstrato. A linguagem de programação é a ferramenta que torna esse plano real para o computador.</p>
-                <p class="highlight">Papel Principal: <strong>Traduzir algoritmos em instruções compreensíveis pela máquina.</strong></p>
-                <ul>
-                    <li>O computador não entende português nem pseudocódigo.</li>
-                    <li>A linguagem de programação (Python, Java, C++) fornece as regras e o vocabulário que o computador executa.</li>
-                </ul>
-                <p><strong>Em resumo:</strong></p>
-                <ul>
-                    <li><strong>Algoritmo:</strong> A lógica, a estratégia.</li>
-                    <li><strong>Linguagem de Programação:</strong> O meio para comunicar essa estratégia.</li>
-                </ul>
-            </section>
-
-            <!-- Slide 11: Aplicações -->
-            <section class="slide">
-                <h2>Onde os Algoritmos Estão?</h2>
-                <p>Algoritmos estão por toda parte no nosso mundo digital, tornando nossas vidas mais fáceis e eficientes.</p>
-                <p class="highlight">Aplicação Principal: <strong>Tomada de Decisão Automatizada.</strong></p>
-                <p><strong>Exemplos no seu dia a dia:</strong></p>
-                <ul>
-                    <li><strong>GPS (Google Maps, Waze):</strong> Usa algoritmos de busca e de "caminho mais curto".</li>
-                    <li><strong>Netflix e Spotify:</strong> Usam algoritmos para recomendar novos conteúdos.</li>
-                    <li><strong>Buscadores (Google):</strong> Usam algoritmos de ordenação para colocar os resultados mais relevantes no topo.</li>
-                    <li><strong>Bancos:</strong> Usam algoritmos para analisar seu perfil e decidir se concede um empréstimo.</li>
-                </ul>
-            </section>
-
-            <!-- Slide 12: Resumo -->
-            <section class="slide">
-                <h2>Resumo: O que Aprendemos?</h2>
-                <ul>
-                    <li><strong>Algoritmo</strong> é uma receita lógica para resolver problemas.</li>
-                    <li>Podemos descrevê-lo com <strong>Linguagem Natural</strong>, <strong>Fluxogramas</strong> (visual) e <strong>Pseudocódigo</strong> (estruturado).</li>
-                    <li>Um bom algoritmo é <strong>claro</strong>, <strong>correto</strong> e <strong>eficiente</strong>.</li>
-                    <li>O primeiro passo é <strong>analisar e entender o problema</strong>.</li>
-                    <li>A <strong>Linguagem de Programação</strong> é a ferramenta que transforma o algoritmo em um programa funcional.</li>
-                    <li>Eles são essenciais para a <strong>tomada de decisão automatizada</strong>.</li>
-                </ul>
-                <h3>Prepare-se para a Próxima Aula!</h3>
-                <ul>
-                    <li>Planeje seu tempo.</li>
-                    <li>Estude o material antes da teleaula.</li>
-                    <li>Faça anotações e esquemas.</li>
-                </ul>
-                <p class="highlight"><strong>Bons estudos!</strong></p>
-            </section>
+        <div class="pause">
+          <i class="fas fa-pause-circle"></i> <strong>Pausa para pensar:</strong><br>
+          <em>Quando você preenche um formulário no médico, por que ele pergunta seu CPF? Por que ele já conhece seu histórico? Isso só é possível porque os dados estão organizados em um <strong>banco de dados</strong> — e hoje vamos entender como ele funciona por dentro!</em>
         </div>
-    </main>
 
-    <nav class="controls">
-        <button id="prev-btn">‹ Anterior</button>
-        <span id="slide-counter">1 / 12</span>
-        <button id="next-btn">Próximo ›</button>
-        <button id="fullscreen-btn">⛶ Tela Cheia</button>
-    </nav>
+        <p>Nesta aula, vamos ver três ideias importantes:</p>
+        <div class="grid">
+          <div class="card">
+            <div class="icon-text"><i class="fas fa-robot"></i> <strong>Automação</strong></div>
+            <p>Como os bancos de dados estão se tornando “inteligentes” — e o que isso muda para os profissionais.</p>
+            <p class="did-you-know" style="margin-top: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+              <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong> 
+              <span class="acronym">AI</span> = <em>Artificial Intelligence</em> → <strong>Inteligência Artificial</strong>: capacidade de máquinas “pensarem” como humanos (ex: reconhecer voz).<br>
+              <span class="acronym">ML</span> = <em>Machine Learning</em> → <strong>Aprendizado de Máquina</strong>: quando o computador aprende com exemplos (ex: Netflix sugerindo filmes).
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon-text"><i class="fas fa-link"></i> <strong>Chaves Estrangeiras</strong></div>
+            <p>Como ligar tabelas entre si (ex: ligar “consulta” ao “médico” certo).</p>
+            <p class="did-you-know" style="margin-top: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+              <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
+              <span class="acronym">FK</span> = <em>Foreign Key</em> → <strong>Chave Estrangeira</strong>: é uma coluna que “empresta” a <strong>chave primária</strong> de outra tabela para criar uma ligação confiável.
+            </p>
+          </div>
+          <div class="card">
+            <div class="icon-text"><i class="fas fa-edit"></i> <strong>DML</strong></div>
+            <p>As 3 ações básicas: inserir, alterar e excluir dados — como editar um contato no celular.</p>
+            <p class="did-you-know" style="margin-top: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.9rem;">
+              <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
+              <span class="acronym">DML</span> = <em>Data Manipulation Language</em> → <strong>Linguagem de Manipulação de Dados</strong>: comandos para mudar o conteúdo do banco (ex: <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>).
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <!-- JavaScript Embutido -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Seleção de Elementos do DOM ---
-            const slidesWrapper = document.querySelector('.slides-wrapper');
-            const slides = document.querySelectorAll('.slide');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const slideCounter = document.getElementById('slide-counter');
-            const fullscreenBtn = document.getElementById('fullscreen-btn');
+    <!-- Parte 1: Automação -->
+    <section id="automacao">
+      <h2><i class="fas fa-robot"></i> Automação: Quando o banco "se cuida sozinho"</h2>
 
-            // --- Estado da Aplicação ---
-            let currentSlide = 0;
-            const totalSlides = slides.length;
+      <div class="card">
+        <h3>O que é um “banco de dados autônomo”?</h3>
+        <p>Um <strong>banco de dados autônomo</strong> é um sistema em nuvem que usa <span class="acronym">IA</span> (<em>Inteligência Artificial</em>) e <span class="acronym">ML</span> (<em>Aprendizado de Máquina</em>) para fazer sozinho tarefas que antes exigiam um <span class="acronym">DBA</span>.</p>
 
-            // --- Funções Principais ---
+        <p><span class="acronym">DBA</span> = <em>Database Administrator</em> → <strong>Administrador de Banco de Dados</strong>: profissional responsável por criar, manter, proteger e otimizar bancos de dados.</p>
 
-            /**
-             * Exibe o slide com base no índice fornecido.
-             * @param {number} slideIndex - O índice do slide a ser exibido.
-             */
-            const showSlide = (slideIndex) => {
-                // Garante que o índice esteja dentro dos limites (cria um loop infinito)
-                if (slideIndex < 0) {
-                    currentSlide = totalSlides - 1;
-                } else if (slideIndex >= totalSlides) {
-                    currentSlide = 0;
-                } else {
-                    currentSlide = slideIndex;
-                }
+        <p>Exemplos de tarefas que o banco autônomo faz sozinho:</p>
+        <ul>
+          <li>📦 <strong>Backup</strong>: cópia de segurança automática</li>
+          <li>🔒 <strong>Criptografia</strong>: proteger dados com código secreto</li>
+          <li>🛠️ <strong>Patching</strong>: atualizar o sistema para corrigir falhas</li>
+          <li>📈 <strong>Elasticidade</strong>: aumentar ou diminuir recursos (ex: armazenamento) na hora que precisar</li>
+        </ul>
 
-                // Move o container de slides horizontalmente
-                const offset = -currentSlide * 100;
-                slidesWrapper.style.transform = `translateX(${offset}vw)`;
+        <div class="highlight">
+          <p><i class="fas fa-check-circle"></i> <strong>Por que isso é bom?</strong> Reduz o risco de <strong>erro humano</strong> — como esquecer de atualizar uma senha ou não criptografar dados. Segundo a Oracle, muitos vazamentos na nuvem acontecem por falhas humanas simples.</p>
+        </div>
 
-                // Atualiza o contador
-                updateCounter();
-            };
+        <h3>E o DBA? Vai sumir?</h3>
+        <p>Não! 💡 O papel dele **muda**, mas não desaparece. Ele deixa de ser operacional (ex: ficar aplicando patches) para ser mais <strong>estratégico</strong>: analisar dados, garantir governança, sugerir melhorias.</p>
 
-            /**
-             * Atualiza o texto do contador de slides.
-             */
-            const updateCounter = () => {
-                slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
-            };
-            
-            /**
-             * Alterna o modo de tela cheia.
-             * CORREÇÃO: Adicionado um bloco try...catch para evitar erros em plataformas como GitHub Pages.
-             */
-            const toggleFullscreen = () => {
-                try {
-                    if (!document.fullscreenElement) {
-                        document.documentElement.requestFullscreen().catch(err => {
-                            // Este catch interno captura erros da própria promise do requestFullscreen
-                            console.error(`Erro ao tentar entrar em tela cheia: ${err.message}`);
-                        });
-                        fullscreenBtn.textContent = '◱ Sair Tela Cheia';
-                    } else {
-                        document.exitFullscreen();
-                        fullscreenBtn.textContent = '⛶ Tela Cheia';
-                    }
-                } catch (err) {
-                    // Este catch externo captura qualquer outro erro inesperado na função
-                    console.error("A função de tela cheia não pôde ser executada.", err);
-                }
-            };
+        <div class="pause">
+          <i class="fas fa-pause-circle"></i> <strong>Pausa para pensar:</strong><br>
+          <em>Assim como o caixa de banco não sumiu com os caixas eletrônicos — só passou a atender clientes com dúvidas mais complexas — o <span class="acronym">DBA</span> também evolui, não desaparece.</em>
+        </div>
+      </div>
 
-            // --- Event Listeners ---
+      <div class="card">
+        <h3>Dados reais dos artigos (para sua redação)</h3>
+        <p>Os dois textos trazem informações importantes que você pode usar na <strong>Atividade 1</strong>:</p>
 
-            // Navegação com botões
-            nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
-            prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+        <div class="highlight">
+          <p><i class="fas fa-quote-left"></i> <em>“As empresas que dominarem a automação vão dominar os seus mercados.”</em> — <strong>Forrester Research</strong></p>
+        </div>
 
-            // Navegação com teclado
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'ArrowRight' || event.key === ' ') {
-                    event.preventDefault(); // Impede a barra de espaço rolar a página
-                    showSlide(currentSlide + 1);
-                } else if (event.key === 'ArrowLeft') {
-                    showSlide(currentSlide - 1);
-                }
+        <ul>
+          <li>📊 <strong>72% do orçamento de TI</strong> é gasto só com manutenção — sobra apenas <strong>28% para inovação</strong>.</li>
+          <li>👩‍💻 <strong>40% dos DBAs</strong> gerenciam <strong>50 ou mais</strong> bancos de dados por dia.</li>
+          <li>⏱️ <strong>78% dos DBAs</strong> já tiveram <strong>tempo de inatividade não planejado</strong> (quedas de sistema).</li>
+          <li>⚠️ A maioria dos vazamentos na nuvem (ex: dados sem senha/criptografia) é causada por <strong>erro humano</strong>.</li>
+        </ul>
+
+        <div class="did-you-know">
+          <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
+          O termo <strong>“big data corporativo”</strong> se refere ao crescimento exponencial de dados nas empresas — e exige soluções inteligentes (como automação) para não virar caos.
+        </div>
+      </div>
+    </section>
+
+    <!-- Parte 2: Chaves Estrangeiras -->
+    <section id="fk">
+      <h2><i class="fas fa-link"></i> Chaves Estrangeiras — Ligando as informações com segurança</h2>
+
+      <div class="card">
+        <h3>Por que precisamos de “chaves”?</h3>
+        <p>Vamos usar uma analogia:</p>
+        <ul>
+          <li>Na tabela <code>Medico</code>, cada médico tem um <code>id</code> (ex: João = id <strong>1</strong>).</li>
+          <li>Na tabela <code>Consulta</code>, queremos registrar: <em>“João atendeu Ana às 14h”</em>.</li>
+          <li>Se escrevermos “João” diretamente na consulta, e depois ele mudar o nome, os dados ficam inconsistentes!</li>
+        </ul>
+        <p>✅ A solução: usar o <code>id</code> (ex: <code>Medico_id = 1</code>). Isso é uma <span class="acronym">FK</span> (<em>Foreign Key</em> → <strong>Chave Estrangeira</strong>).</p>
+
+        <div class="did-you-know">
+          <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
+          O nome “estrangeira” vem do fato de que a chave <em>não pertence àquela tabela</em> — ela é “de fora” (da tabela <code>Medico</code>), mas usada em <code>Consulta</code>. É como usar o RG de alguém em outro documento: você confirma que é a mesma pessoa.
+        </div>
+
+        <h3>E o que é <span class="acronym">PK</span>?</h3>
+        <p><span class="acronym">PK</span> = <em>Primary Key</em> → <strong>Chave Primária</strong>: identificador único de cada registro em uma tabela.<br>
+        Ex: em <code>Medico</code>, o campo <code>id</code> é a <span class="acronym">PK</span>.<br>
+        Regra: <strong>nunca se repete</strong> e <strong>nunca é nulo</strong>.</p>
+
+        <h3>Como criar uma FK? Passo a passo (sem pular etapas!)</h3>
+        <ol>
+          <li><strong>1º passo</strong>: Adicionar a coluna que vai guardar o ID:<br>
+            <div class="code">ALTER TABLE Consulta ADD COLUMN Medico_id INT NOT NULL;</div>
+            <p>→ <code>INT</code> = número inteiro; <code>NOT NULL</code> = obrigatório (toda consulta tem um médico!)</p>
+          </li>
+          <li><strong>2º passo</strong>: Criar a ligação (a “regra” de integridade):<br>
+            <div class="code">
+ALTER TABLE Consulta<br>
+ADD CONSTRAINT fk_consulta_Medico<br>
+FOREIGN KEY (Medico_id) REFERENCES Medico(id);
+            </div>
+            <p>→ <code>CONSTRAINT</code> = restrição (regra de negócio);<br> 
+            → <code>fk_consulta_Medico</code> = nome da regra (fácil de identificar depois);<br> 
+            → <code>REFERENCES Medico(id)</code> = “esse número deve existir como <span class="acronym">PK</span> na tabela <code>Medico</code>”</p>
+          </li>
+        </ol>
+
+        <div class="highlight">
+          <p><i class="fas fa-exclamation-triangle"></i> <strong>Erro comum:</strong> tentar inserir uma consulta com <code>Medico_id = 999</code>, mas não existe médico com id 999 → o banco <strong>rejeita!</strong> Isso é a <strong>integridade referencial</strong> funcionando: garante que os dados sejam confiáveis.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Estrutura exata das tabelas (conforme o PDF)</h3>
+        <p>Antes de alterar <code>Consulta</code>, vamos revisar como as tabelas foram criadas:</p>
+
+        <h4>🔹 <code>Medico</code></h4>
+        <div class="code">
+CREATE TABLE Medico (<br>
+&nbsp;&nbsp;id INT PRIMARY KEY AUTO_INCREMENT,<br>
+&nbsp;&nbsp;nome VARCHAR(45) NOT NULL,<br>
+&nbsp;&nbsp;crm VARCHAR(45) NOT NULL,<br>
+&nbsp;&nbsp;cpf CHAR(11) NOT NULL,<br>
+&nbsp;&nbsp;telefone CHAR(11) NOT NULL,<br>
+&nbsp;&nbsp;datanasc DATE NOT NULL,<br>
+&nbsp;&nbsp;residente ENUM('S','N') NOT NULL<br>
+);
+        </div>
+        <p>→ <code>ENUM('S','N')</code> significa: só aceita <code>'S'</code> (sim) ou <code>'N'</code> (não). É mais seguro que <code>VARCHAR</code>.</p>
+
+        <h4>🔹 <code>Paciente</code></h4>
+        <div class="code">
+CREATE TABLE Paciente (<br>
+&nbsp;&nbsp;id INT PRIMARY KEY AUTO_INCREMENT,<br>
+&nbsp;&nbsp;nome VARCHAR(45) NOT NULL,<br>
+&nbsp;&nbsp;cpf CHAR(11) NOT NULL,<br>
+&nbsp;&nbsp;planosaude ENUM('S','N') NOT NULL DEFAULT 'N'<br>
+);
+        </div>
+        <p>→ <code>DEFAULT 'N'</code>: se não informar, assume <code>'N'</code> automaticamente.</p>
+      </div>
+    </section>
+
+    <!-- Parte 3: DML -->
+    <section id="dml">
+      <h2><i class="fas fa-edit"></i> DML — Três ações para dominar o banco</h2>
+
+      <div class="card">
+        <h3>O que é <span class="acronym">DML</span>?</h3>
+        <p><span class="acronym">DML</span> = <em>Data Manipulation Language</em> → <strong>Linguagem de Manipulação de Dados</strong>.</p>
+        <p>São os comandos que mudam os <strong>dados dentro das tabelas</strong> (não a estrutura, mas o conteúdo).</p>
+
+        <p>Pense em uma agenda de contatos no celular:</p>
+        <ul>
+          <li><i class="fas fa-plus-circle" style="color:green;"></i> <strong>Inserir</strong> = adicionar um novo contato → <code>INSERT INTO</code></li>
+          <li><i class="fas fa-pencil-alt" style="color:#007bff;"></i> <strong>Atualizar</strong> = editar o número do João → <code>UPDATE ... SET</code></li>
+          <li><i class="fas fa-trash-alt" style="color:#dc3545;"></i> <strong>Excluir</strong> = apagar o contato → <code>DELETE FROM</code></li>
+        </ul>
+
+        <h3>1. Inserir (<code>INSERT INTO</code>)</h3>
+        <div class="code">
+INSERT INTO Medico (nome, crm, cpf, telefone, datanasc, residente)<br>
+VALUES ('Ana', '55555', '11111111111', '43999999999', '1990-05-10', 'S');
+        </div>
+        <p>⚠️ Ordem importa! Os valores devem seguir a mesma ordem das colunas.</p>
+
+        <h3>2. Atualizar (<code>UPDATE ... SET ... WHERE</code>)</h3>
+        <div class="code">
+UPDATE Paciente<br>
+SET planosaude = 'N'<br>
+WHERE id = 3;
+        </div>
+        <p>✅ <code>WHERE</code> é essencial! Sem ele, <strong>todos os pacientes</strong> ficariam sem plano de saúde! Isso é um erro comum de iniciantes.</p>
+
+        <h3>3. Excluir (<code>DELETE FROM</code>)</h3>
+        <p>Você quer apagar a consulta **mais recente** (a de maior horário). Como fazer?</p>
+        <p>Passo a passo:</p>
+        <ol>
+          <li>Primeiro, veja qual é:<br>
+            <div class="code">SELECT * FROM Consulta ORDER BY horario DESC LIMIT 1;</div>
+          </li>
+          <li>Depois, apague só ela:<br>
+            <div class="code">DELETE FROM Consulta ORDER BY horario DESC LIMIT 1;</div>
+          </li>
+        </ol>
+
+        <div class="highlight">
+          <p><i class="fas fa-exclamation-triangle"></i> <strong>Atenção ao gabarito do PDF:</strong><br>
+          O material oficial traz:<br>
+          <code>DELETE FROM Consulta ORDER BY horario LIMIT 1;</code><br>
+          ❌ Isso exclui a <strong>consulta mais antiga</strong> (primeira da lista).<br>
+          ✅ Para excluir a <strong>mais recente</strong>, o correto é:<br>
+          <code>DELETE FROM Consulta ORDER BY horario DESC LIMIT 1;</code>
+          </p>
+          <p><i class="fas fa-check-circle"></i> Sempre confirme com:<br>
+          <code>SELECT * FROM Consulta ORDER BY horario DESC LIMIT 1;</code></p>
+        </div>
+
+        <div class="pause">
+          <i class="fas fa-pause-circle"></i> <strong>Pausa para pensar:</strong><br>
+          <em>Por que usamos <code>LIMIT 1</code>? Porque queremos excluir <strong>uma só</strong>, mesmo que duas consultas tenham o mesmo horário. Sem <code>LIMIT</code>, poderíamos apagar mais de uma!</em>
+        </div>
+
+        <h3>E o que é <span class="acronym">DDL</span>?</h3>
+        <p><span class="acronym">DDL</span> = <em>Data Definition Language</em> → <strong>Linguagem de Definição de Dados</strong>.<br>
+        Comandos que **criam ou alteram a estrutura** do banco — não o conteúdo.<br>
+        Exemplos: <code>CREATE TABLE</code>, <code>ALTER TABLE</code>, <code>DROP TABLE</code>.</p>
+        <p>Na Atividade 2, usamos <span class="acronym">DDL</span> (com <code>ALTER TABLE</code>). Na Atividade 3, usamos <span class="acronym">DML</span>.</p>
+      </div>
+    </section>
+
+    <!-- Atividades -->
+    <section id="atividades">
+      <h2><i class="fas fa-tasks"></i> Atividades Práticas (com apoio!)</h2>
+
+      <div class="card">
+        <h3>📌 Atividade 1: Reflexão crítica (250–300 palavras)</h3>
+        <p>Você vai ler dois textos curtos (já no AVA). Não tenha medo! Leia devagar.<br>
+        Lembre-se das siglas:</p>
+        <ul>
+          <li><span class="acronym">DBA</span> = Administrador de Banco de Dados</li>
+          <li><span class="acronym">AI</span> = Inteligência Artificial</li>
+          <li><span class="acronym">ML</span> = Aprendizado de Máquina</li>
+          <li><span class="acronym">PK</span>/<span class="acronym">FK</span> = Chave Primária/Estrangeira (garantem segurança dos dados)</li>
+        </ul>
+        <p><strong>Perguntas-guia:</strong></p>
+        <ul>
+          <li>O que mudou no trabalho do <span class="acronym">DBA</span> com a automação?</li>
+          <li>Quais vantagens a empresa ganha com <span class="acronym">AI</span> e <span class="acronym">ML</span>?</li>
+          <li>E os riscos? (ex: se o sistema errar sozinho, quem responde?)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>🛠️ Atividade 2: Corrigir a tabela <code>Consulta</code> (usando <span class="acronym">DDL</span>)</h3>
+        <p>O que falta? As colunas <code>Medico_id</code> e <code>Paciente_id</code>, e suas <span class="acronym">FK</span>s.</p>
+        <p><strong>Solução:</strong></p>
+        <div class="code">
+-- Passo 1: Adicionar colunas (coluna + tipo + regra)<br>
+ALTER TABLE Consulta ADD COLUMN Medico_id INT NOT NULL;<br>
+ALTER TABLE Consulta ADD COLUMN Paciente_id INT NOT NULL;<br><br>
+
+-- Passo 2: Criar as chaves estrangeiras (FK)<br>
+ALTER TABLE Consulta<br>
+ADD CONSTRAINT fk_consulta_Medico<br>
+FOREIGN KEY (Medico_id) REFERENCES Medico(id);<br><br>
+
+ALTER TABLE Consulta<br>
+ADD CONSTRAINT fk_consulta_Paciente<br>
+FOREIGN KEY (Paciente_id) REFERENCES Paciente(id);
+        </div>
+        <p>✅ Após executar, confirme com: <code>DESCRIBE Consulta;</code></p>
+      </div>
+
+      <div class="card">
+        <h3>✏️ Atividade 3: Manipular dados (usando <span class="acronym">DML</span>)</h3>
+        <p>O gabarito do PDF usa estes dados exatos — você pode copiá-los ou criar os seus:</p>
+
+        <div class="code">
+-- Inserção nas 3 tabelas (exato do PDF)<br>
+INSERT INTO Medico VALUES<br>
+(0,'Joao','12345','11111111111','43999999999','2022-09-25','N'),<br>
+(0,'Maria','67890','22222222222','43999998888','2022-02-27','N'),<br>
+(0,'José','13579','33333333333','43999997777','2022-10-01','S');<br><br>
+
+INSERT INTO Paciente VALUES<br>
+(0,'Ana V.','12312312311','S'),<br>
+(0,'Henrique','78978978900','N'),<br>
+(0,'Fabio','45645645622','S'),<br>
+(0,'Leticia','28828828800','S');<br><br>
+
+INSERT INTO Consulta VALUES<br>
+(0,'2022-11-16 14:00:00','refluxo', 1, 2),<br>
+(0,'2022-03-10 15:00:00','gastrite', 1, 4),<br>
+(0,'2022-06-03 09:00:00','alergia', 2, 2),<br>
+(0,'2022-04-30 15:30:00','gripe', 2, 3);
+        </div>
+
+        <h4>Atualização (exata do PDF)</h4>
+        <div class="code">
+UPDATE Paciente SET planosaude = 'N' WHERE id = 4;
+        </div>
+
+        <h4>Exclusão — versão corrigida (mais recente)</h4>
+        <div class="code">
+-- ❌ PDF diz: ORDER BY horario LIMIT 1 → exclui a mais ANTIGA<br>
+-- ✅ Correto para a mais RECENTE:<br>
+DELETE FROM Consulta ORDER BY horario DESC LIMIT 1;
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <a href="#intro" class="btn btn-outline"><i class="fas fa-arrow-up"></i> Voltar ao início</a>
+        <br><br>
+        <p style="font-size: 0.9rem; color: var(--text-light);">
+          Programação e Desenvolvimento de Banco de Dados
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('section');
+      const navLinks = document.querySelectorAll('nav a');
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('active');
+              }
             });
-
-            // Controle de tela cheia
-            fullscreenBtn.addEventListener('click', toggleFullscreen);
-            
-            // Atualiza o botão de tela cheia se o estado mudar por outros meios (ex: tecla F11)
-            document.addEventListener('fullscreenchange', () => {
-                if (document.fullscreenElement) {
-                    fullscreenBtn.textContent = '◱ Sair Tela Cheia';
-                } else {
-                    fullscreenBtn.textContent = '⛶ Tela Cheia';
-                }
-            });
-
-            // --- Inicialização ---
-            showSlide(0); // Mostra o primeiro slide ao carregar a página
+          }
         });
-    </script>
+      }, { threshold: 0.5 });
+
+      sections.forEach(sec => observer.observe(sec));
+    });
+  </script>
+
 </body>
 </html>
