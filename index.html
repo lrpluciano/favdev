@@ -1,583 +1,705 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Teleaula 02 — Banco de Dados (Para Iniciantes)</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    :root {
-      --primary: #0056b3;
-      --primary-light: #e6f0fa;
-      --accent: #00c1b5;
-      --bg: #f9f9fb;
-      --text: #333;
-      --text-light: #666;
-      --shadow: 0 4px 12px rgba(0,0,0,0.05);
-      --radius: 8px;
-      --transition: all 0.3s ease;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Jornada dos Dados: O Universo do Data Warehouse</title>
+    
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --border-color: #30363d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent-color: #58a6ff;
+            --accent-hover: #79c0ff;
+        }
 
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
 
-    h1, h2, h3, h4 {
-      font-weight: 700;
-      margin-bottom: 1rem;
-      color: var(--primary);
-    }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 40px;
+        }
 
-    h1 { font-size: 2.2rem; }
-    h2 { font-size: 1.8rem; margin-top: 2.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-light); }
-    h3 { font-size: 1.4rem; }
-    h4 { font-size: 1.2rem; }
+        /* Header & Navigation */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background-color: rgba(22, 27, 34, 0.8);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
 
-    p, li { margin-bottom: 1rem; }
-    ul, ol { padding-left: 1.5rem; margin: 1rem 0; }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-decoration: none;
+        }
 
-    a { color: var(--primary); text-decoration: none; font-weight: 600; }
-    a:hover { text-decoration: underline; }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 400;
+            transition: color 0.3s ease;
+        }
 
-    header {
-      background: white;
-      box-shadow: var(--shadow);
-      padding: 1rem 0;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+        .nav-links a:hover {
+            color: var(--accent-hover);
+        }
 
-    .header-content {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 80px 0;
+            background: linear-gradient(rgba(13, 17, 23, 0.6), rgba(13, 17, 23, 0.8)), url('https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+        }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-    .logo-icon {
-      background: var(--primary);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 1.2rem;
-    }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem auto;
+        }
 
-    nav ul {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--bg-primary);
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
 
-    nav a {
-      font-weight: 500;
-      color: var(--text-light);
-      transition: var(--transition);
-    }
+        .cta-button:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
 
-    nav a:hover, nav a.active {
-      color: var(--primary);
-    }
+        /* Sections */
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        section:last-of-type {
+            border-bottom: none;
+        }
 
-    main { padding: 2rem 0; }
-    section { margin-bottom: 3rem; }
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
 
-    .card {
-      background: white;
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 1.5rem;
-    }
+        /* Theory Section - Accordion */
+        .accordion-item {
+            background-color: var(--bg-secondary);
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
 
-    .highlight {
-      background-color: var(--primary-light);
-      border-left: 4px solid var(--primary);
-      padding: 1rem 1.25rem;
-      margin: 1.5rem 0;
-    }
+        .accordion-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
 
-    .pause {
-      background: #fff8e6;
-      border-left: 4px solid #ffb300;
-      padding: 1rem;
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
+        .accordion-header {
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
 
-    .did-you-know {
-      background: #e6f7f4;
-      border-left: 4px solid var(--accent);
-      padding: 1rem;
-      border-radius: 0 var(--radius) var(--radius) 0;
-    }
+        .accordion-header:hover {
+            background-color: var(--bg-tertiary);
+        }
 
-    .acronym {
-      background: #f0f7ff;
-      border: 1px dashed var(--primary);
-      border-radius: 4px;
-      padding: 0.2rem 0.4rem;
-      font-weight: 600;
-      color: var(--primary);
-    }
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
 
-    .code {
-      font-family: 'SFMono-Regular', Consolas, monospace;
-      background: #f0f4f8;
-      padding: 1rem;
-      border-radius: var(--radius);
-      overflow-x: auto;
-      font-size: 0.95rem;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
 
-    .btn {
-      display: inline-block;
-      background: var(--primary);
-      color: white;
-      padding: 0.6rem 1.2rem;
-      border-radius: var(--radius);
-      font-weight: 600;
-      text-decoration: none;
-      transition: var(--transition);
-      border: none;
-      cursor: pointer;
-    }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 25px;
+        }
 
-    .btn:hover {
-      background: #004494;
-      transform: translateY(-2px);
-    }
+        .accordion-item.active .accordion-content {
+            max-height: 4000px; /* Increased for new content */
+            padding: 0 25px 20px 25px;
+        }
+        
+        .accordion-content p, .accordion-content ul {
+            color: var(--text-secondary);
+        }
+        .accordion-content ul {
+            padding-left: 20px;
+        }
+        .accordion-content li {
+            margin-bottom: 10px;
+        }
+        
+        .accordion-content strong {
+            color: var(--text-primary);
+        }
+        
+        .pillar-box {
+            background-color: var(--bg-tertiary);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .pillar-box h4 {
+            margin-top: 0;
+            color: var(--accent-hover);
+        }
+        .pillar-box p {
+            margin-bottom: 0;
+        }
 
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--primary);
-      color: var(--primary);
-    }
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            font-size: 0.95rem;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px 15px;
+            text-align: left;
+        }
+        .comparison-table th {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .comparison-table tr:nth-child(even) {
+            background-color: var(--bg-tertiary);
+        }
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+        
+        /* Resources Section */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .resource-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease, cursor 0.3s ease;
+            cursor: pointer;
+        }
+        .resource-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+        .resource-card h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+        }
+        .resource-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.75);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
-    }
+        .modal.show {
+            display: block;
+            opacity: 1;
+        }
 
-    .icon-text {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      margin-bottom: 0.75rem;
-    }
+        .modal-content {
+            background-color: var(--bg-secondary);
+            margin: 10% auto;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            width: 80%;
+            max-width: 700px;
+            position: relative;
+            animation: modalFadeIn 0.4s ease;
+        }
 
-    .icon-text i {
-      color: var(--accent);
-      margin-top: 0.25rem;
-    }
+        @keyframes modalFadeIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
 
-    @media (max-width: 768px) {
-      .header-content { flex-direction: column; gap: 1rem; }
-      nav ul { flex-wrap: wrap; justify-content: center; }
-      h1 { font-size: 1.8rem; }
-      h2 { font-size: 1.5rem; }
-    }
-  </style>
+        .modal-close {
+            color: var(--text-secondary);
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body h2 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            text-align: left;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body p, .modal-body ul {
+            color: var(--text-secondary);
+        }
+        .modal-body ul {
+            padding-left: 20px;
+        }
+        .modal-body li {
+            margin-bottom: 10px;
+        }
+        .modal-body strong {
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links a {
+                margin-left: 15px;
+                font-size: 0.9rem;
+            }
+            .comparison-table {
+                font-size: 0.85rem;
+            }
+            .comparison-table th, .comparison-table td {
+                padding: 8px 10px;
+            }
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-  <header>
-    <div class="container header-content">
-      <div class="logo">
-        <div class="logo-icon">BD</div>
-        <h1>Teleaula 02 — Banco de Dados</h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="#automacao" class="active">Automação</a></li>
-          <li><a href="#fk">Chaves FK</a></li>
-          <li><a href="#dml">DML</a></li>
-          <li><a href="#atividades">Atividades</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-
-    <!-- Introdução -->
-    <section id="intro">
-      <div class="card">
-        <h2>👋 Olá, futuro(a) especialista em dados!</h2>
-        <p>Você está na <strong>segunda aula</strong> — e isso é ótimo! Estamos no começo da jornada, então vamos explicar **tudo com calma**, especialmente as siglas técnicas (como <span class="acronym">DBA</span>, <span class="acronym">DML</span>, <span class="acronym">FK</span>).</p>
-
-        <div class="pause">
-          <i class="fas fa-pause-circle"></i> <strong>Pausa para pensar:</strong><br>
-          <em>Quando você preenche um formulário no médico, por que ele pergunta seu CPF? Por que ele já conhece seu histórico? Isso só é possível porque os dados estão organizados em um <strong>banco de dados</strong> — e hoje vamos entender como ele funciona por dentro!</em>
-        </div>
-
-        <p>Nesta aula, vamos ver três ideias importantes:</p>
-        <div class="grid">
-          <div class="card">
-            <div class="icon-text"><i class="fas fa-robot"></i> <strong>Automação</strong></div>
-            <p>Como os bancos de dados estão se tornando “inteligentes” — e o que isso muda para os profissionais.</p>
-            <p class="did-you-know" style="margin-top: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.9rem;">
-              <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong> 
-              <span class="acronym">AI</span> = <em>Artificial Intelligence</em> → <strong>Inteligência Artificial</strong>: capacidade de máquinas “pensarem” como humanos (ex: reconhecer voz).<br>
-              <span class="acronym">ML</span> = <em>Machine Learning</em> → <strong>Aprendizado de Máquina</strong>: quando o computador aprende com exemplos (ex: Netflix sugerindo filmes).
-            </p>
-          </div>
-          <div class="card">
-            <div class="icon-text"><i class="fas fa-link"></i> <strong>Chaves Estrangeiras</strong></div>
-            <p>Como ligar tabelas entre si (ex: ligar “consulta” ao “médico” certo).</p>
-            <p class="did-you-know" style="margin-top: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.9rem;">
-              <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
-              <span class="acronym">FK</span> = <em>Foreign Key</em> → <strong>Chave Estrangeira</strong>: é uma coluna que “empresta” a <strong>chave primária</strong> de outra tabela para criar uma ligação confiável.
-            </p>
-          </div>
-          <div class="card">
-            <div class="icon-text"><i class="fas fa-edit"></i> <strong>DML</strong></div>
-            <p>As 3 ações básicas: inserir, alterar e excluir dados — como editar um contato no celular.</p>
-            <p class="did-you-know" style="margin-top: 0.5rem; padding: 0.5rem 0.75rem; font-size: 0.9rem;">
-              <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
-              <span class="acronym">DML</span> = <em>Data Manipulation Language</em> → <strong>Linguagem de Manipulação de Dados</strong>: comandos para mudar o conteúdo do banco (ex: <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>).
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Parte 1: Automação -->
-    <section id="automacao">
-      <h2><i class="fas fa-robot"></i> Automação: Quando o banco "se cuida sozinho"</h2>
-
-      <div class="card">
-        <h3>O que é um “banco de dados autônomo”?</h3>
-        <p>Um <strong>banco de dados autônomo</strong> é um sistema em nuvem que usa <span class="acronym">IA</span> (<em>Inteligência Artificial</em>) e <span class="acronym">ML</span> (<em>Aprendizado de Máquina</em>) para fazer sozinho tarefas que antes exigiam um <span class="acronym">DBA</span>.</p>
-
-        <p><span class="acronym">DBA</span> = <em>Database Administrator</em> → <strong>Administrador de Banco de Dados</strong>: profissional responsável por criar, manter, proteger e otimizar bancos de dados.</p>
-
-        <p>Exemplos de tarefas que o banco autônomo faz sozinho:</p>
-        <ul>
-          <li>📦 <strong>Backup</strong>: cópia de segurança automática</li>
-          <li>🔒 <strong>Criptografia</strong>: proteger dados com código secreto</li>
-          <li>🛠️ <strong>Patching</strong>: atualizar o sistema para corrigir falhas</li>
-          <li>📈 <strong>Elasticidade</strong>: aumentar ou diminuir recursos (ex: armazenamento) na hora que precisar</li>
-        </ul>
-
-        <div class="highlight">
-          <p><i class="fas fa-check-circle"></i> <strong>Por que isso é bom?</strong> Reduz o risco de <strong>erro humano</strong> — como esquecer de atualizar uma senha ou não criptografar dados. Segundo a Oracle, muitos vazamentos na nuvem acontecem por falhas humanas simples.</p>
-        </div>
-
-        <h3>E o DBA? Vai sumir?</h3>
-        <p>Não! 💡 O papel dele **muda**, mas não desaparece. Ele deixa de ser operacional (ex: ficar aplicando patches) para ser mais <strong>estratégico</strong>: analisar dados, garantir governança, sugerir melhorias.</p>
-
-        <div class="pause">
-          <i class="fas fa-pause-circle"></i> <strong>Pausa para pensar:</strong><br>
-          <em>Assim como o caixa de banco não sumiu com os caixas eletrônicos — só passou a atender clientes com dúvidas mais complexas — o <span class="acronym">DBA</span> também evolui, não desaparece.</em>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Dados reais dos artigos (para sua redação)</h3>
-        <p>Os dois textos trazem informações importantes que você pode usar na <strong>Atividade 1</strong>:</p>
-
-        <div class="highlight">
-          <p><i class="fas fa-quote-left"></i> <em>“As empresas que dominarem a automação vão dominar os seus mercados.”</em> — <strong>Forrester Research</strong></p>
-        </div>
-
-        <ul>
-          <li>📊 <strong>72% do orçamento de TI</strong> é gasto só com manutenção — sobra apenas <strong>28% para inovação</strong>.</li>
-          <li>👩‍💻 <strong>40% dos DBAs</strong> gerenciam <strong>50 ou mais</strong> bancos de dados por dia.</li>
-          <li>⏱️ <strong>78% dos DBAs</strong> já tiveram <strong>tempo de inatividade não planejado</strong> (quedas de sistema).</li>
-          <li>⚠️ A maioria dos vazamentos na nuvem (ex: dados sem senha/criptografia) é causada por <strong>erro humano</strong>.</li>
-        </ul>
-
-        <div class="did-you-know">
-          <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
-          O termo <strong>“big data corporativo”</strong> se refere ao crescimento exponencial de dados nas empresas — e exige soluções inteligentes (como automação) para não virar caos.
-        </div>
-      </div>
-    </section>
-
-    <!-- Parte 2: Chaves Estrangeiras -->
-    <section id="fk">
-      <h2><i class="fas fa-link"></i> Chaves Estrangeiras — Ligando as informações com segurança</h2>
-
-      <div class="card">
-        <h3>Por que precisamos de “chaves”?</h3>
-        <p>Vamos usar uma analogia:</p>
-        <ul>
-          <li>Na tabela <code>Medico</code>, cada médico tem um <code>id</code> (ex: João = id <strong>1</strong>).</li>
-          <li>Na tabela <code>Consulta</code>, queremos registrar: <em>“João atendeu Ana às 14h”</em>.</li>
-          <li>Se escrevermos “João” diretamente na consulta, e depois ele mudar o nome, os dados ficam inconsistentes!</li>
-        </ul>
-        <p>✅ A solução: usar o <code>id</code> (ex: <code>Medico_id = 1</code>). Isso é uma <span class="acronym">FK</span> (<em>Foreign Key</em> → <strong>Chave Estrangeira</strong>).</p>
-
-        <div class="did-you-know">
-          <i class="fas fa-lightbulb"></i> <strong>Você sabia?</strong><br>
-          O nome “estrangeira” vem do fato de que a chave <em>não pertence àquela tabela</em> — ela é “de fora” (da tabela <code>Medico</code>), mas usada em <code>Consulta</code>. É como usar o RG de alguém em outro documento: você confirma que é a mesma pessoa.
-        </div>
-
-        <h3>E o que é <span class="acronym">PK</span>?</h3>
-        <p><span class="acronym">PK</span> = <em>Primary Key</em> → <strong>Chave Primária</strong>: identificador único de cada registro em uma tabela.<br>
-        Ex: em <code>Medico</code>, o campo <code>id</code> é a <span class="acronym">PK</span>.<br>
-        Regra: <strong>nunca se repete</strong> e <strong>nunca é nulo</strong>.</p>
-
-        <h3>Como criar uma FK? Passo a passo (sem pular etapas!)</h3>
-        <ol>
-          <li><strong>1º passo</strong>: Adicionar a coluna que vai guardar o ID:<br>
-            <div class="code">ALTER TABLE Consulta ADD COLUMN Medico_id INT NOT NULL;</div>
-            <p>→ <code>INT</code> = número inteiro; <code>NOT NULL</code> = obrigatório (toda consulta tem um médico!)</p>
-          </li>
-          <li><strong>2º passo</strong>: Criar a ligação (a “regra” de integridade):<br>
-            <div class="code">
-ALTER TABLE Consulta<br>
-ADD CONSTRAINT fk_consulta_Medico<br>
-FOREIGN KEY (Medico_id) REFERENCES Medico(id);
+    <header>
+        <nav class="container">
+            <a href="#home" class="logo">A Jornada dos Dados</a>
+            <div class="nav-links">
+                <a href="#home">Início</a>
+                <a href="#theory">Teoria</a>
+                <a href="#resources">Recursos</a>
             </div>
-            <p>→ <code>CONSTRAINT</code> = restrição (regra de negócio);<br> 
-            → <code>fk_consulta_Medico</code> = nome da regra (fácil de identificar depois);<br> 
-            → <code>REFERENCES Medico(id)</code> = “esse número deve existir como <span class="acronym">PK</span> na tabela <code>Medico</code>”</p>
-          </li>
-        </ol>
+        </nav>
+    </header>
 
-        <div class="highlight">
-          <p><i class="fas fa-exclamation-triangle"></i> <strong>Erro comum:</strong> tentar inserir uma consulta com <code>Medico_id = 999</code>, mas não existe médico com id 999 → o banco <strong>rejeita!</strong> Isso é a <strong>integridade referencial</strong> funcionando: garante que os dados sejam confiáveis.</p>
+    <main>
+        <section id="home" class="hero">
+            <div class="container">
+                <h1>A Jornada dos Dados</h1>
+                <p>Explore o Universo do Data Warehouse. Entenda os conceitos fundamentais que transformam dados brutos em ativos estratégicos para qualquer negócio.</p>
+                <a href="#theory" class="cta-button">Iniciar Minha Jornada</a>
+            </div>
+        </section>
+
+        <section id="theory" class="container">
+            <h2>O Universo do Data Warehouse</h2>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <span>1.1 Por que precisamos de Data Warehouses?</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Imagine que você é o gerente de uma grande rede de varejo e faz uma pergunta estratégica: <strong>"Qual foi o produto mais vendido na região Sul durante o último inverno, comparado com o inverno anterior?"</strong>. Se você tentar obter essa resposta diretamente do sistema de caixas da loja, o que acontece? O sistema pode travar ou demorar horas para responder. Isso acontece porque ele não foi feito para isso!</p>
+                    <p>Para resolver isso, o universo dos dados é dividido em dois mundos, cada um com um propósito muito claro:</p>
+                    
+                    <ul>
+                        <li><strong>OLTP (Online Transaction Processing) - O Caixa da Loja:</strong> São os sistemas do dia a dia, projetados para registrar transações de forma rápida e eficiente (ex: uma venda, um agendamento). Sua missão é ser veloz para <strong>escrever</strong> dados. Tentar fazer análises complexas nele é como pedir ao caixa para parar de atender clientes para calcular a lucratividade de cada item dos últimos 5 anos.</li>
+                        <li><strong>OLAP (Online Analytical Processing) - O Escritório Central:</strong> É aqui que o Data Warehouse brilha. São sistemas otimizados para responder perguntas complexas e estratégicas sobre grandes volumes de dados <strong>históricos</strong>. Sua missão é ser poderoso para <strong>ler e analisar</strong> dados, não para registrar novas transações.</li>
+                    </ul>
+
+                    <p><strong>A Analogia em Detalhes:</strong> Pense no OLTP como os **caixas e o sistema de estoque de cada loja** de sua rede. Eles são essenciais para o funcionamento diário. Agora, imagine um **escritório central** que, toda noite, recebe um resumo de todas as vendas de todas as lojas. Neste escritório, os dados são limpos, organizados e armazenados de forma consistente. É aqui que a mágica acontece: você pode cruzar dados de vendas com informações de marketing, clima e calendário de feriados para descobrir insights que seriam impossíveis de ver olhando para um único caixa. <strong>Esse escritório central é o seu Data Warehouse.</strong></p>
+                    
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Característica</th>
+                                <th>OLTP (Transacional)</th>
+                                <th>OLAP (Analítico)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Objetivo Principal</td>
+                                <td>Registrar operações do dia a dia</td>
+                                <td>Suportar análise e decisão estratégica</td>
+                            </tr>
+                            <tr>
+                                <td>Tipo de Dado</td>
+                                <td>Dados atuais, granulares, em tempo real</td>
+                                <td>Dados históricos, agregados, multidimensionais</td>
+                            </tr>
+                            <tr>
+                                <td>Operações Comuns</td>
+                                <td>INSERT, UPDATE, DELETE (Leitura e Escrita)</td>
+                                <td>SELECT com JOINs e agregações (Principalmente Leitura)</td>
+                            </tr>
+                            <tr>
+                                <td>Usuários Típicos</td>
+                                <td>Caixas, vendedores, atendentes</td>
+                                <td>Analistas de dados, gestores, cientistas de dados</td>
+                            </tr>
+                            <tr>
+                                <td>Exemplo de Pergunta</td>
+                                <td>"Qual o preço do produto X?"</td>
+                                <td>"Qual a tendência de vendas do produto X nos últimos 3 anos?"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <p>Portanto, precisamos de Data Warehouses porque eles criam um ambiente separado e otimizado para a análise, liberando os sistemas operacionais (OLTP) para fazerem o que fazem de melhor: operar o negócio. Eles transformam uma montanha de dados brutos e caóticos em uma fonte única, confiável e estratégica de informação.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <span>1.2 Os 4 Pilares de um Data Warehouse</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Um Data Warehouse não é apenas um grande banco de dados. Ele é construído sobre quatro princípios fundamentais, definidos por William Inmon, que garantem sua eficácia como a "única fonte da verdade" para a análise de negócios. Vamos detalhar cada um deles:</p>
+                    
+                    <div class="pillar-box">
+                        <h4>1. Orientado ao Assunto (Subject-Oriented)</h4>
+                        <p><strong>O Conceito:</strong> Os dados no DW são organizados em torno dos principais assuntos do negócio, como "Cliente", "Produto", "Vendedor" ou "Promoção", e não em torno das aplicações ou processos que os geraram (como "Vendas", "Faturas", "Envios").</p>
+                        <p><strong>A Analogia:</strong> Pense em uma biblioteca. Você não organiza os livros pela impressora que os produziu ou pelo tipo de papel usado. Você os organiza por assunto: História, Ciência, Literatura. Da mesma forma, no DW, todas as informações sobre um cliente (suas compras, seu perfil, suas devoluções) estão centralizadas no assunto "Cliente", facilitando uma visão 360°.</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>2. Integrado (Integrated)</h4>
+                        <p><strong>O Conceito:</strong> O DW consolida dados de múltiplas fontes heterogêneas (diferentes sistemas, bancos de dados, formatos de arquivo) e os torna consistentes. Isso envolve padronizar nomes, unidades de medida, codificações e muito mais.</p>
+                        <p><strong>A Analogia:</strong> Imagine que um sistema de vendas chama um cliente de "Cliente A", o sistema de marketing o chama de "Contato 123" e o sistema de logística o chama de "Destinatário X". No DW, todos esses registros são unificados e padronizados para um único "Cliente ID: 789". O mesmo vale para unidades: um sistema registra peso em "kg" e outro em "lbs". O DW integra tudo para uma única unidade padrão, como "kg". Isso garante que uma análise sobre "peso médio dos produtos vendidos" seja precisa e não compare maçãs com laranjas.</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>3. Não Volátil (Non-Volatile)</h4>
+                        <p><strong>O Conceito:</strong> Uma vez que os dados entram no Data Warehouse, eles são estáveis e não são mais alterados. Novos dados são sempre adicionados, mas os dados existentes nunca são sobrescritos ou deletados. O DW é um registro histórico permanente.</p>
+                        <p><strong>A Analogia:</strong> Um Data Warehouse é como um livro de história. Uma vez que o capítulo "Vendas de 2023" é escrito, ele nunca é apagado ou reescrito. Se um erro for encontrado, uma nota de correção pode ser adicionada, mas o registro original permanece. Isso contrasta fortemente com um sistema OLTP, onde você pode atualizar o endereço de um cliente. No DW, você adicionaria um novo registro de endereço, mantendo o histórico de onde o cliente morou no passado. Essa estabilidade é crucial para análises de tendências ao longo do tempo.</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>4. Variável com o Tempo (Time-Variant)</h4>
+                        <p><strong>O Conceito:</strong> Todos os dados em um Data Warehouse são associados a um intervalo de tempo específico. Cada dado é uma "fotografia" em um determinado momento. Isso permite análises de tendências, comparações entre períodos e previsões.</p>
+                        <p><strong>A Analogia:</strong> Em um sistema transacional, você sabe que "as vendas hoje são R$ 1.000". No Data Warehouse, você sabe que "as vendas foram R$ 1.000 *no dia 15 de novembro de 2023*". Essa dimensão temporal é fundamental. Ela permite que você responda a perguntas como: "Como as vendas de novembro de 2023 se comparam com as de novembro de 2022?" ou "Qual é a sazonalidade das vendas deste produto ao longo dos últimos 5 anos?". Sem a variável tempo, essa análise seria impossível.</p>
+                    </div>
+
+                    <p>Juntos, esses quatro pilares criam um ambiente robusto, confiável e otimizado para a inteligência de negócios, transformando dados brutos em um ativo estratégico de longo prazo para a organização.</p>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <div class="accordion-header">
+                    <span>1.3 Arquiteturas e Evolução</span>
+                    <span class="accordion-icon">▼</span>
+                </div>
+                <div class="accordion-content">
+                    <p>Um Data Warehouse não é uma entidade estática; sua arquitetura e propósito evoluíram dramaticamente ao longo das décadas, impulsionados por novas tecnologias e pela crescente demanda por insights mais profundos.</p>
+
+                    <h3 style="font-size: 1.5rem; color: var(--text-primary); margin-top: 2rem;">Principais Arquiteturas</h3>
+                    <p>Não existe uma arquitetura única que sirva para todos. A escolha depende do tamanho da empresa, da complexidade dos dados e das necessidades dos usuários.</p>
+
+                    <div class="pillar-box">
+                        <h4>Arquitetura Simples (com Staging Area)</h4>
+                        <p><strong>O Conceito:</strong> Esta é a arquitetura mais básica. Dados de várias fontes são extraídos e levados para uma "área de preparação" (Staging Area). Nessa área, os dados são limpos, transformados e integrados antes de serem carregados no Data Warehouse final.</p>
+                        <p><strong>A Analogia:</strong> Pense em uma cozinha de um restaurante. Você não traz os ingredientes crus e sujos diretamente da feira para a prateleira da despensa. Primeiro, você os leva para a cozinha (Staging Area), onde são lavados, picados e preparados. Só então, são armazenados de forma organizada na despensa (Data Warehouse) para serem usados no preparo dos pratos (análises).</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>Arquitetura Hub and Spoke (Roda e Raios)</h4>
+                        <p><strong>O Conceito:</strong> Esta é a arquitetura mais popular. Um Data Warehouse central (o "Hub") armazena dados de forma corporativa e integrada. A partir desse Hub, os dados são distribuídos para diversos "Data Marts" (os "Raios"), que são subconjuntos de dados otimizados para departamentos específicos (Vendas, Marketing, RH).</p>
+                        <p><strong>A Analogia:</strong> Imagine uma grande estação de trens central (Hub) em uma metrópole. Todos os trens de longa distância (fontes de dados) chegam a ela. A partir da estação central, partem linhas de metrô ou trens urbanos (Data Marts) que levam passageiros (dados) para bairros específicos (departamentos). É mais eficiente e gerenciável do que cada bairro ter uma linha direta para cada cidade do país.</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>Sandboxes (Áreas Restritas)</h4>
+                        <p><strong>O Conceito:</strong> São ambientes isolados e seguros dentro da infraestrutura do DW, onde cientistas de dados e analistas podem explorar novos conjuntos de dados, testar algoritmos de Machine Learning ou fazer análises altamente experimentais sem arriscar a integridade e a performance do Data Warehouse principal.</p>
+                        <p><strong>A Analogia:</strong> É um laboratório de química ou uma oficina de protótipos. Você pode fazer experimentos, criar explosões controladas e testar ideias malucas lá, sem risco de queimar a casa principal (o DW produtivo). É o ambiente perfeito para a inovação.</p>
+                    </div>
+
+                    <h3 style="font-size: 1.5rem; color: var(--text-primary); margin-top: 2rem;">A Evolução Histórica</h3>
+                    <p>A capacidade e o propósito dos Data Warehouses mudaram drasticamente desde seu surgimento.</p>
+                    
+                    <div class="pillar-box">
+                        <h4>Etapa 1: Relatórios Transacionais (Final dos anos 80)</h4>
+                        <p><strong>Pergunta Respondida:</strong> "O que aconteceu?".<br>
+                        O foco era simples: criar relatórios estáticos e periódicos a partir de dados históricos. Pense em um relatório de vendas mensal impresso. Foi um salto gigantesco para a época, mas ainda muito reativo.</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>Etapa 2: Consultas Ad-Hoc e BI (Anos 90)</h4>
+                        <p><strong>Pergunta Respondida:</strong> "Por que isso aconteceu?".<br>
+                        Com o surgimento de ferramentas de BI (Business Intelligence), os usuários de negócio passaram a poder fazer suas próprias consultas e "drill-downs" (análises mais detalhadas) nos dados, sem depender sempre do departamento de TI.</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>Etapa 3: Mineração de Dados e Previsão (Anos 2000)</h4>
+                        <p><strong>Pergunta Respondida:</strong> "O que vai acontecer?".<br>
+                        O DW deixou de ser apenas um espelho do passado. Com técnicas de estatística e Machine Learning, ele passou a ser usado para prever o futuro: prever churn de clientes, identificar fraudes, calcular a probabilidade de um lead se tornar um cliente.</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>Etapa 4: Análise Tática e Cenários (Anos 2010)</h4>
+                        <p><strong>Pergunta Respondida:</strong> "E se fizéssemos isso?".<br>
+                        O DW evoluiu para suportar simulações complexas. As empresas podiam agora modelar o impacto de decisões estratégicas: "Qual seria o impacto nas vendas se reduzirmos o preço em 10% e aumentarmos o orçamento de marketing em R$ 1 milhão?".</p>
+                    </div>
+
+                    <div class="pillar-box">
+                        <h4>Etapa 5: Data Warehouse Autônomo (Hoje)</h4>
+                        <p><strong>Pergunta Respondida:</strong> "Como podemos fazer tudo isso mais rápido, mais barato e com mais segurança?".<br>
+                        Esta é a era da nuvem e da Inteligência Artificial. O DW moderno é autônomo: IA gerencia a performance, otimiza consultas, provisiona recursos automaticamente e garante a segurança. O objetivo é remover a complexidade operacional e permitir que os analistas se concentrem puramente em extrair valor dos dados.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="resources" class="container">
+            <h2>Recursos Extras</h2>
+            <div class="resources-grid">
+                <div class="resource-card" data-target="cheatsheet">
+                    <h3>Cheat Sheet de SQL</h3>
+                    <p>Um guia rápido com os principais comandos SQL para quem deseja ir além e começar a praticar.</p>
+                </div>
+                <div class="resource-card" data-target="glossary">
+                    <h3>Glossário de Termos</h3>
+                    <p>Consulte o significado de termos técnicos como Data Warehouse, OLAP, Chave Estrangeira e mais.</p>
+                </div>
+                <div class="resource-card" data-target="next-steps">
+                    <h3>Próximos Passos</h3>
+                    <p>Continue sua jornada aprendendo sobre ETL (Extração, Transformação, Carga) e Modelagem Dimensional.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Structure -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Content will be dynamically inserted here -->
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="card">
-        <h3>Estrutura exata das tabelas (conforme o PDF)</h3>
-        <p>Antes de alterar <code>Consulta</code>, vamos revisar como as tabelas foram criadas:</p>
+    <footer>
+        <p>&copy; 2024 A Jornada dos Dados. Desenvolvido para educar e inspirar a próxima geração de analistas de dados.</p>
+    </footer>
 
-        <h4>🔹 <code>Medico</code></h4>
-        <div class="code">
-CREATE TABLE Medico (<br>
-&nbsp;&nbsp;id INT PRIMARY KEY AUTO_INCREMENT,<br>
-&nbsp;&nbsp;nome VARCHAR(45) NOT NULL,<br>
-&nbsp;&nbsp;crm VARCHAR(45) NOT NULL,<br>
-&nbsp;&nbsp;cpf CHAR(11) NOT NULL,<br>
-&nbsp;&nbsp;telefone CHAR(11) NOT NULL,<br>
-&nbsp;&nbsp;datanasc DATE NOT NULL,<br>
-&nbsp;&nbsp;residente ENUM('S','N') NOT NULL<br>
-);
-        </div>
-        <p>→ <code>ENUM('S','N')</code> significa: só aceita <code>'S'</code> (sim) ou <code>'N'</code> (não). É mais seguro que <code>VARCHAR</code>.</p>
-
-        <h4>🔹 <code>Paciente</code></h4>
-        <div class="code">
-CREATE TABLE Paciente (<br>
-&nbsp;&nbsp;id INT PRIMARY KEY AUTO_INCREMENT,<br>
-&nbsp;&nbsp;nome VARCHAR(45) NOT NULL,<br>
-&nbsp;&nbsp;cpf CHAR(11) NOT NULL,<br>
-&nbsp;&nbsp;planosaude ENUM('S','N') NOT NULL DEFAULT 'N'<br>
-);
-        </div>
-        <p>→ <code>DEFAULT 'N'</code>: se não informar, assume <code>'N'</code> automaticamente.</p>
-      </div>
-    </section>
-
-    <!-- Parte 3: DML -->
-    <section id="dml">
-      <h2><i class="fas fa-edit"></i> DML — Três ações para dominar o banco</h2>
-
-      <div class="card">
-        <h3>O que é <span class="acronym">DML</span>?</h3>
-        <p><span class="acronym">DML</span> = <em>Data Manipulation Language</em> → <strong>Linguagem de Manipulação de Dados</strong>.</p>
-        <p>São os comandos que mudam os <strong>dados dentro das tabelas</strong> (não a estrutura, mas o conteúdo).</p>
-
-        <p>Pense em uma agenda de contatos no celular:</p>
-        <ul>
-          <li><i class="fas fa-plus-circle" style="color:green;"></i> <strong>Inserir</strong> = adicionar um novo contato → <code>INSERT INTO</code></li>
-          <li><i class="fas fa-pencil-alt" style="color:#007bff;"></i> <strong>Atualizar</strong> = editar o número do João → <code>UPDATE ... SET</code></li>
-          <li><i class="fas fa-trash-alt" style="color:#dc3545;"></i> <strong>Excluir</strong> = apagar o contato → <code>DELETE FROM</code></li>
-        </ul>
-
-        <h3>1. Inserir (<code>INSERT INTO</code>)</h3>
-        <div class="code">
-INSERT INTO Medico (nome, crm, cpf, telefone, datanasc, residente)<br>
-VALUES ('Ana', '55555', '11111111111', '43999999999', '1990-05-10', 'S');
-        </div>
-        <p>⚠️ Ordem importa! Os valores devem seguir a mesma ordem das colunas.</p>
-
-        <h3>2. Atualizar (<code>UPDATE ... SET ... WHERE</code>)</h3>
-        <div class="code">
-UPDATE Paciente<br>
-SET planosaude = 'N'<br>
-WHERE id = 3;
-        </div>
-        <p>✅ <code>WHERE</code> é essencial! Sem ele, <strong>todos os pacientes</strong> ficariam sem plano de saúde! Isso é um erro comum de iniciantes.</p>
-
-        <h3>3. Excluir (<code>DELETE FROM</code>)</h3>
-        <p>Você quer apagar a consulta **mais recente** (a de maior horário). Como fazer?</p>
-        <p>Passo a passo:</p>
-        <ol>
-          <li>Primeiro, veja qual é:<br>
-            <div class="code">SELECT * FROM Consulta ORDER BY horario DESC LIMIT 1;</div>
-          </li>
-          <li>Depois, apague só ela:<br>
-            <div class="code">DELETE FROM Consulta ORDER BY horario DESC LIMIT 1;</div>
-          </li>
-        </ol>
-
-        <div class="highlight">
-          <p><i class="fas fa-exclamation-triangle"></i> <strong>Atenção ao gabarito do PDF:</strong><br>
-          O material oficial traz:<br>
-          <code>DELETE FROM Consulta ORDER BY horario LIMIT 1;</code><br>
-          ❌ Isso exclui a <strong>consulta mais antiga</strong> (primeira da lista).<br>
-          ✅ Para excluir a <strong>mais recente</strong>, o correto é:<br>
-          <code>DELETE FROM Consulta ORDER BY horario DESC LIMIT 1;</code>
-          </p>
-          <p><i class="fas fa-check-circle"></i> Sempre confirme com:<br>
-          <code>SELECT * FROM Consulta ORDER BY horario DESC LIMIT 1;</code></p>
-        </div>
-
-        <div class="pause">
-          <i class="fas fa-pause-circle"></i> <strong>Pausa para pensar:</strong><br>
-          <em>Por que usamos <code>LIMIT 1</code>? Porque queremos excluir <strong>uma só</strong>, mesmo que duas consultas tenham o mesmo horário. Sem <code>LIMIT</code>, poderíamos apagar mais de uma!</em>
-        </div>
-
-        <h3>E o que é <span class="acronym">DDL</span>?</h3>
-        <p><span class="acronym">DDL</span> = <em>Data Definition Language</em> → <strong>Linguagem de Definição de Dados</strong>.<br>
-        Comandos que **criam ou alteram a estrutura** do banco — não o conteúdo.<br>
-        Exemplos: <code>CREATE TABLE</code>, <code>ALTER TABLE</code>, <code>DROP TABLE</code>.</p>
-        <p>Na Atividade 2, usamos <span class="acronym">DDL</span> (com <code>ALTER TABLE</code>). Na Atividade 3, usamos <span class="acronym">DML</span>.</p>
-      </div>
-    </section>
-
-    <!-- Atividades -->
-    <section id="atividades">
-      <h2><i class="fas fa-tasks"></i> Atividades Práticas (com apoio!)</h2>
-
-      <div class="card">
-        <h3>📌 Atividade 1: Reflexão crítica (250–300 palavras)</h3>
-        <p>Você vai ler dois textos curtos (já no AVA). Não tenha medo! Leia devagar.<br>
-        Lembre-se das siglas:</p>
-        <ul>
-          <li><span class="acronym">DBA</span> = Administrador de Banco de Dados</li>
-          <li><span class="acronym">AI</span> = Inteligência Artificial</li>
-          <li><span class="acronym">ML</span> = Aprendizado de Máquina</li>
-          <li><span class="acronym">PK</span>/<span class="acronym">FK</span> = Chave Primária/Estrangeira (garantem segurança dos dados)</li>
-        </ul>
-        <p><strong>Perguntas-guia:</strong></p>
-        <ul>
-          <li>O que mudou no trabalho do <span class="acronym">DBA</span> com a automação?</li>
-          <li>Quais vantagens a empresa ganha com <span class="acronym">AI</span> e <span class="acronym">ML</span>?</li>
-          <li>E os riscos? (ex: se o sistema errar sozinho, quem responde?)</li>
-        </ul>
-      </div>
-
-      <div class="card">
-        <h3>🛠️ Atividade 2: Corrigir a tabela <code>Consulta</code> (usando <span class="acronym">DDL</span>)</h3>
-        <p>O que falta? As colunas <code>Medico_id</code> e <code>Paciente_id</code>, e suas <span class="acronym">FK</span>s.</p>
-        <p><strong>Solução:</strong></p>
-        <div class="code">
--- Passo 1: Adicionar colunas (coluna + tipo + regra)<br>
-ALTER TABLE Consulta ADD COLUMN Medico_id INT NOT NULL;<br>
-ALTER TABLE Consulta ADD COLUMN Paciente_id INT NOT NULL;<br><br>
-
--- Passo 2: Criar as chaves estrangeiras (FK)<br>
-ALTER TABLE Consulta<br>
-ADD CONSTRAINT fk_consulta_Medico<br>
-FOREIGN KEY (Medico_id) REFERENCES Medico(id);<br><br>
-
-ALTER TABLE Consulta<br>
-ADD CONSTRAINT fk_consulta_Paciente<br>
-FOREIGN KEY (Paciente_id) REFERENCES Paciente(id);
-        </div>
-        <p>✅ Após executar, confirme com: <code>DESCRIBE Consulta;</code></p>
-      </div>
-
-      <div class="card">
-        <h3>✏️ Atividade 3: Manipular dados (usando <span class="acronym">DML</span>)</h3>
-        <p>O gabarito do PDF usa estes dados exatos — você pode copiá-los ou criar os seus:</p>
-
-        <div class="code">
--- Inserção nas 3 tabelas (exato do PDF)<br>
-INSERT INTO Medico VALUES<br>
-(0,'Joao','12345','11111111111','43999999999','2022-09-25','N'),<br>
-(0,'Maria','67890','22222222222','43999998888','2022-02-27','N'),<br>
-(0,'José','13579','33333333333','43999997777','2022-10-01','S');<br><br>
-
-INSERT INTO Paciente VALUES<br>
-(0,'Ana V.','12312312311','S'),<br>
-(0,'Henrique','78978978900','N'),<br>
-(0,'Fabio','45645645622','S'),<br>
-(0,'Leticia','28828828800','S');<br><br>
-
-INSERT INTO Consulta VALUES<br>
-(0,'2022-11-16 14:00:00','refluxo', 1, 2),<br>
-(0,'2022-03-10 15:00:00','gastrite', 1, 4),<br>
-(0,'2022-06-03 09:00:00','alergia', 2, 2),<br>
-(0,'2022-04-30 15:30:00','gripe', 2, 3);
-        </div>
-
-        <h4>Atualização (exata do PDF)</h4>
-        <div class="code">
-UPDATE Paciente SET planosaude = 'N' WHERE id = 4;
-        </div>
-
-        <h4>Exclusão — versão corrigida (mais recente)</h4>
-        <div class="code">
--- ❌ PDF diz: ORDER BY horario LIMIT 1 → exclui a mais ANTIGA<br>
--- ✅ Correto para a mais RECENTE:<br>
-DELETE FROM Consulta ORDER BY horario DESC LIMIT 1;
-        </div>
-      </div>
-
-      <div style="text-align: center; margin-top: 1.5rem;">
-        <a href="#intro" class="btn btn-outline"><i class="fas fa-arrow-up"></i> Voltar ao início</a>
-        <br><br>
-        <p style="font-size: 0.9rem; color: var(--text-light);">
-          Programação e Desenvolvimento de Banco de Dados
-        </p>
-      </div>
-    </section>
-
-  </main>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('section');
-      const navLinks = document.querySelectorAll('nav a');
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('id');
-            navLinks.forEach(link => {
-              link.classList.remove('active');
-              if (link.getAttribute('href') === `#${id}`) {
-                link.classList.add('active');
-              }
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Accordion Logic ---
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const item = header.parentElement;
+                    const isActive = item.classList.contains('active');
+                    
+                    document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+                    
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                });
             });
-          }
+
+            // --- Modal Logic ---
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modal-body');
+            const modalCloseBtn = document.querySelector('.modal-close');
+            const resourceCards = document.querySelectorAll('.resource-card');
+
+            const modalContent = {
+                cheatsheet: {
+                    title: 'Cheat Sheet de SQL',
+                    body: `
+                        <h2>Cheat Sheet de SQL</h2>
+                        <p>Aqui estão alguns dos comandos SQL mais comuns para você começar a praticar:</p>
+                        <ul>
+                            <li><strong>SELECT ... FROM ...:</strong> Seleciona dados de uma tabela. Ex: <code>SELECT nome FROM Paciente;</code></li>
+                            <li><strong>WHERE:</strong> Filtra resultados com base em uma condição. Ex: <code>SELECT * FROM Medico WHERE residente = 'S';</code></li>
+                            <li><strong>ORDER BY:</strong> Ordena o resultado. Ex: <code>SELECT nome, datanasc FROM Medico ORDER BY datanasc DESC;</code></li>
+                            <li><strong>INNER JOIN:</strong> Combina linhas de duas tabelas com base em uma coluna relacionada. Ex: <code>SELECT C.horario, P.nome FROM Consulta C INNER JOIN Paciente P ON C.Paciente_id = P.id;</code></li>
+                            <li><strong>LEFT/RIGHT JOIN:</strong> Retorna todos os registros da tabela da esquerda/direita, e os registros correspondentes da outra tabela.</li>
+                            <li><strong>GROUP BY:</strong> Agrupa linhas que têm os mesmos valores em colunas especificadas em linhas de resumo. Ex: <code>SELECT Medico_id, COUNT(*) FROM Consulta GROUP BY Medico_id;</code></li>
+                            <li><strong>COUNT(), SUM(), AVG():</strong> Funções de agregação. Contam linhas, somam valores ou calculam a média.</li>
+                            <li><strong>IN / NOT IN:</strong> Filtra resultados baseando-se em uma lista de valores. Ex: <code>SELECT nome FROM Medico WHERE id IN (1, 2);</code></li>
+                        </ul>
+                    `
+                },
+                glossary: {
+                    title: 'Glossário de Termos',
+                    body: `
+                        <h2>Glossário de Termos</h2>
+                        <ul>
+                            <li><strong>Data Warehouse (DW):</strong> Um repositório central de dados integrados, oriundos de diversas fontes, otimizado para consultas e análises de negócio.</li>
+                            <li><strong>OLTP (Online Transaction Processing):</strong> Sistemas projetados para gerenciar e processar um grande número de transações de curta duração (ex: sistemas de vendas, bancos).</li>
+                            <li><strong>OLAP (Online Analytical Processing):</strong> Sistemas otimizados para consultas complexas e análise de grandes volumes de dados históricos.</li>
+                            <li><strong>Data Mart:</strong> Um subconjunto de um Data Warehouse, focado em uma área de negócio específica (ex: Vendas, Marketing).</li>
+                            <li><strong>ETL (Extract, Transform, Load):</strong> O processo de extrair dados de fontes heterogêneas, transformá-los em um formato consistente e carregá-los no Data Warehouse.</li>
+                            <li><strong>Chave Primária (Primary Key):</strong> Um identificador único para cada registro em uma tabela (ex: a coluna <code>id</code> na tabela <code>Medico</code>).</li>
+                            <li><strong>Chave Estrangeira (Foreign Key):</strong> Uma coluna em uma tabela que é a chave primária em outra tabela, usada para criar relacionamentos (ex: <code>Medico_id</code> na tabela <code>Consulta</code>).</li>
+                            <li><strong>Business Intelligence (BI):</strong> O conjunto de estratégias, tecnologias e ferramentas usadas para analisar dados e transformá-los em informações acionáveis para a tomada de decisões.</li>
+                        </ul>
+                    `
+                },
+                'next-steps': {
+                    title: 'Próximos Passos na sua Jornada',
+                    body: `
+                        <h2>Próximos Passos</h2>
+                        <p>Parabéns por ter dado o primeiro passo! Para continuar aprofundando seus conhecimentos, sugerimos os seguintes tópicos:</p>
+                        <ul>
+                            <li><strong>ETL em Detalhes:</strong> Mergulhe fundo no processo de Extração, Transformação e Carga. Entenda as ferramentas e as melhores práticas para garantir que os dados cheguem ao Data Warehouse com qualidade. Pesquise por ferramentas como Apache Airflow, Talend e Pentaho.</li>
+                            <li><strong>Modelagem Dimensional:</strong> Aprenda sobre os modelos Estrela (Star Schema) e Floco de Neve (Snowflake Schema). Eles são a espinha dorsal do design de Data Warehouses e organizam os dados de forma a otimizar a performance das consultas analíticas.</li>
+                            <li><strong>Ferramentas de BI e Visualização:</strong> Explore plataformas como Tableau, Power BI ou Looker (Google Data Studio). Aprenda a conectar essas ferramentas a um banco de dados para criar dashboards interativos e visualizações de dados impactantes.</li>
+                            <li><strong>Cloud Data Warehouses:</strong> Conheça as soluções de Data Warehouse em nuvem, como Google BigQuery, Amazon Redshift e Snowflake. Entenda suas vantagens em termos de escalabilidade, performance e custo.</li>
+                        </ul>
+                        <p>A jornada do aprendizado em dados é contínua e fascinante. Continue curioso e praticando!</p>
+                    `
+                }
+            };
+
+            function openModal(target) {
+                const content = modalContent[target];
+                if (content) {
+                    modalBody.innerHTML = content.body;
+                    modal.classList.add('show');
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeModal() {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+            }
+
+            resourceCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const target = card.getAttribute('data-target');
+                    openModal(target);
+                });
+            });
+
+            modalCloseBtn.addEventListener('click', closeModal);
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            window.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && modal.classList.contains('show')) {
+                    closeModal();
+                }
+            });
         });
-      }, { threshold: 0.5 });
-
-      sections.forEach(sec => observer.observe(sec));
-    });
-  </script>
-
+    </script>
 </body>
 </html>
