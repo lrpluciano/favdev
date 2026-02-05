@@ -3,702 +3,1385 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Jornada dos Dados: O Universo do Data Warehouse</title>
-    
-    <!-- Google Fonts: Poppins -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+    <title>Desenvolvimento Responsivo - Guia de Estudo</title>
     <style>
+        /* Estilos Gerais */
         :root {
-            --bg-primary: #0d1117;
-            --bg-secondary: #161b22;
-            --bg-tertiary: #21262d;
-            --border-color: #30363d;
-            --text-primary: #c9d1d9;
-            --text-secondary: #8b949e;
-            --accent-color: #58a6ff;
-            --accent-hover: #79c0ff;
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --accent-color: #e74c3c;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+            --text-color: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
         }
 
-        *, *::before, *::after {
+        * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            scroll-behavior: smooth;
+            color: var(--text-color);
+            background-color: #f9f9f9;
+            padding: 0;
+            margin: 0;
         }
 
         .container {
-            max-width: 900px;
+            width: 90%;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px 40px;
+            padding: 20px;
         }
 
-        /* Header & Navigation */
+        /* Cabeçalho e Navegação */
         header {
-            background-color: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-            background-color: rgba(22, 27, 34, 0.8);
+            z-index: 100;
+            box-shadow: var(--shadow);
         }
-        
-        nav {
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
             text-decoration: none;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 4px;
         }
 
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            margin-left: 25px;
-            font-weight: 400;
-            transition: color 0.3s ease;
+        nav ul li a:hover, nav ul li a.active {
+            background-color: var(--primary-color);
         }
 
-        .nav-links a:hover {
-            color: var(--accent-hover);
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 80px 0;
-            background: linear-gradient(rgba(13, 17, 23, 0.6), rgba(13, 17, 23, 0.8)), url('https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+        /* Conteúdo Principal */
+        main {
+            padding: 2rem 0;
         }
 
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--accent-color), var(--accent-hover));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto 2rem auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--bg-primary);
-            padding: 15px 30px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .cta-button:hover {
-            background-color: var(--accent-hover);
-            transform: translateY(-2px);
-        }
-
-        /* Sections */
         section {
-            padding: 60px 0;
-            border-bottom: 1px solid var(--border-color);
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
         }
-        
-        section:last-of-type {
-            border-bottom: none;
+
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
         }
 
         h2 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--text-primary);
-        }
-
-        /* Theory Section - Accordion */
-        .accordion-item {
-            background-color: var(--bg-secondary);
-            margin-bottom: 15px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            transition: box-shadow 0.3s ease;
-        }
-
-        .accordion-item:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .accordion-header {
-            padding: 20px 25px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.2rem;
-            transition: background-color 0.3s ease;
-        }
-
-        .accordion-header:hover {
-            background-color: var(--bg-tertiary);
-        }
-
-        .accordion-icon {
-            transition: transform 0.3s ease;
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-        }
-
-        .accordion-item.active .accordion-icon {
-            transform: rotate(180deg);
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-            padding: 0 25px;
-        }
-
-        .accordion-item.active .accordion-content {
-            max-height: 4000px; /* Increased for new content */
-            padding: 0 25px 20px 25px;
-        }
-        
-        .accordion-content p, .accordion-content ul {
-            color: var(--text-secondary);
-        }
-        .accordion-content ul {
-            padding-left: 20px;
-        }
-        .accordion-content li {
-            margin-bottom: 10px;
-        }
-        
-        .accordion-content strong {
-            color: var(--text-primary);
-        }
-        
-        .pillar-box {
-            background-color: var(--bg-tertiary);
-            border-left: 4px solid var(--accent-color);
-            padding: 20px;
-            margin-top: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-radius: 0 8px 8px 0;
-        }
-        .pillar-box h4 {
-            margin-top: 0;
-            color: var(--accent-hover);
-        }
-        .pillar-box p {
-            margin-bottom: 0;
-        }
-
-        /* Comparison Table */
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            font-size: 0.95rem;
-        }
-        .comparison-table th, .comparison-table td {
-            border: 1px solid var(--border-color);
-            padding: 12px 15px;
-            text-align: left;
-        }
-        .comparison-table th {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        .comparison-table tr:nth-child(even) {
-            background-color: var(--bg-tertiary);
-        }
-        .comparison-table td:first-child {
-            font-weight: 600;
-            color: var(--accent-color);
-        }
-        
-        /* Resources Section */
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        .resource-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            padding: 25px;
-            border-radius: 8px;
-            text-align: center;
-            transition: transform 0.3s ease, border-color 0.3s ease, cursor 0.3s ease;
-            cursor: pointer;
-        }
-        .resource-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
-        .resource-card h3 {
-            color: var(--accent-color);
-            margin-top: 0;
-        }
-        .resource-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.75);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.show {
-            display: block;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background-color: var(--bg-secondary);
-            margin: 10% auto;
-            padding: 30px;
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            width: 80%;
-            max-width: 700px;
-            position: relative;
-            animation: modalFadeIn 0.4s ease;
-        }
-
-        @keyframes modalFadeIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .modal-close {
-            color: var(--text-secondary);
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.2s ease;
-        }
-
-        .modal-close:hover {
-            color: var(--text-primary);
-        }
-
-        .modal-body h2 {
-            margin-top: 0;
             font-size: 1.8rem;
-            text-align: left;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin-top: 1.5rem;
+        }
+
+        p {
             margin-bottom: 1rem;
         }
 
-        .modal-body p, .modal-body ul {
-            color: var(--text-secondary);
-        }
-        .modal-body ul {
-            padding-left: 20px;
-        }
-        .modal-body li {
-            margin-bottom: 10px;
-        }
-        .modal-body strong {
-            color: var(--text-primary);
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
         }
 
-        /* Footer */
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        pre {
+            background-color: #f4f4f4;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        pre code {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        /* Demonstrações Interativas */
+        .demo-box {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .demo-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            margin: 5px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .button.secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .button.secondary:hover {
+            background-color: #27ae60;
+        }
+
+        /* Cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+        }
+
+        .card-body {
+            padding: 1rem;
+        }
+
+        /* Quiz */
+        .quiz-container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+
+        .quiz-options {
+            margin-top: 1rem;
+        }
+
+        .quiz-option {
+            display: block;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quiz-option:hover {
+            background-color: #e9ecef;
+        }
+
+        .quiz-option input {
+            margin-right: 10px;
+        }
+
+        .quiz-result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .quiz-result.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .quiz-result.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        .submit-quiz {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .submit-quiz:hover {
+            background-color: #27ae60;
+        }
+
+        /* Rodapé */
         footer {
+            background-color: var(--dark-color);
+            color: white;
             text-align: center;
-            padding: 30px 0;
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            padding: 2rem 0;
+            margin-top: 2rem;
         }
 
-        /* Responsive Design */
+        /* Media Queries para Responsividade */
         @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                right: 20px;
+                top: 15px;
+            }
+
+            nav {
+                width: 100%;
+                display: none;
+                margin-top: 1rem;
+            }
+
+            nav.active {
+                display: block;
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            nav ul li {
+                margin: 5px 0;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
             .container {
-                padding: 20px;
-            }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .nav-links a {
-                margin-left: 15px;
-                font-size: 0.9rem;
-            }
-            .comparison-table {
-                font-size: 0.85rem;
-            }
-            .comparison-table th, .comparison-table td {
-                padding: 8px 10px;
-            }
-            .modal-content {
                 width: 95%;
-                margin: 5% auto;
-                padding: 20px;
+                padding: 10px;
+            }
+
+            section {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        /* Demonstração de Transições */
+        .transition-demo {
+            width: 100px;
+            height: 100px;
+            background-color: var(--primary-color);
+            margin: 20px 0;
+            transition: all 0.5s ease;
+        }
+
+        .transition-demo:hover {
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            transform: scale(1.2);
+        }
+
+        /* Demonstração de Media Queries */
+        .media-query-demo {
+            padding: 20px;
+            background-color: var(--light-color);
+            margin: 20px 0;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Demonstração de Pseudo-classes */
+        .pseudo-class-demo a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .pseudo-class-demo a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        .pseudo-class-demo a:visited {
+            color: #8e44ad;
+        }
+
+        /* Demonstração de Seletores */
+        .selector-demo .class-selector {
+            color: var(--secondary-color);
+        }
+
+        .selector-demo #id-selector {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Tabela de Comparação */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Wireframe Simples */
+        .wireframe-container {
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            border: 2px solid #333;
+            margin: 20px 0;
+        }
+
+        .wireframe-header {
+            height: 60px;
+            background-color: #e0e0e0;
+            border-bottom: 2px solid #333;
+        }
+
+        .wireframe-content {
+            display: flex;
+            flex: 1;
+        }
+
+        .wireframe-sidebar {
+            width: 200px;
+            background-color: #e0e0e0;
+            border-right: 2px solid #333;
+        }
+
+        .wireframe-main {
+            flex: 1;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .wireframe-footer {
+            height: 40px;
+            background-color: #e0e0e0;
+            border-top: 2px solid #333;
+        }
+
+        /* Responsividade do Wireframe */
+        @media (max-width: 768px) {
+            .wireframe-content {
+                flex-direction: column;
+            }
+
+            .wireframe-sidebar {
+                width: 100%;
+                height: 80px;
+                border-right: none;
+                border-bottom: 2px solid #333;
             }
         }
     </style>
 </head>
 <body>
-
     <header>
-        <nav class="container">
-            <a href="#home" class="logo">A Jornada dos Dados</a>
-            <div class="nav-links">
-                <a href="#home">Início</a>
-                <a href="#theory">Teoria</a>
-                <a href="#resources">Recursos</a>
-            </div>
-        </nav>
+        <div class="container header-content">
+            <div class="logo">Desenvolvimento Responsivo</div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+            <nav id="navMenu">
+                <ul>
+                    <li><a href="#introducao" class="nav-link">Introdução</a></li>
+                    <li><a href="#css3" class="nav-link">CSS3</a></li>
+                    <li><a href="#seletores" class="nav-link">Seletores</a></li>
+                    <li><a href="#design-responsivo" class="nav-link">Design Responsivo</a></li>
+                    <li><a href="#mobile-first" class="nav-link">Mobile-First</a></li>
+                    <li><a href="#media-queries" class="nav-link">Media Queries</a></li>
+                    <li><a href="#wireframes" class="nav-link">Wireframes</a></li>
+                    <li><a href="#quiz" class="nav-link">Quiz</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="container">
-                <h1>A Jornada dos Dados</h1>
-                <p>Explore o Universo do Data Warehouse. Entenda os conceitos fundamentais que transformam dados brutos em ativos estratégicos para qualquer negócio.</p>
-                <a href="#theory" class="cta-button">Iniciar Minha Jornada</a>
-            </div>
-        </section>
-
-        <section id="theory" class="container">
-            <h2>O Universo do Data Warehouse</h2>
+    <main class="container">
+        <section id="introducao" class="fade-in">
+            <h1>Guia de Estudo: Desenvolvimento Responsivo</h1>
+            <p>Bem-vindo ao nosso guia de estudo sobre Desenvolvimento Responsivo! Este material foi preparado para ajudá-lo a compreender os conceitos fundamentais do CSS e do design responsivo, permitindo que você responda com sucesso à atividade proposta.</p>
             
-            <div class="accordion-item">
-                <div class="accordion-header">
-                    <span>1.1 Por que precisamos de Data Warehouses?</span>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Imagine que você é o gerente de uma grande rede de varejo e faz uma pergunta estratégica: <strong>"Qual foi o produto mais vendido na região Sul durante o último inverno, comparado com o inverno anterior?"</strong>. Se você tentar obter essa resposta diretamente do sistema de caixas da loja, o que acontece? O sistema pode travar ou demorar horas para responder. Isso acontece porque ele não foi feito para isso!</p>
-                    <p>Para resolver isso, o universo dos dados é dividido em dois mundos, cada um com um propósito muito claro:</p>
-                    
-                    <ul>
-                        <li><strong>OLTP (Online Transaction Processing) - O Caixa da Loja:</strong> São os sistemas do dia a dia, projetados para registrar transações de forma rápida e eficiente (ex: uma venda, um agendamento). Sua missão é ser veloz para <strong>escrever</strong> dados. Tentar fazer análises complexas nele é como pedir ao caixa para parar de atender clientes para calcular a lucratividade de cada item dos últimos 5 anos.</li>
-                        <li><strong>OLAP (Online Analytical Processing) - O Escritório Central:</strong> É aqui que o Data Warehouse brilha. São sistemas otimizados para responder perguntas complexas e estratégicas sobre grandes volumes de dados <strong>históricos</strong>. Sua missão é ser poderoso para <strong>ler e analisar</strong> dados, não para registrar novas transações.</li>
-                    </ul>
+            <h2>O que é CSS?</h2>
+            <p>O CSS (Cascading Style Sheets) é uma linguagem utilizada para estilizar documentos HTML, permitindo controlar a apresentação visual de páginas web. Com o CSS, é possível aplicar cores, ajustar fontes, espaçamentos, layouts e muito mais.</p>
+            
+            <div class="demo-box">
+                <div class="demo-title">Exemplo de CSS</div>
+                <pre><code>/* Exemplo de CSS */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
 
-                    <p><strong>A Analogia em Detalhes:</strong> Pense no OLTP como os **caixas e o sistema de estoque de cada loja** de sua rede. Eles são essenciais para o funcionamento diário. Agora, imagine um **escritório central** que, toda noite, recebe um resumo de todas as vendas de todas as lojas. Neste escritório, os dados são limpos, organizados e armazenados de forma consistente. É aqui que a mágica acontece: você pode cruzar dados de vendas com informações de marketing, clima e calendário de feriados para descobrir insights que seriam impossíveis de ver olhando para um único caixa. <strong>Esse escritório central é o seu Data Warehouse.</strong></p>
-                    
-                    <table class="comparison-table">
-                        <thead>
-                            <tr>
-                                <th>Característica</th>
-                                <th>OLTP (Transacional)</th>
-                                <th>OLAP (Analítico)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Objetivo Principal</td>
-                                <td>Registrar operações do dia a dia</td>
-                                <td>Suportar análise e decisão estratégica</td>
-                            </tr>
-                            <tr>
-                                <td>Tipo de Dado</td>
-                                <td>Dados atuais, granulares, em tempo real</td>
-                                <td>Dados históricos, agregados, multidimensionais</td>
-                            </tr>
-                            <tr>
-                                <td>Operações Comuns</td>
-                                <td>INSERT, UPDATE, DELETE (Leitura e Escrita)</td>
-                                <td>SELECT com JOINs e agregações (Principalmente Leitura)</td>
-                            </tr>
-                            <tr>
-                                <td>Usuários Típicos</td>
-                                <td>Caixas, vendedores, atendentes</td>
-                                <td>Analistas de dados, gestores, cientistas de dados</td>
-                            </tr>
-                            <tr>
-                                <td>Exemplo de Pergunta</td>
-                                <td>"Qual o preço do produto X?"</td>
-                                <td>"Qual a tendência de vendas do produto X nos últimos 3 anos?"</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <p>Portanto, precisamos de Data Warehouses porque eles criam um ambiente separado e otimizado para a análise, liberando os sistemas operacionais (OLTP) para fazerem o que fazem de melhor: operar o negócio. Eles transformam uma montanha de dados brutos e caóticos em uma fonte única, confiável e estratégica de informação.</p>
-                </div>
+h1 {
+    color: #3498db;
+    text-align: center;
+}
+
+p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}</code></pre>
             </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header">
-                    <span>1.2 Os 4 Pilares de um Data Warehouse</span>
-                    <span class="accordion-icon">▼</span>
+            
+            <h3>Objetivo Principal do CSS</h3>
+            <p>O principal objetivo de uma folha de estilo CSS vinculada a um documento HTML é <strong>controlar a aparência e o layout do documento</strong>. O CSS permite definir regras de estilo e layout, separando a estrutura do conteúdo (HTML) da apresentação visual, o que facilita a manutenção e evolução do site.</p>
+            
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">Separação de Responsabilidades</div>
+                    <div class="card-body">
+                        <p>O HTML é responsável pela estrutura e conteúdo da página, enquanto o CSS cuida da apresentação visual. Essa separação torna o código mais organizado e fácil de manter.</p>
+                    </div>
                 </div>
-                <div class="accordion-content">
-                    <p>Um Data Warehouse não é apenas um grande banco de dados. Ele é construído sobre quatro princípios fundamentais, definidos por William Inmon, que garantem sua eficácia como a "única fonte da verdade" para a análise de negócios. Vamos detalhar cada um deles:</p>
-                    
-                    <div class="pillar-box">
-                        <h4>1. Orientado ao Assunto (Subject-Oriented)</h4>
-                        <p><strong>O Conceito:</strong> Os dados no DW são organizados em torno dos principais assuntos do negócio, como "Cliente", "Produto", "Vendedor" ou "Promoção", e não em torno das aplicações ou processos que os geraram (como "Vendas", "Faturas", "Envios").</p>
-                        <p><strong>A Analogia:</strong> Pense em uma biblioteca. Você não organiza os livros pela impressora que os produziu ou pelo tipo de papel usado. Você os organiza por assunto: História, Ciência, Literatura. Da mesma forma, no DW, todas as informações sobre um cliente (suas compras, seu perfil, suas devoluções) estão centralizadas no assunto "Cliente", facilitando uma visão 360°.</p>
+                <div class="card">
+                    <div class="card-header">Reutilização de Estilos</div>
+                    <div class="card-body">
+                        <p>Com o CSS, você pode definir estilos uma vez e aplicá-los a múltiplas páginas, garantindo consistência visual em todo o site.</p>
                     </div>
-
-                    <div class="pillar-box">
-                        <h4>2. Integrado (Integrated)</h4>
-                        <p><strong>O Conceito:</strong> O DW consolida dados de múltiplas fontes heterogêneas (diferentes sistemas, bancos de dados, formatos de arquivo) e os torna consistentes. Isso envolve padronizar nomes, unidades de medida, codificações e muito mais.</p>
-                        <p><strong>A Analogia:</strong> Imagine que um sistema de vendas chama um cliente de "Cliente A", o sistema de marketing o chama de "Contato 123" e o sistema de logística o chama de "Destinatário X". No DW, todos esses registros são unificados e padronizados para um único "Cliente ID: 789". O mesmo vale para unidades: um sistema registra peso em "kg" e outro em "lbs". O DW integra tudo para uma única unidade padrão, como "kg". Isso garante que uma análise sobre "peso médio dos produtos vendidos" seja precisa e não compare maçãs com laranjas.</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>3. Não Volátil (Non-Volatile)</h4>
-                        <p><strong>O Conceito:</strong> Uma vez que os dados entram no Data Warehouse, eles são estáveis e não são mais alterados. Novos dados são sempre adicionados, mas os dados existentes nunca são sobrescritos ou deletados. O DW é um registro histórico permanente.</p>
-                        <p><strong>A Analogia:</strong> Um Data Warehouse é como um livro de história. Uma vez que o capítulo "Vendas de 2023" é escrito, ele nunca é apagado ou reescrito. Se um erro for encontrado, uma nota de correção pode ser adicionada, mas o registro original permanece. Isso contrasta fortemente com um sistema OLTP, onde você pode atualizar o endereço de um cliente. No DW, você adicionaria um novo registro de endereço, mantendo o histórico de onde o cliente morou no passado. Essa estabilidade é crucial para análises de tendências ao longo do tempo.</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>4. Variável com o Tempo (Time-Variant)</h4>
-                        <p><strong>O Conceito:</strong> Todos os dados em um Data Warehouse são associados a um intervalo de tempo específico. Cada dado é uma "fotografia" em um determinado momento. Isso permite análises de tendências, comparações entre períodos e previsões.</p>
-                        <p><strong>A Analogia:</strong> Em um sistema transacional, você sabe que "as vendas hoje são R$ 1.000". No Data Warehouse, você sabe que "as vendas foram R$ 1.000 *no dia 15 de novembro de 2023*". Essa dimensão temporal é fundamental. Ela permite que você responda a perguntas como: "Como as vendas de novembro de 2023 se comparam com as de novembro de 2022?" ou "Qual é a sazonalidade das vendas deste produto ao longo dos últimos 5 anos?". Sem a variável tempo, essa análise seria impossível.</p>
-                    </div>
-
-                    <p>Juntos, esses quatro pilares criam um ambiente robusto, confiável e otimizado para a inteligência de negócios, transformando dados brutos em um ativo estratégico de longo prazo para a organização.</p>
                 </div>
-            </div>
-
-            <div class="accordion-item">
-                <div class="accordion-header">
-                    <span>1.3 Arquiteturas e Evolução</span>
-                    <span class="accordion-icon">▼</span>
-                </div>
-                <div class="accordion-content">
-                    <p>Um Data Warehouse não é uma entidade estática; sua arquitetura e propósito evoluíram dramaticamente ao longo das décadas, impulsionados por novas tecnologias e pela crescente demanda por insights mais profundos.</p>
-
-                    <h3 style="font-size: 1.5rem; color: var(--text-primary); margin-top: 2rem;">Principais Arquiteturas</h3>
-                    <p>Não existe uma arquitetura única que sirva para todos. A escolha depende do tamanho da empresa, da complexidade dos dados e das necessidades dos usuários.</p>
-
-                    <div class="pillar-box">
-                        <h4>Arquitetura Simples (com Staging Area)</h4>
-                        <p><strong>O Conceito:</strong> Esta é a arquitetura mais básica. Dados de várias fontes são extraídos e levados para uma "área de preparação" (Staging Area). Nessa área, os dados são limpos, transformados e integrados antes de serem carregados no Data Warehouse final.</p>
-                        <p><strong>A Analogia:</strong> Pense em uma cozinha de um restaurante. Você não traz os ingredientes crus e sujos diretamente da feira para a prateleira da despensa. Primeiro, você os leva para a cozinha (Staging Area), onde são lavados, picados e preparados. Só então, são armazenados de forma organizada na despensa (Data Warehouse) para serem usados no preparo dos pratos (análises).</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>Arquitetura Hub and Spoke (Roda e Raios)</h4>
-                        <p><strong>O Conceito:</strong> Esta é a arquitetura mais popular. Um Data Warehouse central (o "Hub") armazena dados de forma corporativa e integrada. A partir desse Hub, os dados são distribuídos para diversos "Data Marts" (os "Raios"), que são subconjuntos de dados otimizados para departamentos específicos (Vendas, Marketing, RH).</p>
-                        <p><strong>A Analogia:</strong> Imagine uma grande estação de trens central (Hub) em uma metrópole. Todos os trens de longa distância (fontes de dados) chegam a ela. A partir da estação central, partem linhas de metrô ou trens urbanos (Data Marts) que levam passageiros (dados) para bairros específicos (departamentos). É mais eficiente e gerenciável do que cada bairro ter uma linha direta para cada cidade do país.</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>Sandboxes (Áreas Restritas)</h4>
-                        <p><strong>O Conceito:</strong> São ambientes isolados e seguros dentro da infraestrutura do DW, onde cientistas de dados e analistas podem explorar novos conjuntos de dados, testar algoritmos de Machine Learning ou fazer análises altamente experimentais sem arriscar a integridade e a performance do Data Warehouse principal.</p>
-                        <p><strong>A Analogia:</strong> É um laboratório de química ou uma oficina de protótipos. Você pode fazer experimentos, criar explosões controladas e testar ideias malucas lá, sem risco de queimar a casa principal (o DW produtivo). É o ambiente perfeito para a inovação.</p>
-                    </div>
-
-                    <h3 style="font-size: 1.5rem; color: var(--text-primary); margin-top: 2rem;">A Evolução Histórica</h3>
-                    <p>A capacidade e o propósito dos Data Warehouses mudaram drasticamente desde seu surgimento.</p>
-                    
-                    <div class="pillar-box">
-                        <h4>Etapa 1: Relatórios Transacionais (Final dos anos 80)</h4>
-                        <p><strong>Pergunta Respondida:</strong> "O que aconteceu?".<br>
-                        O foco era simples: criar relatórios estáticos e periódicos a partir de dados históricos. Pense em um relatório de vendas mensal impresso. Foi um salto gigantesco para a época, mas ainda muito reativo.</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>Etapa 2: Consultas Ad-Hoc e BI (Anos 90)</h4>
-                        <p><strong>Pergunta Respondida:</strong> "Por que isso aconteceu?".<br>
-                        Com o surgimento de ferramentas de BI (Business Intelligence), os usuários de negócio passaram a poder fazer suas próprias consultas e "drill-downs" (análises mais detalhadas) nos dados, sem depender sempre do departamento de TI.</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>Etapa 3: Mineração de Dados e Previsão (Anos 2000)</h4>
-                        <p><strong>Pergunta Respondida:</strong> "O que vai acontecer?".<br>
-                        O DW deixou de ser apenas um espelho do passado. Com técnicas de estatística e Machine Learning, ele passou a ser usado para prever o futuro: prever churn de clientes, identificar fraudes, calcular a probabilidade de um lead se tornar um cliente.</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>Etapa 4: Análise Tática e Cenários (Anos 2010)</h4>
-                        <p><strong>Pergunta Respondida:</strong> "E se fizéssemos isso?".<br>
-                        O DW evoluiu para suportar simulações complexas. As empresas podiam agora modelar o impacto de decisões estratégicas: "Qual seria o impacto nas vendas se reduzirmos o preço em 10% e aumentarmos o orçamento de marketing em R$ 1 milhão?".</p>
-                    </div>
-
-                    <div class="pillar-box">
-                        <h4>Etapa 5: Data Warehouse Autônomo (Hoje)</h4>
-                        <p><strong>Pergunta Respondida:</strong> "Como podemos fazer tudo isso mais rápido, mais barato e com mais segurança?".<br>
-                        Esta é a era da nuvem e da Inteligência Artificial. O DW moderno é autônomo: IA gerencia a performance, otimiza consultas, provisiona recursos automaticamente e garante a segurança. O objetivo é remover a complexidade operacional e permitir que os analistas se concentrem puramente em extrair valor dos dados.</p>
+                <div class="card">
+                    <div class="card-header">Manutenção Simplificada</div>
+                    <div class="card-body">
+                        <p>Ao separar o estilo do conteúdo, alterações visuais podem ser feitas sem modificar a estrutura HTML, facilitando a manutenção do site.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="resources" class="container">
-            <h2>Recursos Extras</h2>
-            <div class="resources-grid">
-                <div class="resource-card" data-target="cheatsheet">
-                    <h3>Cheat Sheet de SQL</h3>
-                    <p>Um guia rápido com os principais comandos SQL para quem deseja ir além e começar a praticar.</p>
+        <section id="css3" class="fade-in">
+            <h2>CSS3: Inovações e Recursos Avançados</h2>
+            <p>O módulo CSS3 trouxe inovações importantes para o design web moderno, ampliando as possibilidades de estilização e interatividade. Suas novas funcionalidades incluem animações, transições e novos seletores, facilitando o desenvolvimento de interfaces mais atraentes.</p>
+            
+            <h3>Principais Características do CSS3</h3>
+            <ul>
+                <li><strong>Suporte a propriedades de animação e transição:</strong> Permite criar animações e transições suaves sem a necessidade de JavaScript.</li>
+                <li><strong>Novos seletores:</strong> Oferece mais opções para selecionar elementos específicos no DOM.</li>
+                <li><strong>Layout avançado:</strong> Introduz Flexbox e Grid para layouts mais complexos e responsivos.</li>
+                <li><strong>Efeitos visuais:</strong> Inclui sombras, gradientes e bordas arredondadas nativas.</li>
+                <li><strong>Media Queries:</strong> Permite aplicar estilos diferentes com base nas características do dispositivo.</li>
+            </ul>
+            
+            <div class="demo-box">
+                <div class="demo-title">Demonstração de Transição CSS3</div>
+                <p>Passe o mouse sobre o quadrado abaixo para ver uma transição suave:</p>
+                <div class="transition-demo"></div>
+                <pre><code>/* CSS para a transição */
+.transition-demo {
+    width: 100px;
+    height: 100px;
+    background-color: #3498db;
+    transition: all 0.5s ease;
+}
+
+.transition-demo:hover {
+    background-color: #e74c3c;
+    border-radius: 50%;
+    transform: scale(1.2);
+}</code></pre>
+            </div>
+            
+            <div class="demo-box">
+                <div class="demo-title">Demonstração de Animação CSS3</div>
+                <button id="startAnimation" class="button">Iniciar Animação</button>
+                <div id="animationBox" style="width: 50px; height: 50px; background-color: #2ecc71; margin: 20px 0;"></div>
+                <pre><code>/* CSS para a animação */
+@keyframes moveBox {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(200px); }
+    100% { transform: translateX(0); }
+}
+
+.animation-active {
+    animation: moveBox 2s ease-in-out;
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="seletores" class="fade-in">
+            <h2>Seletores CSS: Classes, IDs e Pseudo-classes</h2>
+            <p>O CSS utiliza seletores para aplicar estilos a elementos específicos em um documento HTML. Esses seletores podem ser baseados em IDs, classes ou diretamente nos elementos HTML.</p>
+            
+            <h3>Seletores de Classe vs. Seletores de ID</h3>
+            <p>A diferença fundamental entre um seletor de classe e um seletor de ID é que <strong>classes podem ser aplicadas a múltiplos elementos, enquanto IDs são únicos</strong>. Classes permitem reutilização em vários elementos, enquanto IDs são destinados a identificar exclusivamente um único elemento no documento.</p>
+            
+            <div class="demo-box">
+                <div class="demo-title">Exemplo de Seletores</div>
+                <div class="selector-demo">
+                    <p class="class-selector">Este parágrafo usa um seletor de classe.</p>
+                    <p id="id-selector">Este parágrafo usa um seletor de ID.</p>
+                    <p>Este é um parágrafo sem classe ou ID específica.</p>
                 </div>
-                <div class="resource-card" data-target="glossary">
-                    <h3>Glossário de Termos</h3>
-                    <p>Consulte o significado de termos técnicos como Data Warehouse, OLAP, Chave Estrangeira e mais.</p>
+                <pre><code>/* CSS para seletores */
+.class-selector {
+    color: #2ecc71;
+}
+
+#id-selector {
+    color: #e74c3c;
+    font-weight: bold;
+}</code></pre>
+            </div>
+            
+            <h3>Pseudo-classes</h3>
+            <p>Pseudo-classes no CSS permitem aplicar estilos a elementos com base em estados ou contextos específicos, sem a necessidade de alterar o HTML. Elas descrevem <strong>estados dinâmicos ou contextos especiais de elementos</strong>.</p>
+            
+            <div class="demo-box">
+                <div class="demo-title">Exemplo de Pseudo-classes</div>
+                <div class="pseudo-class-demo">
+                    <a href="#">Link normal</a>
+                    <a href="#">Link visitado</a>
+                    <a href="#">Passe o mouse aqui</a>
                 </div>
-                <div class="resource-card" data-target="next-steps">
-                    <h3>Próximos Passos</h3>
-                    <p>Continue sua jornada aprendendo sobre ETL (Extração, Transformação, Carga) e Modelagem Dimensional.</p>
+                <pre><code>/* CSS para pseudo-classes */
+a {
+    color: #3498db;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: #e74c3c;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #8e44ad;
+}</code></pre>
+            </div>
+            
+            <h3>Agrupamento de Seletores</h3>
+            <p>Agrupar seletores no CSS reduz redundâncias no código, permitindo que um mesmo estilo seja aplicado a vários elementos simultaneamente. Isso contribui para a eficiência e a manutenção do código.</p>
+            
+            <div class="demo-box">
+                <div class="demo-title">Exemplo de Agrupamento de Seletores</div>
+                <pre><code>/* Agrupando seletores */
+h1, h2, h3 {
+    font-family: 'Arial', sans-serif;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+p, ul, ol {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="design-responsivo" class="fade-in">
+            <h2>Design Responsivo vs. Design Adaptável</h2>
+            <p>O conceito de design responsivo visa criar sites que se ajustem automaticamente a diferentes tamanhos de tela e dispositivos, garantindo uma experiência consistente para os usuários. Isso é alcançado com técnicas como o uso de media queries e layouts fluídos.</p>
+            
+            <h3>Características do Design Responsivo</h3>
+            <p>A principal característica do web design responsivo é <strong>ajustar o layout a múltiplos tamanhos de tela</strong>. O design responsivo permite que os sites se adaptem automaticamente a diferentes dispositivos e resoluções, garantindo usabilidade e estética.</p>
+            
+            <h3>Design Responsivo vs. Design Adaptável</h3>
+            <p>A principal diferença entre design responsivo e adaptável é que <strong>o responsivo ajusta-se dinamicamente, enquanto o adaptável utiliza layouts fixos por dispositivo</strong>. Enquanto o design responsivo utiliza layouts fluidos que se adaptam a qualquer tamanho de tela, o design adaptável trabalha com layouts específicos para diferentes pontos de quebra predefinidos.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Característica</th>
+                        <th>Design Responsivo</th>
+                        <th>Design Adaptável</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Abordagem</td>
+                        <td>Layout fluido que se adapta a qualquer tamanho de tela</td>
+                        <td>Layouts fixos para tamanhos de tela específicos</td>
+                    </tr>
+                    <tr>
+                        <td>Técnica Principal</td>
+                        <td>Media queries + unidades relativas</td>
+                        <td>Detectar dispositivo e carregar layout apropriado</td>
+                    </tr>
+                    <tr>
+                        <td>Flexibilidade</td>
+                        <td>Alta flexibilidade</td>
+                        <td>Menor flexibilidade, mais controle</td>
+                    </tr>
+                    <tr>
+                        <td>Experiência do Usuário</td>
+                        <td>Consistente em todos os dispositivos</td>
+                        <td>Otimizada para dispositivos específicos</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="demo-box">
+                <div class="demo-title">Demonstração de Layout Responsivo</div>
+                <p>Redimensione a janela do navegador para ver como este layout se adapta:</p>
+                <div class="card-container">
+                    <div class="card">
+                        <div class="card-header">Card 1</div>
+                        <div class="card-body">
+                            <p>Este card se ajustará automaticamente ao tamanho da tela.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Card 2</div>
+                        <div class="card-body">
+                            <p>Em telas menores, os cards serão empilhados verticalmente.</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">Card 3</div>
+                        <div class="card-body">
+                            <p>Em telas maiores, eles serão dispostos lado a lado.</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <section id="mobile-first" class="fade-in">
+            <h2>Abordagem Mobile-First</h2>
+            <p>O conceito Mobile-first prioriza o design para dispositivos móveis antes de adaptá-lo para telas maiores. Essa abordagem é especialmente útil devido ao crescente uso de dispositivos móveis para acesso à internet.</p>
+            
+            <h3>Vantagens do Mobile-First</h3>
+            <p>A principal vantagem de utilizar o Mobile-first no design responsivo é a <strong>otimização para dispositivos móveis como prioridade</strong>. O Mobile-first garante que o site tenha ótima performance em dispositivos móveis, que são os mais usados atualmente, adaptando-se posteriormente para telas maiores.</p>
+            
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">Performance Otimizada</div>
+                    <div class="card-body">
+                        <p>Sites desenvolvidos com Mobile-first tendem a carregar mais rápido em dispositivos móveis, pois priorizam o conteúdo essencial.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Experiência Focada</div>
+                    <div class="card-body">
+                        <p>Ao começar pelo mobile, você se concentra no conteúdo mais importante, resultando em uma experiência mais focada e eficiente.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Progressão Lógica</div>
+                    <div class="card-body">
+                        <p>É mais fácil adicionar funcionalidades e complexidade para telas maiores do que simplificar um design complexo para dispositivos móveis.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-box">
+                <div class="demo-title">Exemplo de CSS Mobile-First</div>
+                <pre><code>/* Estilos base para mobile */
+.container {
+    width: 100%;
+    padding: 10px;
+}
+
+.card {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+/* Media query para tablets */
+@media (min-width: 768px) {
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .card {
+        width: calc(50% - 10px);
+        display: inline-block;
+        margin-right: 20px;
+    }
+}
+
+/* Media query para desktops */
+@media (min-width: 1024px) {
+    .card {
+        width: calc(33.333% - 14px);
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="media-queries" class="fade-in">
+            <h2>Media Queries: Adaptando o Design ao Dispositivo</h2>
+            <p>O uso de media queries no CSS permite aplicar estilos diferentes com base em características do dispositivo, como largura e altura da tela. Isso é essencial para implementar o design responsivo de forma eficaz.</p>
+            
+            <h3>Como as Media Queries Contribuem para o Design Responsivo</h3>
+            <p>As media queries contribuem para o design responsivo <strong>aplicando estilos específicos com base nas características do dispositivo</strong>. Elas permitem a aplicação de estilos que se adaptam a diferentes condições de dispositivos, como resolução e orientação.</p>
+            
+            <div class="demo-box">
+                <div class="demo-title">Demonstração de Media Query</div>
+                <div class="media-query-demo" id="mediaQueryDemo">
+                    Esta área mudará de cor conforme o tamanho da tela:
+                    <br>
+                    <span id="screenSize">Detectando tamanho...</span>
+                </div>
+                <pre><code>/* Exemplo de media queries */
+.media-query-demo {
+    padding: 20px;
+    background-color: #ecf0f1;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Para telas pequenas (mobile) */
+@media (max-width: 480px) {
+    .media-query-demo {
+        background-color: #e74c3c;
+        color: white;
+    }
+}
+
+/* Para tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+    .media-query-demo {
+        background-color: #f39c12;
+        color: white;
+    }
+}
+
+/* Para desktops */
+@media (min-width: 769px) {
+    .media-query-demo {
+        background-color: #2ecc71;
+        color: white;
+    }
+}</code></pre>
+            </div>
+            
+            <h3>Tipos de Media Queries</h3>
+            <ul>
+                <li><strong>Baseadas em largura:</strong> Aplicam estilos com base na largura da tela.</li>
+                <li><strong>Baseadas em altura:</strong> Aplicam estilos com base na altura da tela.</li>
+                <li><strong>Baseadas em orientação:</strong> Diferenciam entre modo retrato e paisagem.</li>
+                <li><strong>Baseadas em resolução:</strong> Consideram a densidade de pixels do dispositivo.</li>
+                <li><strong>Baseadas em características do dispositivo:</strong> Identificam se é tela, impressão, etc.</li>
+            </ul>
+            
+            <div class="demo-box">
+                <div class="demo-title">Exemplo de Media Query para Orientação</div>
+                <pre><code>/* Para modo retrato */
+@media (orientation: portrait) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/* Para modo paisagem */
+@media (orientation: landscape) {
+    .sidebar {
+        width: 30%;
+        height: 100vh;
+        position: fixed;
+    }
+}</code></pre>
+            </div>
+        </section>
+
+        <section id="wireframes" class="fade-in">
+            <h2>Wireframes: Planejando o Layout</h2>
+            <p>Os wireframes são representações esquemáticas de uma interface, utilizadas para planejar o layout de páginas web. Eles são especialmente úteis no processo de design responsivo para testar a organização visual antes da implementação.</p>
+            
+            <h3>Objetivo dos Wireframes no Design Responsivo</h3>
+            <p>O objetivo dos wireframes no design responsivo é <strong>planejar o layout e hierarquia visual das páginas</strong>. Wireframes ajudam a organizar os elementos visuais de forma funcional, otimizando a estrutura para diferentes tamanhos de tela antes do desenvolvimento.</p>
+            
+            <div class="card-container">
+                <div class="card">
+                    <div class="card-header">Foco na Estrutura</div>
+                    <div class="card-body">
+                        <p>Wireframes permitem focar na estrutura e organização do conteúdo sem distrações visuais como cores e fontes.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Identificação de Problemas</div>
+                    <div class="card-body">
+                        <p>Ao criar wireframes para diferentes tamanhos de tela, é possível identificar problemas de usabilidade antes do desenvolvimento.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">Comunicação Eficiente</div>
+                    <div class="card-body">
+                        <p>Wireframes servem como uma ferramenta de comunicação eficaz entre designers, desenvolvedores e clientes.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="demo-box">
+                <div class="demo-title">Exemplo de Wireframe Responsivo</div>
+                <p>Este é um exemplo simples de wireframe que se adapta a diferentes tamanhos de tela:</p>
+                <div class="wireframe-container">
+                    <div class="wireframe-header">
+                        <div style="padding: 15px; text-align: center;">Cabeçalho</div>
+                    </div>
+                    <div class="wireframe-content">
+                        <div class="wireframe-sidebar">
+                            <div style="padding: 15px; text-align: center;">Barra Lateral</div>
+                        </div>
+                        <div class="wireframe-main">
+                            <div style="padding: 15px;">Conteúdo Principal</div>
+                            <div style="height: 40px; background-color: #ddd; margin-bottom: 10px;"></div>
+                            <div style="height: 40px; background-color: #ddd; margin-bottom: 10px;"></div>
+                            <div style="height: 40px; background-color: #ddd;"></div>
+                        </div>
+                    </div>
+                    <div class="wireframe-footer">
+                        <div style="padding: 10px; text-align: center;">Rodapé</div>
+                    </div>
+                </div>
+                <p><em>Redimensione a janela para ver como o wireframe se adapta a diferentes tamanhos de tela.</em></p>
+            </div>
+        </section>
+
+        <section id="quiz" class="fade-in">
+            <h2>Quiz: Teste Seus Conhecimentos</h2>
+            <p>Responda às perguntas abaixo para testar seus conhecimentos sobre Desenvolvimento Responsivo. Ao final, clique em "Verificar Respostas" para ver seu desempenho.</p>
+            
+            <div class="quiz-container">
+                <form id="quizForm">
+                    <div class="quiz-question">
+                        <h3>1. O CSS (Cascading Style Sheets) é uma linguagem utilizada para estilizar documentos HTML, permitindo controlar a apresentação visual de páginas web. Com base nesse contexto, qual é o principal objetivo de uma folha de estilo CSS vinculada a um documento HTML?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="a"> a) Estilizar imagens de alta resolução.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="b"> b) Controlar a aparência e o layout do documento.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="c"> c) Gerar arquivos de design automaticamente.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="d"> d) Criar estruturas fixas de página.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q1" value="e"> e) Configurar conexões entre servidores.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result1"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>2. O módulo CSS3 trouxe inovações importantes para o design web moderno, ampliando as possibilidades de estilização e interatividade. Suas novas funcionalidades incluem animações, transições e novos seletores, facilitando o desenvolvimento de interfaces mais atraentes. Qual é uma característica fundamental do módulo CSS3 em relação às versões anteriores?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="a"> a) Incompatibilidade com navegadores modernos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="b"> b) Introdução de pseudo-classes dinâmicas.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="c"> c) Integração direta com servidores de hospedagem.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="d"> d) Suporte a propriedades de animação e transição.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q2" value="e"> e) Substituição de todos os módulos anteriores.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result2"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>3. Pseudo-classes no CSS permitem aplicar estilos a elementos com base em estados ou contextos específicos, sem a necessidade de alterar o HTML. Por exemplo, o seletor :hover aplica estilos a um elemento quando o cursor está sobre ele. Com base nisso, qual das alternativas descreve corretamente o conceito de pseudo-classes no CSS?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="a"> a) Classes que se aplicam a todos os elementos HTML.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="b"> b) Regras que dependem de atributos específicos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="c"> c) Estados dinâmicos ou contextos especiais de elementos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="d"> d) Estilos aplicados diretamente ao ID do elemento.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q3" value="e"> e) Declarações inválidas ignoradas pelos navegadores.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result3"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>4. O conceito de design responsivo visa criar sites que se ajustem automaticamente a diferentes tamanhos de tela e dispositivos, garantindo uma experiência consistente para os usuários. Isso é alcançado com técnicas como o uso de media queries e layouts fluídos. Qual é a principal característica do web design responsivo?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="a"> a) Alterar dinamicamente o conteúdo textual.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="b"> b) Reduzir imagens de alta resolução automaticamente.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="c"> c) Ajustar o layout a múltiplos tamanhos de tela.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="d"> d) Substituir CSS por scripts em JavaScript.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q4" value="e"> e) Criar interfaces baseadas em gráficos vetoriais.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result4"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>5. O conceito Mobile-first prioriza o design para dispositivos móveis antes de adaptá-lo para telas maiores. Essa abordagem é especialmente útil devido ao crescente uso de dispositivos móveis para acesso à internet. Com base nisso, qual é a principal vantagem de utilizar o Mobile-first no design responsivo?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="a"> a) Foco inicial em telas maiores e adaptabilidade.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="b"> b) Redução da complexidade de código CSS.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="c"> c) Otimização para dispositivos móveis como prioridade.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="d"> d) Compatibilidade automática com frameworks CSS.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q5" value="e"> e) Eliminação da necessidade de media queries.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result5"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>6. O CSS utiliza seletores para aplicar estilos a elementos específicos em um documento HTML. Esses seletores podem ser baseados em IDs, classes ou diretamente nos elementos HTML. Com base nessa funcionalidade, qual é a diferença fundamental entre um seletor de classe e um seletor de ID?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q6" value="a"> a) Classes são exclusivas; IDs são reutilizáveis.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q6" value="b"> b) Classes podem ser aplicadas a múltiplos elementos; IDs são únicos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q6" value="c"> c) IDs têm maior prioridade que classes em regras CSS.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q6" value="d"> d) Classes não suportam herança de estilos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q6" value="e"> e) IDs são usados exclusivamente para pseudo-classes.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result6"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>7. Os wireframes são representações esquemáticas de uma interface, utilizadas para planejar o layout de páginas web. Eles são especialmente úteis no processo de design responsivo para testar a organização visual antes da implementação. Qual das alternativas melhor descreve o objetivo dos wireframes no design responsivo?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q7" value="a"> a) Substituir a codificação CSS por protótipos visuais.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q7" value="b"> b) Testar a funcionalidade de elementos interativos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q7" value="c"> c) Planejar o layout e hierarquia visual das páginas.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q7" value="d"> d) Gerar automaticamente layouts responsivos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q7" value="e"> e) Determinar as cores e fontes utilizadas no site.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result7"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>8. O uso de media queries no CSS permite aplicar estilos diferentes com base em características do dispositivo, como largura e altura da tela. Isso é essencial para implementar o design responsivo de forma eficaz. Como as media queries contribuem para o design responsivo?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q8" value="a"> a) Alterando o código HTML dinamicamente.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q8" value="b"> b) Aplicando estilos específicos com base nas características do dispositivo.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q8" value="c"> c) Reduzindo a necessidade de seletores CSS avançados.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q8" value="d"> d) Garantindo compatibilidade com navegadores antigos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q8" value="e"> e) Substituindo frameworks CSS em projetos complexos.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result8"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>9. Agrupar seletores no CSS reduz redundâncias no código, permitindo que um mesmo estilo seja aplicado a vários elementos simultaneamente. Isso contribui para a eficiência e a manutenção do código. Qual das alternativas exemplifica o agrupamento de seletores no CSS?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q9" value="a"> a) Aplicar estilos por IDs em cada elemento.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q9" value="b"> b) Combinar vários seletores em uma única regra.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q9" value="c"> c) Especificar um seletor global para todos os elementos.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q9" value="d"> d) Dividir estilos em várias folhas CSS.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q9" value="e"> e) Aplicar estilos inline diretamente no HTML.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result9"></div>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        <h3>10. O design adaptável é uma abordagem complementar ao design responsivo, mas com foco em layouts predefinidos para diferentes dispositivos. Ele oferece maior controle sobre o design, porém menos flexibilidade em transições dinâmicas. Qual é a principal diferença entre design responsivo e adaptável?</h3>
+                        <div class="quiz-options">
+                            <label class="quiz-option">
+                                <input type="radio" name="q10" value="a"> a) O adaptável usa media queries, enquanto o responsivo não.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q10" value="b"> b) O responsivo ajusta-se dinamicamente; o adaptável utiliza layouts fixos por dispositivo.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q10" value="c"> c) O responsivo prioriza navegadores desktop; o adaptável prioriza móveis.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q10" value="d"> d) O adaptável elimina a necessidade de frameworks.
+                            </label>
+                            <label class="quiz-option">
+                                <input type="radio" name="q10" value="e"> e) O responsivo é limitado a dispositivos móveis.
+                            </label>
+                        </div>
+                        <div class="quiz-result" id="result10"></div>
+                    </div>
+                    
+                    <button type="button" class="submit-quiz" id="checkAnswers">Verificar Respostas</button>
+                </form>
             </div>
         </section>
     </main>
 
-    <!-- Modal Structure -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <div class="modal-body" id="modal-body">
-                <!-- Content will be dynamically inserted here -->
-            </div>
-        </div>
-    </div>
-
     <footer>
-        <p>&copy; 2024 A Jornada dos Dados. Desenvolvido para educar e inspirar a próxima geração de analistas de dados.</p>
+        <div class="container">
+            <p>&copy; 2023 - Guia de Estudo: Desenvolvimento Responsivo</p>
+            <p>Material educacional para estudo autônomo</p>
+        </div>
     </footer>
 
-    <!-- Scripts -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- Accordion Logic ---
-            const accordionHeaders = document.querySelectorAll('.accordion-header');
-            accordionHeaders.forEach(header => {
-                header.addEventListener('click', () => {
-                    const item = header.parentElement;
-                    const isActive = item.classList.contains('active');
+        // Menu responsivo
+        document.getElementById('menuToggle').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+
+        // Navegação suave
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove a classe active de todos os links
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                
+                // Adiciona a classe active ao link clicado
+                this.classList.add('active');
+                
+                // Rola suavemente até a seção correspondente
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetSection.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Fecha o menu em dispositivos móveis
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+
+        // Animação de demonstração
+        document.getElementById('startAnimation').addEventListener('click', function() {
+            const box = document.getElementById('animationBox');
+            box.classList.add('animation-active');
+            
+            setTimeout(function() {
+                box.classList.remove('animation-active');
+            }, 2000);
+        });
+
+        // Detectar tamanho da tela para a demonstração de media query
+        function updateScreenSize() {
+            const width = window.innerWidth;
+            const screenSizeElement = document.getElementById('screenSize');
+            
+            if (width <= 480) {
+                screenSizeElement.textContent = 'Tela Pequena (Mobile)';
+            } else if (width <= 768) {
+                screenSizeElement.textContent = 'Tela Média (Tablet)';
+            } else {
+                screenSizeElement.textContent = 'Tela Grande (Desktop)';
+            }
+        }
+
+        // Atualiza o tamanho da tela ao carregar e ao redimensionar
+        window.addEventListener('load', updateScreenSize);
+        window.addEventListener('resize', updateScreenSize);
+
+        // Quiz
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'd',
+            q3: 'c',
+            q4: 'c',
+            q5: 'c',
+            q6: 'b',
+            q7: 'c',
+            q8: 'b',
+            q9: 'b',
+            q10: 'b'
+        };
+
+        const justifications = {
+            q1: 'O CSS permite definir regras de estilo e layout, separando a estrutura do conteúdo (HTML) da apresentação visual, o que facilita a manutenção e evolução do site.',
+            q2: 'O CSS3 é conhecido por introduzir recursos avançados como animações e transições, permitindo maior dinamismo e interatividade nas páginas web sem o uso de scripts adicionais.',
+            q3: 'Pseudo-classes identificam estados específicos, como foco, primeiro filho ou hover, para aplicar estilos sem a necessidade de alterar o DOM.',
+            q4: 'O design responsivo permite que os sites se adaptem automaticamente a diferentes dispositivos e resoluções, garantindo usabilidade e estética.',
+            q5: 'O Mobile-first garante que o site tenha ótima performance em dispositivos móveis, que são os mais usados atualmente, adaptando-se posteriormente para telas maiores.',
+            q6: 'Classes permitem reutilização em vários elementos, enquanto IDs são destinados a identificar exclusivamente um único elemento no documento.',
+            q7: 'Wireframes ajudam a organizar os elementos visuais de forma funcional, otimizando a estrutura para diferentes tamanhos de tela antes do desenvolvimento.',
+            q8: 'Media queries permitem a aplicação de estilos que se adaptam a diferentes condições de dispositivos, como resolução e orientação.',
+            q9: 'Agrupar seletores permite estilizar múltiplos elementos com a mesma regra CSS, como em h1, h2, p { color: blue; }.',
+            q10: 'Enquanto o design responsivo utiliza layouts fluidos, o design adaptável trabalha com layouts específicos para diferentes tamanhos de tela.'
+        };
+
+        document.getElementById('checkAnswers').addEventListener('click', function() {
+            let correctCount = 0;
+            
+            // Verifica cada resposta
+            for (let i = 1; i <= 10; i++) {
+                const question = 'q' + i;
+                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
+                const resultElement = document.getElementById(`result${i}`);
+                
+                if (selectedOption) {
+                    const selectedValue = selectedOption.value;
                     
-                    document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
-                    
-                    if (!isActive) {
-                        item.classList.add('active');
+                    if (selectedValue === correctAnswers[question]) {
+                        resultElement.innerHTML = `<strong>Resposta Correta!</strong><div class="quiz-feedback">${justifications[question]}</div>`;
+                        resultElement.className = 'quiz-result correct';
+                        correctCount++;
+                    } else {
+                        resultElement.innerHTML = `<strong>Resposta Incorreta.</strong> A resposta correta é a alternativa ${correctAnswers[question]}.<div class="quiz-feedback">${justifications[question]}</div>`;
+                        resultElement.className = 'quiz-result incorrect';
                     }
-                });
-            });
-
-            // --- Modal Logic ---
-            const modal = document.getElementById('modal');
-            const modalBody = document.getElementById('modal-body');
-            const modalCloseBtn = document.querySelector('.modal-close');
-            const resourceCards = document.querySelectorAll('.resource-card');
-
-            const modalContent = {
-                cheatsheet: {
-                    title: 'Cheat Sheet de SQL',
-                    body: `
-                        <h2>Cheat Sheet de SQL</h2>
-                        <p>Aqui estão alguns dos comandos SQL mais comuns para você começar a praticar:</p>
-                        <ul>
-                            <li><strong>SELECT ... FROM ...:</strong> Seleciona dados de uma tabela. Ex: <code>SELECT nome FROM Paciente;</code></li>
-                            <li><strong>WHERE:</strong> Filtra resultados com base em uma condição. Ex: <code>SELECT * FROM Medico WHERE residente = 'S';</code></li>
-                            <li><strong>ORDER BY:</strong> Ordena o resultado. Ex: <code>SELECT nome, datanasc FROM Medico ORDER BY datanasc DESC;</code></li>
-                            <li><strong>INNER JOIN:</strong> Combina linhas de duas tabelas com base em uma coluna relacionada. Ex: <code>SELECT C.horario, P.nome FROM Consulta C INNER JOIN Paciente P ON C.Paciente_id = P.id;</code></li>
-                            <li><strong>LEFT/RIGHT JOIN:</strong> Retorna todos os registros da tabela da esquerda/direita, e os registros correspondentes da outra tabela.</li>
-                            <li><strong>GROUP BY:</strong> Agrupa linhas que têm os mesmos valores em colunas especificadas em linhas de resumo. Ex: <code>SELECT Medico_id, COUNT(*) FROM Consulta GROUP BY Medico_id;</code></li>
-                            <li><strong>COUNT(), SUM(), AVG():</strong> Funções de agregação. Contam linhas, somam valores ou calculam a média.</li>
-                            <li><strong>IN / NOT IN:</strong> Filtra resultados baseando-se em uma lista de valores. Ex: <code>SELECT nome FROM Medico WHERE id IN (1, 2);</code></li>
-                        </ul>
-                    `
-                },
-                glossary: {
-                    title: 'Glossário de Termos',
-                    body: `
-                        <h2>Glossário de Termos</h2>
-                        <ul>
-                            <li><strong>Data Warehouse (DW):</strong> Um repositório central de dados integrados, oriundos de diversas fontes, otimizado para consultas e análises de negócio.</li>
-                            <li><strong>OLTP (Online Transaction Processing):</strong> Sistemas projetados para gerenciar e processar um grande número de transações de curta duração (ex: sistemas de vendas, bancos).</li>
-                            <li><strong>OLAP (Online Analytical Processing):</strong> Sistemas otimizados para consultas complexas e análise de grandes volumes de dados históricos.</li>
-                            <li><strong>Data Mart:</strong> Um subconjunto de um Data Warehouse, focado em uma área de negócio específica (ex: Vendas, Marketing).</li>
-                            <li><strong>ETL (Extract, Transform, Load):</strong> O processo de extrair dados de fontes heterogêneas, transformá-los em um formato consistente e carregá-los no Data Warehouse.</li>
-                            <li><strong>Chave Primária (Primary Key):</strong> Um identificador único para cada registro em uma tabela (ex: a coluna <code>id</code> na tabela <code>Medico</code>).</li>
-                            <li><strong>Chave Estrangeira (Foreign Key):</strong> Uma coluna em uma tabela que é a chave primária em outra tabela, usada para criar relacionamentos (ex: <code>Medico_id</code> na tabela <code>Consulta</code>).</li>
-                            <li><strong>Business Intelligence (BI):</strong> O conjunto de estratégias, tecnologias e ferramentas usadas para analisar dados e transformá-los em informações acionáveis para a tomada de decisões.</li>
-                        </ul>
-                    `
-                },
-                'next-steps': {
-                    title: 'Próximos Passos na sua Jornada',
-                    body: `
-                        <h2>Próximos Passos</h2>
-                        <p>Parabéns por ter dado o primeiro passo! Para continuar aprofundando seus conhecimentos, sugerimos os seguintes tópicos:</p>
-                        <ul>
-                            <li><strong>ETL em Detalhes:</strong> Mergulhe fundo no processo de Extração, Transformação e Carga. Entenda as ferramentas e as melhores práticas para garantir que os dados cheguem ao Data Warehouse com qualidade. Pesquise por ferramentas como Apache Airflow, Talend e Pentaho.</li>
-                            <li><strong>Modelagem Dimensional:</strong> Aprenda sobre os modelos Estrela (Star Schema) e Floco de Neve (Snowflake Schema). Eles são a espinha dorsal do design de Data Warehouses e organizam os dados de forma a otimizar a performance das consultas analíticas.</li>
-                            <li><strong>Ferramentas de BI e Visualização:</strong> Explore plataformas como Tableau, Power BI ou Looker (Google Data Studio). Aprenda a conectar essas ferramentas a um banco de dados para criar dashboards interativos e visualizações de dados impactantes.</li>
-                            <li><strong>Cloud Data Warehouses:</strong> Conheça as soluções de Data Warehouse em nuvem, como Google BigQuery, Amazon Redshift e Snowflake. Entenda suas vantagens em termos de escalabilidade, performance e custo.</li>
-                        </ul>
-                        <p>A jornada do aprendizado em dados é contínua e fascinante. Continue curioso e praticando!</p>
-                    `
-                }
-            };
-
-            function openModal(target) {
-                const content = modalContent[target];
-                if (content) {
-                    modalBody.innerHTML = content.body;
-                    modal.classList.add('show');
-                    document.body.style.overflow = 'hidden';
+                    
+                    resultElement.style.display = 'block';
+                } else {
+                    resultElement.innerHTML = '<strong>Por favor, selecione uma opção.</strong>';
+                    resultElement.className = 'quiz-result incorrect';
+                    resultElement.style.display = 'block';
                 }
             }
-
-            function closeModal() {
-                modal.classList.remove('show');
-                document.body.style.overflow = 'auto';
+            
+            // Exibe a pontuação final
+            const scoreElement = document.createElement('div');
+            scoreElement.style.marginTop = '20px';
+            scoreElement.style.padding = '15px';
+            scoreElement.style.backgroundColor = '#f8f9fa';
+            scoreElement.style.borderRadius = '8px';
+            scoreElement.style.textAlign = 'center';
+            scoreElement.style.fontSize = '18px';
+            scoreElement.innerHTML = `<strong>Você acertou ${correctCount} de 10 perguntas.</strong>`;
+            
+            // Remove a pontuação anterior, se existir
+            const existingScore = document.querySelector('.quiz-score');
+            if (existingScore) {
+                existingScore.remove();
             }
+            
+            // Adiciona a nova pontuação
+            scoreElement.className = 'quiz-score';
+            document.getElementById('quizForm').appendChild(scoreElement);
+            
+            // Rola para o início do quiz
+            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
+        });
 
-            resourceCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const target = card.getAttribute('data-target');
-                    openModal(target);
-                });
-            });
+        // Adiciona animação de fade-in às seções quando elas entram na viewport
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
 
-            modalCloseBtn.addEventListener('click', closeModal);
-
-            window.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    closeModal();
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                    observer.unobserve(entry.target);
                 }
             });
+        }, observerOptions);
 
-            window.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape' && modal.classList.contains('show')) {
-                    closeModal();
-                }
-            });
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = 0;
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
         });
     </script>
 </body>
