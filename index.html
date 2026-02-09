@@ -3,54 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desenvolvimento Responsivo - Guia de Estudo</title>
+    <title>Projeto de Software - Nutrientes Delivery | Material de Estudo</title>
     <style>
-        /* Estilos Gerais */
-        :root {
-            --primary-color: #3498db;
-            --secondary-color: #2ecc71;
-            --accent-color: #e74c3c;
-            --dark-color: #2c3e50;
-            --light-color: #ecf0f1;
-            --text-color: #333;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --shadow: 0 10px 40px rgba(0,0,0,0.1);
+            --shadow-hover: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             line-height: 1.6;
-            color: var(--text-color);
-            background-color: #f9f9f9;
-            padding: 0;
-            margin: 0;
+            color: var(--dark);
+            background: var(--light);
+            overflow-x: hidden;
         }
 
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Cabeçalho e Navegação */
-        header {
-            background-color: var(--dark-color);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
+        /* Navegação */
+        nav {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: var(--shadow);
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
         }
 
-        .header-content {
+        nav.scrolled {
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -58,1331 +63,1759 @@
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 800;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        nav ul {
+        .nav-links {
             display: flex;
+            gap: 2rem;
             list-style: none;
         }
 
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: white;
+        .nav-links a {
             text-decoration: none;
-            transition: var(--transition);
-            padding: 5px 10px;
-            border-radius: 4px;
+            color: var(--dark);
+            font-weight: 600;
+            position: relative;
+            transition: color 0.3s;
         }
 
-        nav ul li a:hover, nav ul li a.active {
-            background-color: var(--primary-color);
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--gradient-1);
+            transition: width 0.3s;
+            border-radius: 2px;
         }
 
-        .menu-toggle {
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
             display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
+            flex-direction: column;
+            gap: 5px;
             cursor: pointer;
         }
 
-        /* Conteúdo Principal */
-        main {
-            padding: 2rem 0;
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            transition: 0.3s;
+            border-radius: 3px;
         }
 
-        section {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 6rem 2rem;
+            background: var(--gradient-1);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 30px) rotate(180deg); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            opacity: 0.95;
             margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .hero-visual {
+            position: relative;
+        }
+
+        .code-block {
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            box-shadow: var(--shadow);
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+            transition: transform 0.3s;
+        }
+
+        .code-block:hover {
+            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
+        }
+
+        .code-line {
+            display: block;
+            margin: 0.3rem 0;
+        }
+
+        .code-keyword { color: #ff79c6; }
+        .code-string { color: #f1fa8c; }
+        .code-comment { color: #6272a4; }
+        .code-function { color: #50fa7b; }
+
+        /* Botões */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+
+        /* Seções */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--gradient-1);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards de Módulos */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .module-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .module-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient-1);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .module-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .module-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-1);
+            color: white;
+        }
+
+        .module-card:nth-child(2) .module-icon {
+            background: var(--gradient-2);
+        }
+
+        .module-card:nth-child(3) .module-icon {
+            background: var(--gradient-3);
+        }
+
+        .module-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .module-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .module-topics {
+            list-style: none;
+        }
+
+        .module-topics li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .module-topics li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Conteúdo Detalhado */
+        .content-section {
+            background: white;
+            margin: 3rem 0;
+            border-radius: 24px;
+            overflow: hidden;
             box-shadow: var(--shadow);
         }
 
-        h1, h2, h3 {
-            margin-bottom: 1rem;
-            color: var(--dark-color);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--primary-color);
-        }
-
-        h2 {
-            font-size: 1.8rem;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 1rem;
-        }
-
-        h3 {
-            font-size: 1.4rem;
-            margin-top: 1.5rem;
-        }
-
-        p {
-            margin-bottom: 1rem;
-        }
-
-        ul, ol {
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        code {
-            background-color: #f4f4f4;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        pre {
-            background-color: #f4f4f4;
-            padding: 1rem;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin-bottom: 1rem;
-        }
-
-        pre code {
-            background-color: transparent;
-            padding: 0;
-        }
-
-        /* Demonstrações Interativas */
-        .demo-box {
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
-        }
-
-        .demo-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: var(--primary-color);
-        }
-
-        .button {
-            display: inline-block;
-            background-color: var(--primary-color);
+        .content-header {
+            background: var(--gradient-1);
             color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
+            padding: 2rem;
             cursor: pointer;
-            text-decoration: none;
-            transition: var(--transition);
-            margin: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
         }
 
-        .button:hover {
-            background-color: #2980b9;
+        .content-header:hover {
+            opacity: 0.95;
         }
 
-        .button.secondary {
-            background-color: var(--secondary-color);
+        .content-section:nth-child(2) .content-header {
+            background: var(--gradient-2);
         }
 
-        .button.secondary:hover {
-            background-color: #27ae60;
+        .content-section:nth-child(3) .content-header {
+            background: var(--gradient-3);
         }
 
-        /* Cards */
-        .card-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
+        .content-title {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .content-icon {
+            font-size: 2rem;
+        }
+
+        .toggle-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .content-section.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        .content-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+
+        .content-section.active .content-body {
+            max-height: 10000px;
+        }
+
+        .content-inner {
+            padding: 3rem;
+        }
+
+        /* Elementos de Conteúdo */
+        .info-box {
+            background: #f0f9ff;
+            border-left: 5px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
             margin: 2rem 0;
         }
 
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+        .warning-box {
+            background: #fffbeb;
+            border-left: 5px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        .success-box {
+            background: #ecfdf5;
+            border-left: 5px solid var(--success);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
         }
 
-        .card-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
-        }
-
-        .card-body {
-            padding: 1rem;
-        }
-
-        /* Quiz */
-        .quiz-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .quiz-question {
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-        }
-
-        .quiz-options {
-            margin-top: 1rem;
-        }
-
-        .quiz-option {
-            display: block;
+        .info-box h4, .warning-box h4, .success-box h4 {
             margin-bottom: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .quiz-option:hover {
-            background-color: #e9ecef;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .quiz-option input {
-            margin-right: 10px;
-        }
-
-        .quiz-result {
-            margin-top: 1rem;
+        th {
+            background: var(--dark);
+            color: white;
             padding: 1rem;
-            border-radius: 8px;
-            display: none;
+            text-align: left;
+            font-weight: 600;
         }
 
-        .quiz-result.correct {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
         }
 
-        .quiz-result.incorrect {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        tr:hover {
+            background: #f8fafc;
         }
 
-        .quiz-feedback {
-            margin-top: 1rem;
-            font-style: italic;
+        .code-example {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1.5rem;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            position: relative;
         }
 
-        .submit-quiz {
-            background-color: var(--secondary-color);
+        .code-example::before {
+            content: 'EXEMPLO';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--primary);
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: var(--transition);
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 0 12px 0 12px;
         }
 
-        .submit-quiz:hover {
-            background-color: #27ae60;
-        }
-
-        /* Rodapé */
-        footer {
-            background-color: var(--dark-color);
-            color: white;
+        .diagram {
+            background: white;
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
             text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
+            font-family: monospace;
+            line-height: 2;
         }
 
-        /* Media Queries para Responsividade */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
+        .diagram-box {
+            display: inline-block;
+            padding: 1rem 2rem;
+            margin: 0.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .diagram-arrow {
+            font-size: 1.5rem;
+            color: var(--gray);
+            margin: 0 1rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--gradient-1);
+            border-radius: 3px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 80px;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 20px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border: 4px solid var(--primary);
+            border-radius: 50%;
+            top: 5px;
+        }
+
+        .timeline-content {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .checklist li {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .checklist li:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .check-box {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--gray);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .check-box:hover {
+            border-color: var(--success);
+        }
+
+        .check-box.checked {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .check-box.checked::after {
+            content: '✓';
+            color: white;
+            font-weight: 700;
+        }
+
+        /* Cards de Comparação */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .comparison-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        .comparison-card h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+        }
+
+        .comparison-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .comparison-card li::before {
+            content: '•';
+            color: var(--primary);
+            font-weight: 700;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            margin-top: 6rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .footer-section p, .footer-section a {
+            color: #94a3b8;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid #334155;
+            text-align: center;
+            color: #64748b;
+        }
+
+        /* Responsivo */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
             }
 
-            .menu-toggle {
-                display: block;
-                position: absolute;
-                right: 20px;
-                top: 15px;
+            .hero-text h1 {
+                font-size: 2.5rem;
             }
 
-            nav {
-                width: 100%;
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-visual {
                 display: none;
-                margin-top: 1rem;
             }
 
-            nav.active {
-                display: block;
+            .nav-links {
+                display: none;
             }
 
-            nav ul {
-                flex-direction: column;
-                width: 100%;
+            .mobile-menu {
+                display: flex;
             }
 
-            nav ul li {
-                margin: 5px 0;
+            .comparison-grid {
+                grid-template-columns: 1fr;
             }
 
-            h1 {
-                font-size: 2rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            .card-container {
+            .modules-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 480px) {
-            .container {
-                width: 95%;
-                padding: 10px;
-            }
-
-            section {
-                padding: 1rem;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            h2 {
-                font-size: 1.3rem;
-            }
-        }
-
         /* Animações */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         .fade-in {
-            animation: fadeIn 0.8s ease-out;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s;
         }
 
-        /* Demonstração de Transições */
-        .transition-demo {
-            width: 100px;
-            height: 100px;
-            background-color: var(--primary-color);
-            margin: 20px 0;
-            transition: all 0.5s ease;
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .transition-demo:hover {
-            background-color: var(--accent-color);
-            border-radius: 50%;
-            transform: scale(1.2);
-        }
-
-        /* Demonstração de Media Queries */
-        .media-query-demo {
-            padding: 20px;
-            background-color: var(--light-color);
-            margin: 20px 0;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        /* Demonstração de Pseudo-classes */
-        .pseudo-class-demo a {
-            color: var(--primary-color);
-            text-decoration: none;
-            margin-right: 15px;
-            font-weight: bold;
-            transition: var(--transition);
-        }
-
-        .pseudo-class-demo a:hover {
-            color: var(--accent-color);
-            text-decoration: underline;
-        }
-
-        .pseudo-class-demo a:visited {
-            color: #8e44ad;
-        }
-
-        /* Demonstração de Seletores */
-        .selector-demo .class-selector {
-            color: var(--secondary-color);
-        }
-
-        .selector-demo #id-selector {
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        /* Tabela de Comparação */
-        table {
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            z-index: 1001;
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-1);
+            width: 0%;
+            transition: width 0.1s;
         }
 
-        th {
-            background-color: var(--primary-color);
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 2px dotted var(--primary);
+            cursor: help;
+        }
+
+        .tooltip:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
             color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            white-space: nowrap;
+            font-size: 0.875rem;
+            z-index: 100;
         }
 
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        /* Wireframe Simples */
-        .wireframe-container {
-            display: flex;
-            flex-direction: column;
-            height: 400px;
-            border: 2px solid #333;
-            margin: 20px 0;
-        }
-
-        .wireframe-header {
-            height: 60px;
-            background-color: #e0e0e0;
-            border-bottom: 2px solid #333;
-        }
-
-        .wireframe-content {
-            display: flex;
-            flex: 1;
-        }
-
-        .wireframe-sidebar {
-            width: 200px;
-            background-color: #e0e0e0;
-            border-right: 2px solid #333;
-        }
-
-        .wireframe-main {
-            flex: 1;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-
-        .wireframe-footer {
-            height: 40px;
-            background-color: #e0e0e0;
-            border-top: 2px solid #333;
-        }
-
-        /* Responsividade do Wireframe */
-        @media (max-width: 768px) {
-            .wireframe-content {
-                flex-direction: column;
-            }
-
-            .wireframe-sidebar {
-                width: 100%;
-                height: 80px;
-                border-right: none;
-                border-bottom: 2px solid #333;
-            }
+        /* Highlight */
+        .highlight {
+            background: linear-gradient(120deg, #fde047 0%, #fde047 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            padding: 0 4px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">Desenvolvimento Responsivo</div>
-            <button class="menu-toggle" id="menuToggle">☰</button>
-            <nav id="navMenu">
-                <ul>
-                    <li><a href="#introducao" class="nav-link">Introdução</a></li>
-                    <li><a href="#css3" class="nav-link">CSS3</a></li>
-                    <li><a href="#seletores" class="nav-link">Seletores</a></li>
-                    <li><a href="#design-responsivo" class="nav-link">Design Responsivo</a></li>
-                    <li><a href="#mobile-first" class="nav-link">Mobile-First</a></li>
-                    <li><a href="#media-queries" class="nav-link">Media Queries</a></li>
-                    <li><a href="#wireframes" class="nav-link">Wireframes</a></li>
-                    <li><a href="#quiz" class="nav-link">Quiz</a></li>
-                </ul>
-            </nav>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Navegação -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span>🚀</span>
+                <span>Projeto de Software</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#modulos">Módulos</a></li>
+                <li><a href="#estudo-caso">Estudo de Caso</a></li>
+                <li><a href="#roteiro">Roteiro</a></li>
+                <li><a href="#checklist">Checklist</a></li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <main class="container">
-        <section id="introducao" class="fade-in">
-            <h1>Guia de Estudo: Desenvolvimento Responsivo</h1>
-            <p>Bem-vindo ao nosso guia de estudo sobre Desenvolvimento Responsivo! Este material foi preparado para ajudá-lo a compreender os conceitos fundamentais do CSS e do design responsivo, permitindo que você responda com sucesso à atividade proposta.</p>
-            
-            <h2>O que é CSS?</h2>
-            <p>O CSS (Cascading Style Sheets) é uma linguagem utilizada para estilizar documentos HTML, permitindo controlar a apresentação visual de páginas web. Com o CSS, é possível aplicar cores, ajustar fontes, espaçamentos, layouts e muito mais.</p>
-            
-            <div class="demo-box">
-                <div class="demo-title">Exemplo de CSS</div>
-                <pre><code>/* Exemplo de CSS */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
-    margin: 0;
-    padding: 0;
-}
-
-h1 {
-    color: #3498db;
-    text-align: center;
-}
-
-p {
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}</code></pre>
-            </div>
-            
-            <h3>Objetivo Principal do CSS</h3>
-            <p>O principal objetivo de uma folha de estilo CSS vinculada a um documento HTML é <strong>controlar a aparência e o layout do documento</strong>. O CSS permite definir regras de estilo e layout, separando a estrutura do conteúdo (HTML) da apresentação visual, o que facilita a manutenção e evolução do site.</p>
-            
-            <div class="card-container">
-                <div class="card">
-                    <div class="card-header">Separação de Responsabilidades</div>
-                    <div class="card-body">
-                        <p>O HTML é responsável pela estrutura e conteúdo da página, enquanto o CSS cuida da apresentação visual. Essa separação torna o código mais organizado e fácil de manter.</p>
-                    </div>
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Domine a Disciplina de Projeto de Software</h1>
+                <p>Material completo e interativo para o estudo de caso <strong>Nutrientes Delivery</strong>. Aprenda gestão de projetos, ciclos de vida e arquitetura de software de forma prática e aplicada.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#modulos" class="btn btn-primary">
+                        Começar Estudo →
+                    </a>
+                    <a href="#estudo-caso" class="btn btn-secondary">
+                        Ver Estudo de Caso
+                    </a>
                 </div>
-                <div class="card">
-                    <div class="card-header">Reutilização de Estilos</div>
-                    <div class="card-body">
-                        <p>Com o CSS, você pode definir estilos uma vez e aplicá-los a múltiplas páginas, garantindo consistência visual em todo o site.</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Módulos</span>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">Manutenção Simplificada</div>
-                    <div class="card-body">
-                        <p>Ao separar o estilo do conteúdo, alterações visuais podem ser feitas sem modificar a estrutura HTML, facilitando a manutenção do site.</p>
+                    <div class="stat">
+                        <span class="stat-number">15+</span>
+                        <span class="stat-label">Conceitos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Prático</span>
                     </div>
                 </div>
             </div>
-        </section>
+            <div class="hero-visual">
+                <div class="code-block">
+                    <span class="code-line"><span class="code-comment">// Arquitetura Nutrientes Delivery</span></span>
+                    <span class="code-line"><span class="code-keyword">class</span> <span class="code-function">SistemaNutrientes</span> {</span>
+                    <span class="code-line">  <span class="code-keyword">constructor</span>() {</span>
+                    <span class="code-line">    <span class="code-keyword">this</span>.modulos = [</span>
+                    <span class="code-line">      <span class="code-string">'Cliente'</span>, <span class="code-string">'Nutrição'</span>,</span>
+                    <span class="code-line">      <span class="code-string">'Produção'</span>, <span class="code-string">'Logística'</span></span>
+                    <span class="code-line">    ];</span>
+                    <span class="code-line">    <span class="code-keyword">this</span>.arquitetura = <span class="code-string">'Microservices'</span>;</span>
+                    <span class="code-line">  }</span>
+                    <span class="code-line">}</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="css3" class="fade-in">
-            <h2>CSS3: Inovações e Recursos Avançados</h2>
-            <p>O módulo CSS3 trouxe inovações importantes para o design web moderno, ampliando as possibilidades de estilização e interatividade. Suas novas funcionalidades incluem animações, transições e novos seletores, facilitando o desenvolvimento de interfaces mais atraentes.</p>
-            
-            <h3>Principais Características do CSS3</h3>
-            <ul>
-                <li><strong>Suporte a propriedades de animação e transição:</strong> Permite criar animações e transições suaves sem a necessidade de JavaScript.</li>
-                <li><strong>Novos seletores:</strong> Oferece mais opções para selecionar elementos específicos no DOM.</li>
-                <li><strong>Layout avançado:</strong> Introduz Flexbox e Grid para layouts mais complexos e responsivos.</li>
-                <li><strong>Efeitos visuais:</strong> Inclui sombras, gradientes e bordas arredondadas nativas.</li>
-                <li><strong>Media Queries:</strong> Permite aplicar estilos diferentes com base nas características do dispositivo.</li>
+    <!-- Módulos -->
+    <section id="modulos">
+        <div class="section-header fade-in">
+            <span class="section-tag">Estrutura do Curso</span>
+            <h2 class="section-title">Três Módulos Essenciais</h2>
+            <p class="section-subtitle">Conteúdo organizado para guiar você desde a gestão inicial até as decisões arquiteturais do projeto.</p>
+        </div>
+
+        <div class="modules-grid">
+            <div class="module-card fade-in">
+                <div class="module-icon">📊</div>
+                <h3 class="module-title">Gestão de Projetos</h3>
+                <p class="module-description">Aprenda a utilizar a Matriz RACI, identificar conflitos e aplicar estratégias de mitigação em projetos reais de software.</p>
+                <ul class="module-topics">
+                    <li>Matriz de Responsabilidades (RACI)</li>
+                    <li>Análise de Conflitos</li>
+                    <li>Gestão de Stakeholders</li>
+                    <li>Mitigação de Riscos</li>
+                </ul>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-icon">🔄</div>
+                <h3 class="module-title">Ciclos de Vida</h3>
+                <p class="module-description">Entenda as diferenças entre abordagens Preditivas e Adaptativas, e como criar um modelo híbrido eficiente.</p>
+                <ul class="module-topics">
+                    <li>Modelo Cascata (Preditivo)</li>
+                    <li>Metodologias Ágeis (Adaptativo)</li>
+                    <li>Ciclo de Vida Híbrido</li>
+                    <li>Processo de Planejamento</li>
+                </ul>
+            </div>
+
+            <div class="module-card fade-in">
+                <div class="module-icon">🏗️</div>
+                <h3 class="module-title">Arquitetura de Software</h3>
+                <p class="module-description">Explore estilos arquitetônicos e padrões de projeto para criar sistemas escaláveis e manuteníveis.</p>
+                <ul class="module-topics">
+                    <li>Microsserviços vs Monolito</li>
+                    <li>Padrão MVC/MVVM</li>
+                    <li>Escalabilidade e Integração</li>
+                    <li>Separação de Responsabilidades</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estudo de Caso -->
+    <section id="estudo-caso" style="background: #f1f5f9; margin: 0; max-width: 100%; padding: 5rem 2rem;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <div class="section-header fade-in">
+                <span class="section-tag">Cenário Real</span>
+                <h2 class="section-title">Estudo de Caso: Nutrientes Delivery</h2>
+                <p class="section-subtitle">Analise o contexto completo da startup antes de desenvolver suas soluções.</p>
+            </div>
+
+            <div class="content-section active fade-in">
+                <div class="content-header" onclick="toggleSection(this)">
+                    <div class="content-title">
+                        <span class="content-icon">🍎</span>
+                        <span>Sobre a Empresa</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="content-body">
+                    <div class="content-inner">
+                        <p>A <strong>Nutrientes Delivery</strong> é uma startup recém-criada focada em fornecer refeições saudáveis personalizadas, com base nas restrições dietéticas e objetivos de saúde de cada cliente. Eles precisam desenvolver um <span class="tooltip" data-tip="Minimum Viable Product - Produto Mínimo Viável">MVP</span> (Produto Mínimo Viável) em 6 meses.</p>
+                        
+                        <div class="info-box">
+                            <h4>💡 O que é MVP?</h4>
+                            <p>É a versão mais simples de um produto que já entrega valor ao cliente e permite validar hipóteses de negócio com o mínimo de investimento.</p>
+                        </div>
+
+                        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Requisitos do Sistema (4 Módulos):</h3>
+                        
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>1. Módulo do Cliente</h4>
+                                    <p>Cadastro, seleção de planos de refeições, agendamento de entrega e feedback.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>2. Módulo de Nutrição</h4>
+                                    <p>Base de dados de ingredientes, cálculo de valores nutricionais e criação de cardápios personalizados.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>3. Módulo de Produção/Cozinha</h4>
+                                    <p>Recebimento e visualização das ordens de produção diárias, gestão de estoque de insumos e controle de desperdício.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <h4>4. Módulo de Logística</h4>
+                                    <p>Roteirização das entregas e acompanhamento em tempo real para o cliente.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section fade-in">
+                <div class="content-header" onclick="toggleSection(this)">
+                    <div class="content-title">
+                        <span class="content-icon">👥</span>
+                        <span>Contexto do Projeto & Desafios</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="content-body">
+                    <div class="content-inner">
+                        <div class="warning-box">
+                            <h4>⚠️ Desafios Identificados</h4>
+                            <p>Analise cuidadosamente cada ponto abaixo, pois serão fundamentais para suas decisões:</p>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Aspecto</th>
+                                    <th>Descrição</th>
+                                    <th>Impacto no Projeto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Equipe</strong></td>
+                                    <td>Pequena (3 programadores juniores, 1 analista sênior, 1 product owner)</td>
+                                    <td>Limitação de recursos humanos, necessidade de eficiência</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Prazo</strong></td>
+                                    <td>Apertado (6 meses para o MVP)</td>
+                                    <td>Pressão por entregas rápidas, risco de qualidade</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Stakeholder</strong></td>
+                                    <td>CEO insiste em mudanças frequentes nos requisitos, especialmente no Módulo do Cliente</td>
+                                    <td>Volatilidade, necessidade de flexibilidade</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Integração</strong></td>
+                                    <td>Módulo de Produção requer integração perfeita com sensores de temperatura/umidade</td>
+                                    <td>Complexidade técnica, precisão necessária</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Conflito</strong></td>
+                                    <td>Analista Sênior prefere planejamento Preditivo detalhado vs. Product Owner exige agilidade e entregas semanais</td>
+                                    <td>Conflito metodológico a ser resolvido</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="success-box">
+                            <h4>✅ Oportunidades</h4>
+                            <p>O Módulo de Produção é considerado o <strong>mais estável</strong>, o que permite planejamento mais detalhado, enquanto o Módulo do Cliente oferece campo para inovação e adaptação rápida.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulo 1: Gestão -->
+    <section id="gestao">
+        <div class="section-header fade-in">
+            <span class="section-tag">Módulo 1</span>
+            <h2 class="section-title">Gestão de Projetos e Matriz RACI</h2>
+        </div>
+
+        <div class="content-section active fade-in">
+            <div class="content-header" onclick="toggleSection(this)">
+                <div class="content-title">
+                    <span class="content-icon">📋</span>
+                    <span>O que é a Matriz RACI?</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="content-body">
+                <div class="content-inner">
+                    <p>A <strong>Matriz RACI</strong> é uma ferramenta de gestão que define papéis e responsabilidades para cada tarefa do projeto. O nome vem das <span class="highlight">4 responsabilidades possíveis</span>:</p>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>🎯 R - Responsible (Responsável)</h4>
+                            <p><strong>Quem executa a tarefa.</strong></p>
+                            <ul>
+                                <li>Realiza o trabalho hands-on</li>
+                                <li>Pode haver mais de um R por tarefa</li>
+                                <li>Ex: Programador escrevendo código</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>✅ A - Accountable (Aprovador)</h4>
+                            <p><strong>Quem toma a decisão final.</strong></p>
+                            <ul>
+                                <li>Responde pelo resultado</li>
+                                <li>Apenas UM A por tarefa</li>
+                                <li>Ex: Product Owner aprovando entrega</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>💬 C - Consulted (Consultado)</h4>
+                            <p><strong>Quem oferece opinião antes da decisão.</strong></p>
+                            <ul>
+                                <li>Fornece expertise e conselho</li>
+                                <li>Diálogo bidirecional</li>
+                                <li>Ex: Analista Sênior orientando arquitetura</li>
+                            </ul>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>📢 I - Informed (Informado)</h4>
+                            <p><strong>Quem é avisado sobre o resultado.</strong></p>
+                            <ul>
+                                <li>Recebe atualizações</li>
+                                <li>Comunicação unidirecional</li>
+                                <li>Ex: CEO recebendo relatórios</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Regra de Ouro</h4>
+                        <p>Cada tarefa deve ter <strong>apenas UM "A"</strong> (Aprovador), mas pode ter vários "R" (Responsáveis). Ter mais de um A gera confusão sobre quem decide.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section fade-in">
+            <div class="content-header" onclick="toggleSection(this)">
+                <div class="content-title">
+                    <span class="content-icon">🔍</span>
+                    <span>Aplicando na Nutrientes Delivery</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="content-body">
+                <div class="content-inner">
+                    <p><strong>Equipe disponível:</strong> 3 Programadores Juniores, 1 Analista Sênior, 1 Product Owner (PO), 1 CEO.</p>
+                    
+                    <h3 style="margin: 2rem 0 1rem;">Tarefas Críticas:</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tarefa / Papel</th>
+                                <th>Product Owner</th>
+                                <th>Analista Sênior</th>
+                                <th>Programadores</th>
+                                <th>CEO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #fef3c7;">
+                                <td><strong>Definição de Requisitos do Cliente</strong></td>
+                                <td><strong>A/R</strong><br>Decide e participa</td>
+                                <td>C<br>Consultor técnico</td>
+                                <td>I<br>São informados</td>
+                                <td>C<br>Valida estratégia</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Desenvolvimento do Módulo de Nutrição</strong></td>
+                                <td>C<br>Valida regras</td>
+                                <td>A<br>Aprova código</td>
+                                <td>R<br>Programam</td>
+                                <td>I<br>Acompanha</td>
+                            </tr>
+                            <tr style="background: #fef3c7;">
+                                <td><strong>Decisão de Arquitetura</strong></td>
+                                <td>C<br>Alinha negócio</td>
+                                <td>A/R<br>Decide e executa</td>
+                                <td>C<br>Dão viabilidade</td>
+                                <td>I<br>É informado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="info-box">
+                        <h4>💡 Lógica das Atribuições:</h4>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li><strong>Definição de Requisitos:</strong> PO é o dono do produto, então deve aprovar (A) e pode participar da definição (R). Analista é consultado técnico.</li>
+                            <li><strong>Desenvolvimento:</strong> Programadores executam (R), Analista Sênior garante qualidade técnica (A).</li>
+                            <li><strong>Arquitetura:</strong> Decisão técnica do Analista Sênior (A), mas PO consultado para alinhar com capacidade de entrega.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section fade-in">
+            <div class="content-header" onclick="toggleSection(this)">
+                <div class="content-title">
+                    <span class="content-icon">⚡</span>
+                    <span>Análise de Conflitos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="content-body">
+                <div class="content-inner">
+                    <h3>Identificando o Conflito Principal</h3>
+                    <p>No caso Nutrientes Delivery, o conflito é <span class="highlight">metodológico</span>:</p>
+
+                    <div class="diagram" style="background: #fef2f2; border-color: #fecaca;">
+                        <div class="diagram-box" style="background: #3b82f6; color: white;">Analista Sênior</div>
+                        <span style="font-size: 2rem;">⚔️</span>
+                        <div class="diagram-box" style="background: #f59e0b; color: white;">Product Owner / CEO</div>
+                        <br><br>
+                        <div style="font-size: 1.2rem; font-weight: 700; color: #dc2626;">
+                            Preditivo (Planejamento detalhado) vs. Adaptativo (Agilidade)
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Estratégias de Mitigação:</h3>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-dot" style="border-color: var(--success);"></div>
+                            <div class="timeline-content" style="border-color: var(--success);">
+                                <h4>1. Adoção de Ciclo de Vida Híbrido</h4>
+                                <p>Combinar ambas as abordagens: partes do sistema usam Preditivo, outras usam Ágil. <em>(Esta conecta com o Módulo 2!)</em></p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" style="border-color: var(--success);"></div>
+                            <div class="timeline-content" style="border-color: var(--success);">
+                                <h4>2. Comitê de Mudanças</h4>
+                                <p>Criar um grupo com Analista e PO para avaliar mudanças, garantindo que requisitos técnicos estáveis sejam respeitados.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot" style="border-color: var(--success);"></div>
+                            <div class="timeline-content" style="border-color: var(--success);">
+                                <h4>3. Mediação e Alinhamento</h4>
+                                <p>Reuniões semanais de alinhamento onde ambos apresentam argumentos e decidem juntos o ritmo do projeto.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulo 2: Ciclos de Vida -->
+    <section id="ciclos" style="background: #f1f5f9; margin: 0; max-width: 100%; padding: 5rem 2rem;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <div class="section-header fade-in">
+                <span class="section-tag" style="background: var(--gradient-2);">Módulo 2</span>
+                <h2 class="section-title">Ciclos de Vida e Processos de Software</h2>
+            </div>
+
+            <div class="content-section active fade-in">
+                <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-2);">
+                    <div class="content-title">
+                        <span class="content-icon">🌊</span>
+                        <span>Modelo Preditivo (Cascata)</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="content-body">
+                    <div class="content-inner">
+                        <p>O <strong>Modelo em Cascata (Waterfall)</strong> é sequencial e linear. Cada fase deve ser concluída antes da próxima começar.</p>
+
+                        <div class="diagram">
+                            <div class="diagram-box" style="background: #dbeafe;">Requisitos</div>
+                            <span class="diagram-arrow">→</span>
+                            <div class="diagram-box" style="background: #dbeafe;">Projeto</div>
+                            <span class="diagram-arrow">→</span>
+                            <div class="diagram-box" style="background: #dbeafe;">Implementação</div>
+                            <span class="diagram-arrow">→</span>
+                            <div class="diagram-box" style="background: #dbeafe;">Testes</div>
+                            <span class="diagram-arrow">→</span>
+                            <div class="diagram-box" style="background: #dbeafe;">Implantação</div>
+                        </div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-card" style="border-color: var(--success);">
+                                <h4 style="color: var(--success);">✅ Vantagens</h4>
+                                <ul>
+                                    <li>Documentação extensiva e clara</li>
+                                    <li>Fácil de entender e gerenciar</li>
+                                    <li>Requisitos definidos desde o início</li>
+                                    <li>Ideal para sistemas críticos</li>
+                                </ul>
+                            </div>
+                            <div class="comparison-card" style="border-color: var(--danger);">
+                                <h4 style="color: var(--danger);">❌ Desvantagens</h4>
+                                <ul>
+                                    <li>Mudanças são difíceis e caras</li>
+                                    <li>Feedback tardio do cliente</li>
+                                    <li>Risco de não atender necessidades reais</li>
+                                    <li>Entrega apenas no final</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <h4>🎯 Quando usar na Nutrientes?</h4>
+                            <p>Perfeito para o <strong>Módulo de Produção</strong>, pois requisitos são estáveis e há integração com hardware (sensores) que precisa de planejamento detalhado desde o início.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section fade-in">
+                <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-2);">
+                    <div class="content-title">
+                        <span class="content-icon">🔄</span>
+                        <span>Modelo Adaptativo (Ágil/Scrum)</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="content-body">
+                    <div class="content-inner">
+                        <p>O <strong>Modelo Ágil</strong> usa desenvolvimento iterativo e incremental, com entregas frequentes.</p>
+
+                        <div class="diagram">
+                            <div style="display: inline-block; margin: 0.5rem;">
+                                <div class="diagram-box" style="background: #fef3c7; display: block; margin-bottom: 0.5rem;">Sprint 1</div>
+                                <div style="font-size: 0.8rem;">Planejar → Desenvolver → Testar → Entregar</div>
+                            </div>
+                            <div style="display: inline-block; margin: 0.5rem;">
+                                <div class="diagram-box" style="background: #fef3c7; display: block; margin-bottom: 0.5rem;">Sprint 2</div>
+                                <div style="font-size: 0.8rem;">Planejar → Desenvolver → Testar → Entregar</div>
+                            </div>
+                            <div style="display: inline-block; margin: 0.5rem;">
+                                <div class="diagram-box" style="background: #fef3c7; display: block; margin-bottom: 0.5rem;">Sprint 3</div>
+                                <div style="font-size: 0.8rem;">Planejar → Desenvolver → Testar → Entregar</div>
+                            </div>
+                        </div>
+
+                        <div class="comparison-grid">
+                            <div class="comparison-card" style="border-color: var(--success);">
+                                <h4 style="color: var(--success);">✅ Vantagens</h4>
+                                <ul>
+                                    <li>Flexível a mudanças</li>
+                                    <li>Feedback rápido do cliente</li>
+                                    <li>Entregas frequentes de valor</li>
+                                    <li>Reduz risco de falha total</li>
+                                </ul>
+                            </div>
+                            <div class="comparison-card" style="border-color: var(--danger);">
+                                <h4 style="color: var(--danger);">❌ Desvantagens</h4>
+                                <ul>
+                                    <li>Menos documentação formal</li>
+                                    <li>Pode perder visão do todo</li>
+                                    <li>Requer cliente disponível</li>
+                                    <li>Desgaste da equipe com ritmo acelerado</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <h4>🎯 Quando usar na Nutrientes?</h4>
+                            <p>Ideal para o <strong>Módulo do Cliente</strong>, pois o CEO exige mudanças frequentes para melhorar a experiência de compra, e o feedback rápido é essencial.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section fade-in">
+                <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-2);">
+                    <div class="content-title">
+                        <span class="content-icon">⚖️</span>
+                        <span>Ciclo de Vida Híbrido (A Solução!)</span>
+                    </div>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="content-body">
+                    <div class="content-inner">
+                        <p>O <strong>Ciclo de Vida Híbrido</strong> combina o melhor dos dois mundos, usando abordagens diferentes para partes distintas do sistema.</p>
+
+                        <div class="diagram" style="background: linear-gradient(135deg, #dbeafe 50%, #fef3c7 50%); padding: 3rem;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; text-align: left;">
+                                <div>
+                                    <h3 style="color: #1e40af; margin-bottom: 1rem;">🖥️ Módulo de Produção</h3>
+                                    <ul style="list-style: none;">
+                                        <li>✓ Abordagem: <strong>PREDITIVA</strong></li>
+                                        <li>✓ Requisitos estáveis</li>
+                                        <li>✓ Integração com sensores</li>
+                                        <li>✓ Necessita baseline sólida</li>
+                                        <li>✓ Planejamento detalhado inicial</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h3 style="color: #92400e; margin-bottom: 1rem;">📱 Módulo do Cliente</h3>
+                                    <ul style="list-style: none;">
+                                        <li>✓ Abordagem: <strong>ADAPTATIVA</strong></li>
+                                        <li>✓ Mudanças frequentes do CEO</li>
+                                        <li>✓ UX/UI em evolução</li>
+                                        <li>✓ Sprints de 1-2 semanas</li>
+                                        <li>✓ Entregas incrementais</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 style="margin-top: 2rem;">Processo de Planejamento (3 Atividades Essenciais):</h3>
+                        
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-dot" style="border-color: var(--secondary);"></div>
+                                <div class="timeline-content" style="border-color: var(--secondary);">
+                                    <h4>1. Detalhamento da Baseline do Módulo Preditivo</h4>
+                                    <p>Definir <strong>todos</strong> os requisitos do Módulo de Produção antes de começar. Documentar integrações com sensores de temperatura/umidade. Estabelecer arquitetura técnica estável.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot" style="border-color: var(--secondary);"></div>
+                                <div class="timeline-content" style="border-color: var(--secondary);">
+                                    <h4>2. Definição do Timebox e Sprints (Módulo Adaptativo)</h4>
+                                    <p>Estabelecer duração dos sprints (recomendado 1-2 semanas devido à pressão). Definir o que entra em cada sprint do Módulo do Cliente. Priorizar funcionalidades com o CEO.</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot" style="border-color: var(--secondary);"></div>
+                                <div class="timeline-content" style="border-color: var(--secondary);">
+                                    <h4>3. Plano de Comunicação e Gestão de Stakeholders</h4>
+                                    <p>Reuniões semanais com CEO para alinhar expectativas. Relatórios de progresso para evitar surpresas. Canal direto para comunicar mudanças de requisitos de forma controlada.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Módulo 3: Arquitetura -->
+    <section id="arquitetura">
+        <div class="section-header fade-in">
+            <span class="section-tag" style="background: var(--gradient-3);">Módulo 3</span>
+            <h2 class="section-title">Arquitetura de Software</h2>
+        </div>
+
+        <div class="content-section active fade-in">
+            <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-3);">
+                <div class="content-title">
+                    <span class="content-icon">🏗️</span>
+                    <span>Estilos Arquitetônicos</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="content-body">
+                <div class="content-inner">
+                    <p>A <strong>Arquitetura de Software</strong> é a estrutura fundamental do sistema, definindo componentes, relações e princípios de design.</p>
+
+                    <h3 style="margin: 2rem 0 1rem;">Opções de Estilo:</h3>
+
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>🧱 Monolítico</h4>
+                            <p>Aplicação única onde todos os módulos estão interligados.</p>
+                            <div class="code-example" style="margin: 1rem 0;">
+┌─────────────────────────────────────┐
+│         APLICAÇÃO ÚNICA             │
+│  ┌─────────┐ ┌─────────┐ ┌────────┐ │
+│  │ Cliente │ │ Nutrição│ │Produção│ │
+│  │ Módulo  │ │ Módulo  │ │ Módulo │ │
+│  └─────────┘ └─────────┘ └────────┘ │
+│           [Banco Único]             │
+└─────────────────────────────────────┘
+                            </div>
+                            <p><strong>Problema:</strong> Mudanças no Módulo do Cliente podem quebrar o Módulo de Produção. Não escala bem.</p>
+                        </div>
+
+                        <div class="comparison-card" style="border-color: var(--success);">
+                            <h4 style="color: var(--success);">🎯 Microsserviços (Recomendado)</h4>
+                            <p>Cada módulo é um serviço independente com banco próprio.</p>
+                            <div class="code-example" style="margin: 1rem 0;">
+┌──────────┐  ┌──────────┐  
+│ Serviço  │  │ Serviço  │  
+│ Cliente  │  │ Nutrição │  
+└────┬─────┘  └────┬─────┘  
+     │             │         
+     └──────┬──────┘        
+            │ API Gateway    
+┌───────────┼───────────┐   
+│           │           │   
+┌──────┐ ┌──────┐ ┌──────┐ 
+│Produção│ │Logística│ │Bancos│ 
+└──────┘ └──────┘ └──────┘ 
+                            </div>
+                            <p><strong>Vantagem:</strong> Escalabilidade independente e isolamento de falhas.</p>
+                        </div>
+                    </div>
+
+                    <div class="success-box">
+                        <h4>✅ Por que Microsserviços na Nutrientes?</h4>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li><strong>Escalabilidade:</strong> Startup espera crescer rápido. Pode escalar só o módulo sob carga (ex: mais instâncias do Cliente durante promoções).</li>
+                            <li><strong>Isolamento:</strong> Módulo de Produção (estável) protegido das mudanças constantes do Módulo do Cliente.</li>
+                            <li><strong>Integração:</strong> Facilita conexão com sensores (Produção), serviços de roteirização (Logística) e gateways de pagamento (Cliente).</li>
+                            <li><strong>Time-to-market:</strong> Equipes pequenas trabalham em paralelo em serviços diferentes.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section fade-in">
+            <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-3);">
+                <div class="content-title">
+                    <span class="content-icon">🎨</span>
+                    <span>Padrão Arquitetônico: MVC</span>
+                </div>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="content-body">
+                <div class="content-inner">
+                    <p>O padrão <strong>MVC (Model-View-Controller)</strong> separa a aplicação em três camadas distintas:</p>
+
+                    <div class="diagram">
+                        <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                            <div class="diagram-box" style="background: #fbbf24; width: 200px;">👤 USUÁRIO</div>
+                            <span style="font-size: 2rem;">↓ interage</span>
+                            <div class="diagram-box" style="background: #60a5fa; width: 250px;">
+                                <strong>VIEW (Visão)</strong><br>
+                                <small>Interface gráfica, HTML/CSS, formulários</small>
+                            </div>
+                            <span style="font-size: 2rem;">↓ atualiza</span>
+                            <div class="diagram-box" style="background: #a78bfa; width: 250px;">
+                                <strong>CONTROLLER (Controlador)</strong><br>
+                                <small>Processa requisições, chama Model</small>
+                            </div>
+                            <span style="font-size: 2rem;">↓ manipula</span>
+                            <div class="diagram-box" style="background: #34d399; width: 250px;">
+                                <strong>MODEL (Modelo)</strong><br>
+                                <small>Regras de negócio, dados, validações</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-top: 2rem;">Benefícios do MVC:</h3>
+                    <div class="comparison-grid">
+                        <div class="comparison-card">
+                            <h4>🎯 Separação de Responsabilidades</h4>
+                            <p>Cada camada tem uma função clara e única.</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>🔧 Manutenibilidade</h4>
+                            <p>Mudanças na interface (View) não afetam a lógica de negócio (Model).</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>🧪 Testabilidade</h4>
+                            <p>Pode testar o Model sem precisar da interface.</p>
+                        </div>
+                        <div class="comparison-card">
+                            <h4>🔄 Reusabilidade</h4>
+                            <p>Mesmo Model pode ter Views diferentes (web, mobile).</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box" style="background: #fef3c7; border-color: #f59e0b;">
+                        <h4>🎯 Aplicação no Módulo do Cliente</h4>
+                        <p>O CEO insiste em mudanças frequentes na "experiência de compra". Com MVC:</p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li><strong>View:</strong> Pode mudar layout, cores, posição de botões <strong>sem tocar na lógica</strong></li>
+                            <li><strong>Controller:</strong> Adapta novas interações sem alterar regras de negócio</li>
+                            <li><strong>Model:</strong> Permanece estável (cálculo de pedidos, preços, restrições nutricionais)</li>
+                        </ul>
+                        <p style="margin-top: 1rem;"><strong>Exemplo prático:</strong> CEO quer mudar o carrinho de compras de lado direito para esquerdo. No MVC, altera-se apenas a View. Sem MVC, teria que mudar código em vários lugares, correndo risco de quebrar o cálculo de preços.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roteiro Prático -->
+    <section id="roteiro" style="background: #f1f5f9; margin: 0; max-width: 100%; padding: 5rem 2rem;">
+        <div style="max-width: 1400px; margin: 0 auto;">
+            <div class="section-header fade-in">
+                <span class="section-tag">Guia de Estudo</span>
+                <h2 class="section-title">Roteiro Prático para Resolução</h2>
+                <p class="section-subtitle">Siga este passo a passo para desenvolver seu relatório técnico.</p>
+            </div>
+
+            <div class="modules-grid">
+                <div class="module-card fade-in">
+                    <div class="module-icon" style="background: var(--gradient-1);">1️⃣</div>
+                    <h3 class="module-title">Etapa 1: Gestão</h3>
+                    <div class="module-description">
+                        <ol style="padding-left: 1.2rem; line-height: 2;">
+                            <li>Monte a tabela RACI com as 3 tarefas críticas</li>
+                            <li>Verifique: há apenas um "A" por tarefa?</li>
+                            <li>Identifique o conflito: Metodológico (Preditivo vs Adaptativo)</li>
+                            <li>Proponha mitigação: Ciclo híbrido ou Comitê de Mudanças</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="module-card fade-in">
+                    <div class="module-icon" style="background: var(--gradient-2);">2️⃣</div>
+                    <h3 class="module-title">Etapa 2: Ciclo de Vida</h3>
+                    <div class="module-description">
+                        <ol style="padding-left: 1.2rem; line-height: 2;">
+                            <li>Proponha separação: Produção (Preditivo) vs Cliente (Ágil)</li>
+                            <li>Justifique: sensores estáveis vs mudanças do CEO</li>
+                            <li>Defina 3 atividades de planejamento focadas em riscos</li>
+                            <li>Conecte com a mitigação do conflito da Etapa 1</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="module-card fade-in">
+                    <div class="module-icon" style="background: var(--gradient-3);">3️⃣</div>
+                    <h3 class="module-title">Etapa 3: Arquitetura</h3>
+                    <div class="module-description">
+                        <ol style="padding-left: 1.2rem; line-height: 2;">
+                            <li>Escolha Microsserviços (escalabilidade + integração)</li>
+                            <li>Justifique com argumentos técnicos do caso</li>
+                            <li>Para o Módulo Cliente, escolha MVC ou MVVM</li>
+                            <li>Enfatize: separação permite mudanças do CEO sem risco</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Checklist -->
+    <section id="checklist">
+        <div class="section-header fade-in">
+            <span class="section-tag">Validação</span>
+            <h2 class="section-title">Checklist de Revisão</h2>
+            <p class="section-subtitle">Antes de entregar seu relatório, verifique todos os itens:</p>
+        </div>
+
+        <div style="max-width: 800px; margin: 0 auto;">
+            <ul class="checklist fade-in" id="checklistItems">
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>A matriz RACI tem apenas um "A" por tarefa?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>Os papéis fazem sentido com as responsabilidades reais?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>O conflito identificado é o metodológico (Preditivo vs. Adaptativo)?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>A solução de mitigação propõe algo concreto?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>O ciclo de vida híbrido justifica Preditivo para Produção e Ágil para Cliente?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>As 3 atividades de planejamento focam em riscos e comunicação?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>O estilo arquitetônico considera escalabilidade e integração?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>O padrão MVC/MVVM justifica a separação entre interface e lógica?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>Todas as respostas têm fundamentação teórica?</span>
+                </li>
+                <li onclick="toggleCheck(this)">
+                    <div class="check-box"></div>
+                    <span>O conteúdo está relacionado ao contexto específico da Nutrientes Delivery?</span>
+                </li>
             </ul>
-            
-            <div class="demo-box">
-                <div class="demo-title">Demonstração de Transição CSS3</div>
-                <p>Passe o mouse sobre o quadrado abaixo para ver uma transição suave:</p>
-                <div class="transition-demo"></div>
-                <pre><code>/* CSS para a transição */
-.transition-demo {
-    width: 100px;
-    height: 100px;
-    background-color: #3498db;
-    transition: all 0.5s ease;
-}
 
-.transition-demo:hover {
-    background-color: #e74c3c;
-    border-radius: 50%;
-    transform: scale(1.2);
-}</code></pre>
+            <div class="success-box fade-in" style="margin-top: 3rem; text-align: center;">
+                <h4>🎉 Progresso</h4>
+                <p style="font-size: 2rem; font-weight: 800; color: var(--success); margin-top: 0.5rem;">
+                    <span id="progress">0</span>/10
+                </p>
+                <p>Itens verificados</p>
             </div>
-            
-            <div class="demo-box">
-                <div class="demo-title">Demonstração de Animação CSS3</div>
-                <button id="startAnimation" class="button">Iniciar Animação</button>
-                <div id="animationBox" style="width: 50px; height: 50px; background-color: #2ecc71; margin: 20px 0;"></div>
-                <pre><code>/* CSS para a animação */
-@keyframes moveBox {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(200px); }
-    100% { transform: translateX(0); }
-}
+        </div>
+    </section>
 
-.animation-active {
-    animation: moveBox 2s ease-in-out;
-}</code></pre>
-            </div>
-        </section>
-
-        <section id="seletores" class="fade-in">
-            <h2>Seletores CSS: Classes, IDs e Pseudo-classes</h2>
-            <p>O CSS utiliza seletores para aplicar estilos a elementos específicos em um documento HTML. Esses seletores podem ser baseados em IDs, classes ou diretamente nos elementos HTML.</p>
-            
-            <h3>Seletores de Classe vs. Seletores de ID</h3>
-            <p>A diferença fundamental entre um seletor de classe e um seletor de ID é que <strong>classes podem ser aplicadas a múltiplos elementos, enquanto IDs são únicos</strong>. Classes permitem reutilização em vários elementos, enquanto IDs são destinados a identificar exclusivamente um único elemento no documento.</p>
-            
-            <div class="demo-box">
-                <div class="demo-title">Exemplo de Seletores</div>
-                <div class="selector-demo">
-                    <p class="class-selector">Este parágrafo usa um seletor de classe.</p>
-                    <p id="id-selector">Este parágrafo usa um seletor de ID.</p>
-                    <p>Este é um parágrafo sem classe ou ID específica.</p>
-                </div>
-                <pre><code>/* CSS para seletores */
-.class-selector {
-    color: #2ecc71;
-}
-
-#id-selector {
-    color: #e74c3c;
-    font-weight: bold;
-}</code></pre>
-            </div>
-            
-            <h3>Pseudo-classes</h3>
-            <p>Pseudo-classes no CSS permitem aplicar estilos a elementos com base em estados ou contextos específicos, sem a necessidade de alterar o HTML. Elas descrevem <strong>estados dinâmicos ou contextos especiais de elementos</strong>.</p>
-            
-            <div class="demo-box">
-                <div class="demo-title">Exemplo de Pseudo-classes</div>
-                <div class="pseudo-class-demo">
-                    <a href="#">Link normal</a>
-                    <a href="#">Link visitado</a>
-                    <a href="#">Passe o mouse aqui</a>
-                </div>
-                <pre><code>/* CSS para pseudo-classes */
-a {
-    color: #3498db;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-a:hover {
-    color: #e74c3c;
-    text-decoration: underline;
-}
-
-a:visited {
-    color: #8e44ad;
-}</code></pre>
-            </div>
-            
-            <h3>Agrupamento de Seletores</h3>
-            <p>Agrupar seletores no CSS reduz redundâncias no código, permitindo que um mesmo estilo seja aplicado a vários elementos simultaneamente. Isso contribui para a eficiência e a manutenção do código.</p>
-            
-            <div class="demo-box">
-                <div class="demo-title">Exemplo de Agrupamento de Seletores</div>
-                <pre><code>/* Agrupando seletores */
-h1, h2, h3 {
-    font-family: 'Arial', sans-serif;
-    color: #2c3e50;
-    margin-bottom: 1rem;
-}
-
-p, ul, ol {
-    line-height: 1.6;
-    margin-bottom: 1rem;
-}</code></pre>
-            </div>
-        </section>
-
-        <section id="design-responsivo" class="fade-in">
-            <h2>Design Responsivo vs. Design Adaptável</h2>
-            <p>O conceito de design responsivo visa criar sites que se ajustem automaticamente a diferentes tamanhos de tela e dispositivos, garantindo uma experiência consistente para os usuários. Isso é alcançado com técnicas como o uso de media queries e layouts fluídos.</p>
-            
-            <h3>Características do Design Responsivo</h3>
-            <p>A principal característica do web design responsivo é <strong>ajustar o layout a múltiplos tamanhos de tela</strong>. O design responsivo permite que os sites se adaptem automaticamente a diferentes dispositivos e resoluções, garantindo usabilidade e estética.</p>
-            
-            <h3>Design Responsivo vs. Design Adaptável</h3>
-            <p>A principal diferença entre design responsivo e adaptável é que <strong>o responsivo ajusta-se dinamicamente, enquanto o adaptável utiliza layouts fixos por dispositivo</strong>. Enquanto o design responsivo utiliza layouts fluidos que se adaptam a qualquer tamanho de tela, o design adaptável trabalha com layouts específicos para diferentes pontos de quebra predefinidos.</p>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>Característica</th>
-                        <th>Design Responsivo</th>
-                        <th>Design Adaptável</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Abordagem</td>
-                        <td>Layout fluido que se adapta a qualquer tamanho de tela</td>
-                        <td>Layouts fixos para tamanhos de tela específicos</td>
-                    </tr>
-                    <tr>
-                        <td>Técnica Principal</td>
-                        <td>Media queries + unidades relativas</td>
-                        <td>Detectar dispositivo e carregar layout apropriado</td>
-                    </tr>
-                    <tr>
-                        <td>Flexibilidade</td>
-                        <td>Alta flexibilidade</td>
-                        <td>Menor flexibilidade, mais controle</td>
-                    </tr>
-                    <tr>
-                        <td>Experiência do Usuário</td>
-                        <td>Consistente em todos os dispositivos</td>
-                        <td>Otimizada para dispositivos específicos</td>
-                    </tr>
-                </tbody>
-            </table>
-            
-            <div class="demo-box">
-                <div class="demo-title">Demonstração de Layout Responsivo</div>
-                <p>Redimensione a janela do navegador para ver como este layout se adapta:</p>
-                <div class="card-container">
-                    <div class="card">
-                        <div class="card-header">Card 1</div>
-                        <div class="card-body">
-                            <p>Este card se ajustará automaticamente ao tamanho da tela.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">Card 2</div>
-                        <div class="card-body">
-                            <p>Em telas menores, os cards serão empilhados verticalmente.</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">Card 3</div>
-                        <div class="card-body">
-                            <p>Em telas maiores, eles serão dispostos lado a lado.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="mobile-first" class="fade-in">
-            <h2>Abordagem Mobile-First</h2>
-            <p>O conceito Mobile-first prioriza o design para dispositivos móveis antes de adaptá-lo para telas maiores. Essa abordagem é especialmente útil devido ao crescente uso de dispositivos móveis para acesso à internet.</p>
-            
-            <h3>Vantagens do Mobile-First</h3>
-            <p>A principal vantagem de utilizar o Mobile-first no design responsivo é a <strong>otimização para dispositivos móveis como prioridade</strong>. O Mobile-first garante que o site tenha ótima performance em dispositivos móveis, que são os mais usados atualmente, adaptando-se posteriormente para telas maiores.</p>
-            
-            <div class="card-container">
-                <div class="card">
-                    <div class="card-header">Performance Otimizada</div>
-                    <div class="card-body">
-                        <p>Sites desenvolvidos com Mobile-first tendem a carregar mais rápido em dispositivos móveis, pois priorizam o conteúdo essencial.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">Experiência Focada</div>
-                    <div class="card-body">
-                        <p>Ao começar pelo mobile, você se concentra no conteúdo mais importante, resultando em uma experiência mais focada e eficiente.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">Progressão Lógica</div>
-                    <div class="card-body">
-                        <p>É mais fácil adicionar funcionalidades e complexidade para telas maiores do que simplificar um design complexo para dispositivos móveis.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="demo-box">
-                <div class="demo-title">Exemplo de CSS Mobile-First</div>
-                <pre><code>/* Estilos base para mobile */
-.container {
-    width: 100%;
-    padding: 10px;
-}
-
-.card {
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-/* Media query para tablets */
-@media (min-width: 768px) {
-    .container {
-        width: 90%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    
-    .card {
-        width: calc(50% - 10px);
-        display: inline-block;
-        margin-right: 20px;
-    }
-}
-
-/* Media query para desktops */
-@media (min-width: 1024px) {
-    .card {
-        width: calc(33.333% - 14px);
-    }
-}</code></pre>
-            </div>
-        </section>
-
-        <section id="media-queries" class="fade-in">
-            <h2>Media Queries: Adaptando o Design ao Dispositivo</h2>
-            <p>O uso de media queries no CSS permite aplicar estilos diferentes com base em características do dispositivo, como largura e altura da tela. Isso é essencial para implementar o design responsivo de forma eficaz.</p>
-            
-            <h3>Como as Media Queries Contribuem para o Design Responsivo</h3>
-            <p>As media queries contribuem para o design responsivo <strong>aplicando estilos específicos com base nas características do dispositivo</strong>. Elas permitem a aplicação de estilos que se adaptam a diferentes condições de dispositivos, como resolução e orientação.</p>
-            
-            <div class="demo-box">
-                <div class="demo-title">Demonstração de Media Query</div>
-                <div class="media-query-demo" id="mediaQueryDemo">
-                    Esta área mudará de cor conforme o tamanho da tela:
-                    <br>
-                    <span id="screenSize">Detectando tamanho...</span>
-                </div>
-                <pre><code>/* Exemplo de media queries */
-.media-query-demo {
-    padding: 20px;
-    background-color: #ecf0f1;
-    text-align: center;
-    font-weight: bold;
-}
-
-/* Para telas pequenas (mobile) */
-@media (max-width: 480px) {
-    .media-query-demo {
-        background-color: #e74c3c;
-        color: white;
-    }
-}
-
-/* Para tablets */
-@media (min-width: 481px) and (max-width: 768px) {
-    .media-query-demo {
-        background-color: #f39c12;
-        color: white;
-    }
-}
-
-/* Para desktops */
-@media (min-width: 769px) {
-    .media-query-demo {
-        background-color: #2ecc71;
-        color: white;
-    }
-}</code></pre>
-            </div>
-            
-            <h3>Tipos de Media Queries</h3>
-            <ul>
-                <li><strong>Baseadas em largura:</strong> Aplicam estilos com base na largura da tela.</li>
-                <li><strong>Baseadas em altura:</strong> Aplicam estilos com base na altura da tela.</li>
-                <li><strong>Baseadas em orientação:</strong> Diferenciam entre modo retrato e paisagem.</li>
-                <li><strong>Baseadas em resolução:</strong> Consideram a densidade de pixels do dispositivo.</li>
-                <li><strong>Baseadas em características do dispositivo:</strong> Identificam se é tela, impressão, etc.</li>
-            </ul>
-            
-            <div class="demo-box">
-                <div class="demo-title">Exemplo de Media Query para Orientação</div>
-                <pre><code>/* Para modo retrato */
-@media (orientation: portrait) {
-    .sidebar {
-        width: 100%;
-        height: auto;
-    }
-}
-
-/* Para modo paisagem */
-@media (orientation: landscape) {
-    .sidebar {
-        width: 30%;
-        height: 100vh;
-        position: fixed;
-    }
-}</code></pre>
-            </div>
-        </section>
-
-        <section id="wireframes" class="fade-in">
-            <h2>Wireframes: Planejando o Layout</h2>
-            <p>Os wireframes são representações esquemáticas de uma interface, utilizadas para planejar o layout de páginas web. Eles são especialmente úteis no processo de design responsivo para testar a organização visual antes da implementação.</p>
-            
-            <h3>Objetivo dos Wireframes no Design Responsivo</h3>
-            <p>O objetivo dos wireframes no design responsivo é <strong>planejar o layout e hierarquia visual das páginas</strong>. Wireframes ajudam a organizar os elementos visuais de forma funcional, otimizando a estrutura para diferentes tamanhos de tela antes do desenvolvimento.</p>
-            
-            <div class="card-container">
-                <div class="card">
-                    <div class="card-header">Foco na Estrutura</div>
-                    <div class="card-body">
-                        <p>Wireframes permitem focar na estrutura e organização do conteúdo sem distrações visuais como cores e fontes.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">Identificação de Problemas</div>
-                    <div class="card-body">
-                        <p>Ao criar wireframes para diferentes tamanhos de tela, é possível identificar problemas de usabilidade antes do desenvolvimento.</p>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">Comunicação Eficiente</div>
-                    <div class="card-body">
-                        <p>Wireframes servem como uma ferramenta de comunicação eficaz entre designers, desenvolvedores e clientes.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="demo-box">
-                <div class="demo-title">Exemplo de Wireframe Responsivo</div>
-                <p>Este é um exemplo simples de wireframe que se adapta a diferentes tamanhos de tela:</p>
-                <div class="wireframe-container">
-                    <div class="wireframe-header">
-                        <div style="padding: 15px; text-align: center;">Cabeçalho</div>
-                    </div>
-                    <div class="wireframe-content">
-                        <div class="wireframe-sidebar">
-                            <div style="padding: 15px; text-align: center;">Barra Lateral</div>
-                        </div>
-                        <div class="wireframe-main">
-                            <div style="padding: 15px;">Conteúdo Principal</div>
-                            <div style="height: 40px; background-color: #ddd; margin-bottom: 10px;"></div>
-                            <div style="height: 40px; background-color: #ddd; margin-bottom: 10px;"></div>
-                            <div style="height: 40px; background-color: #ddd;"></div>
-                        </div>
-                    </div>
-                    <div class="wireframe-footer">
-                        <div style="padding: 10px; text-align: center;">Rodapé</div>
-                    </div>
-                </div>
-                <p><em>Redimensione a janela para ver como o wireframe se adapta a diferentes tamanhos de tela.</em></p>
-            </div>
-        </section>
-
-        <section id="quiz" class="fade-in">
-            <h2>Quiz: Teste Seus Conhecimentos</h2>
-            <p>Responda às perguntas abaixo para testar seus conhecimentos sobre Desenvolvimento Responsivo. Ao final, clique em "Verificar Respostas" para ver seu desempenho.</p>
-            
-            <div class="quiz-container">
-                <form id="quizForm">
-                    <div class="quiz-question">
-                        <h3>1. O CSS (Cascading Style Sheets) é uma linguagem utilizada para estilizar documentos HTML, permitindo controlar a apresentação visual de páginas web. Com base nesse contexto, qual é o principal objetivo de uma folha de estilo CSS vinculada a um documento HTML?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q1" value="a"> a) Estilizar imagens de alta resolução.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q1" value="b"> b) Controlar a aparência e o layout do documento.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q1" value="c"> c) Gerar arquivos de design automaticamente.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q1" value="d"> d) Criar estruturas fixas de página.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q1" value="e"> e) Configurar conexões entre servidores.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result1"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>2. O módulo CSS3 trouxe inovações importantes para o design web moderno, ampliando as possibilidades de estilização e interatividade. Suas novas funcionalidades incluem animações, transições e novos seletores, facilitando o desenvolvimento de interfaces mais atraentes. Qual é uma característica fundamental do módulo CSS3 em relação às versões anteriores?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q2" value="a"> a) Incompatibilidade com navegadores modernos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q2" value="b"> b) Introdução de pseudo-classes dinâmicas.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q2" value="c"> c) Integração direta com servidores de hospedagem.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q2" value="d"> d) Suporte a propriedades de animação e transição.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q2" value="e"> e) Substituição de todos os módulos anteriores.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result2"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>3. Pseudo-classes no CSS permitem aplicar estilos a elementos com base em estados ou contextos específicos, sem a necessidade de alterar o HTML. Por exemplo, o seletor :hover aplica estilos a um elemento quando o cursor está sobre ele. Com base nisso, qual das alternativas descreve corretamente o conceito de pseudo-classes no CSS?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q3" value="a"> a) Classes que se aplicam a todos os elementos HTML.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q3" value="b"> b) Regras que dependem de atributos específicos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q3" value="c"> c) Estados dinâmicos ou contextos especiais de elementos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q3" value="d"> d) Estilos aplicados diretamente ao ID do elemento.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q3" value="e"> e) Declarações inválidas ignoradas pelos navegadores.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result3"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>4. O conceito de design responsivo visa criar sites que se ajustem automaticamente a diferentes tamanhos de tela e dispositivos, garantindo uma experiência consistente para os usuários. Isso é alcançado com técnicas como o uso de media queries e layouts fluídos. Qual é a principal característica do web design responsivo?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q4" value="a"> a) Alterar dinamicamente o conteúdo textual.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q4" value="b"> b) Reduzir imagens de alta resolução automaticamente.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q4" value="c"> c) Ajustar o layout a múltiplos tamanhos de tela.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q4" value="d"> d) Substituir CSS por scripts em JavaScript.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q4" value="e"> e) Criar interfaces baseadas em gráficos vetoriais.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result4"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>5. O conceito Mobile-first prioriza o design para dispositivos móveis antes de adaptá-lo para telas maiores. Essa abordagem é especialmente útil devido ao crescente uso de dispositivos móveis para acesso à internet. Com base nisso, qual é a principal vantagem de utilizar o Mobile-first no design responsivo?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q5" value="a"> a) Foco inicial em telas maiores e adaptabilidade.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q5" value="b"> b) Redução da complexidade de código CSS.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q5" value="c"> c) Otimização para dispositivos móveis como prioridade.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q5" value="d"> d) Compatibilidade automática com frameworks CSS.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q5" value="e"> e) Eliminação da necessidade de media queries.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result5"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>6. O CSS utiliza seletores para aplicar estilos a elementos específicos em um documento HTML. Esses seletores podem ser baseados em IDs, classes ou diretamente nos elementos HTML. Com base nessa funcionalidade, qual é a diferença fundamental entre um seletor de classe e um seletor de ID?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q6" value="a"> a) Classes são exclusivas; IDs são reutilizáveis.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q6" value="b"> b) Classes podem ser aplicadas a múltiplos elementos; IDs são únicos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q6" value="c"> c) IDs têm maior prioridade que classes em regras CSS.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q6" value="d"> d) Classes não suportam herança de estilos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q6" value="e"> e) IDs são usados exclusivamente para pseudo-classes.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result6"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>7. Os wireframes são representações esquemáticas de uma interface, utilizadas para planejar o layout de páginas web. Eles são especialmente úteis no processo de design responsivo para testar a organização visual antes da implementação. Qual das alternativas melhor descreve o objetivo dos wireframes no design responsivo?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q7" value="a"> a) Substituir a codificação CSS por protótipos visuais.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q7" value="b"> b) Testar a funcionalidade de elementos interativos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q7" value="c"> c) Planejar o layout e hierarquia visual das páginas.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q7" value="d"> d) Gerar automaticamente layouts responsivos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q7" value="e"> e) Determinar as cores e fontes utilizadas no site.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result7"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>8. O uso de media queries no CSS permite aplicar estilos diferentes com base em características do dispositivo, como largura e altura da tela. Isso é essencial para implementar o design responsivo de forma eficaz. Como as media queries contribuem para o design responsivo?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q8" value="a"> a) Alterando o código HTML dinamicamente.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q8" value="b"> b) Aplicando estilos específicos com base nas características do dispositivo.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q8" value="c"> c) Reduzindo a necessidade de seletores CSS avançados.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q8" value="d"> d) Garantindo compatibilidade com navegadores antigos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q8" value="e"> e) Substituindo frameworks CSS em projetos complexos.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result8"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>9. Agrupar seletores no CSS reduz redundâncias no código, permitindo que um mesmo estilo seja aplicado a vários elementos simultaneamente. Isso contribui para a eficiência e a manutenção do código. Qual das alternativas exemplifica o agrupamento de seletores no CSS?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q9" value="a"> a) Aplicar estilos por IDs em cada elemento.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q9" value="b"> b) Combinar vários seletores em uma única regra.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q9" value="c"> c) Especificar um seletor global para todos os elementos.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q9" value="d"> d) Dividir estilos em várias folhas CSS.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q9" value="e"> e) Aplicar estilos inline diretamente no HTML.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result9"></div>
-                    </div>
-                    
-                    <div class="quiz-question">
-                        <h3>10. O design adaptável é uma abordagem complementar ao design responsivo, mas com foco em layouts predefinidos para diferentes dispositivos. Ele oferece maior controle sobre o design, porém menos flexibilidade em transições dinâmicas. Qual é a principal diferença entre design responsivo e adaptável?</h3>
-                        <div class="quiz-options">
-                            <label class="quiz-option">
-                                <input type="radio" name="q10" value="a"> a) O adaptável usa media queries, enquanto o responsivo não.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q10" value="b"> b) O responsivo ajusta-se dinamicamente; o adaptável utiliza layouts fixos por dispositivo.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q10" value="c"> c) O responsivo prioriza navegadores desktop; o adaptável prioriza móveis.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q10" value="d"> d) O adaptável elimina a necessidade de frameworks.
-                            </label>
-                            <label class="quiz-option">
-                                <input type="radio" name="q10" value="e"> e) O responsivo é limitado a dispositivos móveis.
-                            </label>
-                        </div>
-                        <div class="quiz-result" id="result10"></div>
-                    </div>
-                    
-                    <button type="button" class="submit-quiz" id="checkAnswers">Verificar Respostas</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
+    <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2023 - Guia de Estudo: Desenvolvimento Responsivo</p>
-            <p>Material educacional para estudo autônomo</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Projeto de Software</h3>
+                <p>Material desenvolvido para auxiliar alunos do 1º ano de Desenvolvimento de Sistemas na compreensão dos conceitos fundamentais de gestão e arquitetura de software.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <p><a href="#modulos">Módulos</a></p>
+                <p><a href="#estudo-caso">Estudo de Caso</a></p>
+                <p><a href="#roteiro">Roteiro</a></p>
+                <p><a href="#checklist">Checklist</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Conceitos-Chave</h3>
+                <p><a href="#gestao">Matriz RACI</a></p>
+                <p><a href="#ciclos">Ciclo Híbrido</a></p>
+                <p><a href="#arquitetura">Microsserviços</a></p>
+                <p><a href="#arquitetura">Padrão MVC</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Dica Final</h3>
+                <p>"Conecte as etapas: o conflito da Etapa 1 leva ao híbrido da Etapa 2, que justifica a arquitetura da Etapa 3."</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 - Material de Estudo Projeto de Software | Nutrientes Delivery Case Study</p>
         </div>
     </footer>
 
     <script>
-        // Menu responsivo
-        document.getElementById('menuToggle').addEventListener('click', function() {
-            document.getElementById('navMenu').classList.toggle('active');
-        });
-
-        // Navegação suave
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove a classe active de todos os links
-                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                
-                // Adiciona a classe active ao link clicado
-                this.classList.add('active');
-                
-                // Rola suavemente até a seção correspondente
-                const targetId = this.getAttribute('href');
-                const targetSection = document.querySelector(targetId);
-                
-                window.scrollTo({
-                    top: targetSection.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-                
-                // Fecha o menu em dispositivos móveis
-                document.getElementById('navMenu').classList.remove('active');
-            });
-        });
-
-        // Animação de demonstração
-        document.getElementById('startAnimation').addEventListener('click', function() {
-            const box = document.getElementById('animationBox');
-            box.classList.add('animation-active');
-            
-            setTimeout(function() {
-                box.classList.remove('animation-active');
-            }, 2000);
-        });
-
-        // Detectar tamanho da tela para a demonstração de media query
-        function updateScreenSize() {
-            const width = window.innerWidth;
-            const screenSizeElement = document.getElementById('screenSize');
-            
-            if (width <= 480) {
-                screenSizeElement.textContent = 'Tela Pequena (Mobile)';
-            } else if (width <= 768) {
-                screenSizeElement.textContent = 'Tela Média (Tablet)';
-            } else {
-                screenSizeElement.textContent = 'Tela Grande (Desktop)';
-            }
+        // Toggle sections
+        function toggleSection(header) {
+            const section = header.parentElement;
+            section.classList.toggle('active');
         }
 
-        // Atualiza o tamanho da tela ao carregar e ao redimensionar
-        window.addEventListener('load', updateScreenSize);
-        window.addEventListener('resize', updateScreenSize);
+        // Checklist
+        function toggleCheck(item) {
+            const checkbox = item.querySelector('.check-box');
+            checkbox.classList.toggle('checked');
+            updateProgress();
+        }
 
-        // Quiz
-        const correctAnswers = {
-            q1: 'b',
-            q2: 'd',
-            q3: 'c',
-            q4: 'c',
-            q5: 'c',
-            q6: 'b',
-            q7: 'c',
-            q8: 'b',
-            q9: 'b',
-            q10: 'b'
+        function updateProgress() {
+            const checked = document.querySelectorAll('.check-box.checked').length;
+            document.getElementById('progress').textContent = checked;
+        }
+
+        // Progress bar
+        window.onscroll = function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+            
+            // Navbar scroll effect
+            const navbar = document.getElementById('navbar');
+            if (winScroll > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         };
 
-        const justifications = {
-            q1: 'O CSS permite definir regras de estilo e layout, separando a estrutura do conteúdo (HTML) da apresentação visual, o que facilita a manutenção e evolução do site.',
-            q2: 'O CSS3 é conhecido por introduzir recursos avançados como animações e transições, permitindo maior dinamismo e interatividade nas páginas web sem o uso de scripts adicionais.',
-            q3: 'Pseudo-classes identificam estados específicos, como foco, primeiro filho ou hover, para aplicar estilos sem a necessidade de alterar o DOM.',
-            q4: 'O design responsivo permite que os sites se adaptem automaticamente a diferentes dispositivos e resoluções, garantindo usabilidade e estética.',
-            q5: 'O Mobile-first garante que o site tenha ótima performance em dispositivos móveis, que são os mais usados atualmente, adaptando-se posteriormente para telas maiores.',
-            q6: 'Classes permitem reutilização em vários elementos, enquanto IDs são destinados a identificar exclusivamente um único elemento no documento.',
-            q7: 'Wireframes ajudam a organizar os elementos visuais de forma funcional, otimizando a estrutura para diferentes tamanhos de tela antes do desenvolvimento.',
-            q8: 'Media queries permitem a aplicação de estilos que se adaptam a diferentes condições de dispositivos, como resolução e orientação.',
-            q9: 'Agrupar seletores permite estilizar múltiplos elementos com a mesma regra CSS, como em h1, h2, p { color: blue; }.',
-            q10: 'Enquanto o design responsivo utiliza layouts fluidos, o design adaptável trabalha com layouts específicos para diferentes tamanhos de tela.'
-        };
-
-        document.getElementById('checkAnswers').addEventListener('click', function() {
-            let correctCount = 0;
-            
-            // Verifica cada resposta
-            for (let i = 1; i <= 10; i++) {
-                const question = 'q' + i;
-                const selectedOption = document.querySelector(`input[name="${question}"]:checked`);
-                const resultElement = document.getElementById(`result${i}`);
-                
-                if (selectedOption) {
-                    const selectedValue = selectedOption.value;
-                    
-                    if (selectedValue === correctAnswers[question]) {
-                        resultElement.innerHTML = `<strong>Resposta Correta!</strong><div class="quiz-feedback">${justifications[question]}</div>`;
-                        resultElement.className = 'quiz-result correct';
-                        correctCount++;
-                    } else {
-                        resultElement.innerHTML = `<strong>Resposta Incorreta.</strong> A resposta correta é a alternativa ${correctAnswers[question]}.<div class="quiz-feedback">${justifications[question]}</div>`;
-                        resultElement.className = 'quiz-result incorrect';
-                    }
-                    
-                    resultElement.style.display = 'block';
-                } else {
-                    resultElement.innerHTML = '<strong>Por favor, selecione uma opção.</strong>';
-                    resultElement.className = 'quiz-result incorrect';
-                    resultElement.style.display = 'block';
-                }
-            }
-            
-            // Exibe a pontuação final
-            const scoreElement = document.createElement('div');
-            scoreElement.style.marginTop = '20px';
-            scoreElement.style.padding = '15px';
-            scoreElement.style.backgroundColor = '#f8f9fa';
-            scoreElement.style.borderRadius = '8px';
-            scoreElement.style.textAlign = 'center';
-            scoreElement.style.fontSize = '18px';
-            scoreElement.innerHTML = `<strong>Você acertou ${correctCount} de 10 perguntas.</strong>`;
-            
-            // Remove a pontuação anterior, se existir
-            const existingScore = document.querySelector('.quiz-score');
-            if (existingScore) {
-                existingScore.remove();
-            }
-            
-            // Adiciona a nova pontuação
-            scoreElement.className = 'quiz-score';
-            document.getElementById('quizForm').appendChild(scoreElement);
-            
-            // Rola para o início do quiz
-            document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });
-        });
-
-        // Adiciona animação de fade-in às seções quando elas entram na viewport
+        // Fade in animation
         const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                    observer.unobserve(entry.target);
+                    entry.target.classList.add('visible');
                 }
             });
         }, observerOptions);
 
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = 0;
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-            observer.observe(section);
+        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
         });
+
+        // Mobile menu
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        }
     </script>
 </body>
 </html>
