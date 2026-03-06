@@ -3,1819 +3,446 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projeto de Software - Nutrientes Delivery | Material de Estudo</title>
+    <title>Oficina de Modelagem UML - Diagrama de Sequência</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-bg: #ecf0f1;
+            --text-color: #333;
+            --white: #ffffff;
         }
 
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary: #7c3aed;
-            --accent: #f59e0b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --gray: #64748b;
-            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --shadow: 0 10px 40px rgba(0,0,0,0.1);
-            --shadow-hover: 0 20px 60px rgba(0,0,0,0.15);
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: var(--dark);
-            background: var(--light);
-            overflow-x: hidden;
+            color: var(--text-color);
+            background-color: var(--light-bg);
         }
 
-        /* Navegação */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-
-        nav.scrolled {
-            padding: 0.5rem 0;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: var(--gradient-1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--dark);
-            font-weight: 600;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 3px;
-            background: var(--gradient-1);
-            transition: width 0.3s;
-            border-radius: 2px;
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .mobile-menu {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-        }
-
-        .mobile-menu span {
-            width: 25px;
-            height: 3px;
-            background: var(--dark);
-            transition: 0.3s;
-            border-radius: 3px;
-        }
-
-        /* Hero Section */
-        .hero {
-            margin-top: 80px;
-            padding: 6rem 2rem;
-            background: var(--gradient-1);
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -10%;
-            width: 600px;
-            height: 600px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 400px;
-            height: 400px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-            animation: float 15s infinite ease-in-out reverse;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(30px, 30px) rotate(180deg); }
-        }
-
-        .hero-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text h1 {
-            font-size: 3.5rem;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-        }
-
-        .hero-text p {
-            font-size: 1.25rem;
-            opacity: 0.95;
-            margin-bottom: 2rem;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-
-        .stat {
+        header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 2rem 1rem;
             text-align: center;
         }
 
-        .stat-number {
+        header h1 {
             font-size: 2.5rem;
-            font-weight: 800;
-            display: block;
+            margin-bottom: 0.5rem;
         }
 
-        .stat-label {
-            font-size: 0.9rem;
+        header p {
+            font-size: 1.2rem;
             opacity: 0.9;
         }
 
-        .hero-visual {
-            position: relative;
+        nav {
+            background-color: var(--secondary-color);
+            padding: 1rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .code-block {
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-            line-height: 1.8;
-            box-shadow: var(--shadow);
-            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
-            transition: transform 0.3s;
-        }
-
-        .code-block:hover {
-            transform: perspective(1000px) rotateY(0deg) rotateX(0deg);
-        }
-
-        .code-line {
-            display: block;
-            margin: 0.3rem 0;
-        }
-
-        .code-keyword { color: #ff79c6; }
-        .code-string { color: #f1fa8c; }
-        .code-comment { color: #6272a4; }
-        .code-function { color: #50fa7b; }
-
-        /* Botões */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s;
-            border: none;
+        nav button {
+            background: none;
+            border: 2px solid transparent;
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            margin: 0 0.5rem;
             cursor: pointer;
             font-size: 1rem;
+            transition: all 0.3s ease;
+            border-radius: 4px;
         }
 
-        .btn-primary {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        nav button:hover, nav button.active {
+            background-color: var(--white);
+            color: var(--secondary-color);
+            font-weight: bold;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255,255,255,0.5);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: white;
-        }
-
-        /* Seções */
-        section {
-            padding: 5rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-tag {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: var(--gradient-1);
-            color: white;
-            border-radius: 50px;
-            font-size: 0.875rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .section-subtitle {
-            font-size: 1.25rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Cards de Módulos */
-        .modules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .module-card {
-            background: white;
-            border-radius: 24px;
-            padding: 2.5rem;
-            box-shadow: var(--shadow);
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
-        }
-
-        .module-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--gradient-1);
-            transform: scaleX(0);
-            transition: transform 0.3s;
-        }
-
-        .module-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .module-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .module-icon {
-            width: 70px;
-            height: 70px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            background: var(--gradient-1);
-            color: white;
-        }
-
-        .module-card:nth-child(2) .module-icon {
-            background: var(--gradient-2);
-        }
-
-        .module-card:nth-child(3) .module-icon {
-            background: var(--gradient-3);
-        }
-
-        .module-title {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--dark);
-        }
-
-        .module-description {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .module-topics {
-            list-style: none;
-        }
-
-        .module-topics li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-            color: var(--dark);
-            font-weight: 500;
-        }
-
-        .module-topics li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        /* Conteúdo Detalhado */
-        .content-section {
-            background: white;
-            margin: 3rem 0;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-        }
-
-        .content-header {
-            background: var(--gradient-1);
-            color: white;
-            padding: 2rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .content-header:hover {
-            opacity: 0.95;
-        }
-
-        .content-section:nth-child(2) .content-header {
-            background: var(--gradient-2);
-        }
-
-        .content-section:nth-child(3) .content-header {
-            background: var(--gradient-3);
-        }
-
-        .content-title {
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .content-icon {
-            font-size: 2rem;
-        }
-
-        .toggle-icon {
-            font-size: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .content-section.active .toggle-icon {
-            transform: rotate(180deg);
-        }
-
-        .content-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out;
-        }
-
-        .content-section.active .content-body {
-            max-height: 10000px;
-        }
-
-        .content-inner {
-            padding: 3rem;
-        }
-
-        /* Elementos de Conteúdo */
-        .info-box {
-            background: #f0f9ff;
-            border-left: 5px solid var(--primary);
-            padding: 1.5rem;
-            border-radius: 0 12px 12px 0;
-            margin: 2rem 0;
-        }
-
-        .warning-box {
-            background: #fffbeb;
-            border-left: 5px solid var(--accent);
-            padding: 1.5rem;
-            border-radius: 0 12px 12px 0;
-            margin: 2rem 0;
-        }
-
-        .success-box {
-            background: #ecfdf5;
-            border-left: 5px solid var(--success);
-            padding: 1.5rem;
-            border-radius: 0 12px 12px 0;
-            margin: 2rem 0;
-        }
-
-        .info-box h4, .warning-box h4, .success-box h4 {
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        th {
-            background: var(--dark);
-            color: white;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-        }
-
-        td {
-            padding: 1rem;
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        tr:hover {
-            background: #f8fafc;
-        }
-
-        .code-example {
-            background: #1e1e1e;
-            color: #d4d4d4;
-            padding: 1.5rem;
-            border-radius: 12px;
-            font-family: 'Fira Code', monospace;
-            overflow-x: auto;
-            margin: 1.5rem 0;
-            position: relative;
-        }
-
-        .code-example::before {
-            content: 'EXEMPLO';
-            position: absolute;
-            top: 0;
-            right: 0;
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
-            border-radius: 0 12px 0 12px;
-        }
-
-        .diagram {
-            background: white;
-            border: 2px dashed #cbd5e1;
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem 0;
-            text-align: center;
-            font-family: monospace;
-            line-height: 2;
-        }
-
-        .diagram-box {
-            display: inline-block;
-            padding: 1rem 2rem;
-            margin: 0.5rem;
+        main {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background: var(--white);
             border-radius: 8px;
-            font-weight: 700;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            min-height: 80vh;
         }
 
-        .diagram-arrow {
-            font-size: 1.5rem;
-            color: var(--gray);
-            margin: 0 1rem;
+        section {
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.5s ease;
         }
 
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
+        section.active {
+            display: block;
         }
 
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 30px;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--gradient-1);
-            border-radius: 3px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        .timeline-item {
-            position: relative;
-            padding-left: 80px;
-            margin-bottom: 2rem;
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
         }
 
-        .timeline-dot {
-            position: absolute;
-            left: 20px;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border: 4px solid var(--primary);
-            border-radius: 50%;
-            top: 5px;
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
         }
 
-        .timeline-content {
-            background: #f8fafc;
-            padding: 1.5rem;
-            border-radius: 12px;
-            border-left: 4px solid var(--primary);
+        p {
+            margin-bottom: 1rem;
         }
 
-        /* Checklist */
-        .checklist {
-            list-style: none;
-            margin: 2rem 0;
+        ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
         }
 
-        .checklist li {
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-card {
+            background-color: #f9f9f9;
+            border-left: 5px solid var(--secondary-color);
             padding: 1rem;
-            margin: 0.5rem 0;
-            background: white;
-            border-radius: 12px;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+        }
+
+        .scenario-box {
+            background-color: #fff8e1;
+            border: 1px solid #ffe082;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .scenario-box h3 {
+            color: #f57f17;
+            margin-top: 0;
+        }
+
+        .uml-element {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--white);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .checklist-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: all 0.3s;
+            margin-bottom: 0.8rem;
+            padding: 0.5rem;
+            background: #f4f4f4;
+            border-radius: 4px;
         }
 
-        .checklist li:hover {
-            transform: translateX(10px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .checklist-item input {
+            margin-right: 1rem;
+            transform: scale(1.2);
         }
 
-        .check-box {
-            width: 24px;
-            height: 24px;
-            border: 3px solid var(--gray);
-            border-radius: 6px;
+        .btn-action {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: var(--white);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-action:hover {
+            background-color: #c0392b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            margin-top: 2rem;
+        }
+
+        .highlight {
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        /* Diagram placeholder styles */
+        .diagram-placeholder {
+            border: 2px dashed #ccc;
+            background: #fafafa;
+            height: 200px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            flex-shrink: 0;
-        }
-
-        .check-box:hover {
-            border-color: var(--success);
-        }
-
-        .check-box.checked {
-            background: var(--success);
-            border-color: var(--success);
-        }
-
-        .check-box.checked::after {
-            content: '✓';
-            color: white;
-            font-weight: 700;
-        }
-
-        /* Cards de Comparação */
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-
-        .comparison-card {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            border: 2px solid #e2e8f0;
-            transition: all 0.3s;
-        }
-
-        .comparison-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
-        }
-
-        .comparison-card h4 {
-            color: var(--primary);
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-
-        .comparison-card ul {
-            list-style: none;
-        }
-
-        .comparison-card li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-
-        .comparison-card li::before {
-            content: '•';
-            color: var(--primary);
-            font-weight: 700;
-            position: absolute;
-            left: 0;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 4rem 2rem 2rem;
-            margin-top: 6rem;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 1rem;
-            color: var(--accent);
-        }
-
-        .footer-section p, .footer-section a {
-            color: #94a3b8;
-            text-decoration: none;
-            line-height: 2;
-        }
-
-        .footer-section a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 3rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid #334155;
-            text-align: center;
-            color: #64748b;
-        }
-
-        /* Responsivo */
-        @media (max-width: 968px) {
-            .hero-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-text h1 {
-                font-size: 2.5rem;
-            }
-
-            .hero-stats {
-                justify-content: center;
-            }
-
-            .hero-visual {
-                display: none;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .mobile-menu {
-                display: flex;
-            }
-
-            .comparison-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .modules-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Animações */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s;
-        }
-
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: rgba(0,0,0,0.1);
-            z-index: 1001;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: var(--gradient-1);
-            width: 0%;
-            transition: width 0.1s;
-        }
-
-        /* Tooltips */
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            border-bottom: 2px dotted var(--primary);
-            cursor: help;
-        }
-
-        .tooltip:hover::after {
-            content: attr(data-tip);
-            position: absolute;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--dark);
-            color: white;
-            padding: 0.5rem 1rem;
+            color: #888;
+            margin: 1rem 0;
             border-radius: 8px;
-            white-space: nowrap;
-            font-size: 0.875rem;
-            z-index: 100;
         }
 
-        /* Highlight */
-        .highlight {
-            background: linear-gradient(120deg, #fde047 0%, #fde047 100%);
-            background-repeat: no-repeat;
-            background-size: 100% 40%;
-            background-position: 0 88%;
-            padding: 0 4px;
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.8rem; }
+            nav button { display: block; width: 100%; margin: 0.5rem 0; }
         }
     </style>
 </head>
 <body>
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
 
-    <!-- Navegação -->
-    <nav id="navbar">
-        <div class="nav-container">
-            <div class="logo">
-                <span>🚀</span>
-                <span>Projeto de Software</span>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#inicio">Início</a></li>
-                <li><a href="#modulos">Módulos</a></li>
-                <li><a href="#estudo-caso">Estudo de Caso</a></li>
-                <li><a href="#roteiro">Roteiro</a></li>
-                <li><a href="#checklist">Checklist</a></li>
+<header>
+    <h1>Análise Orientada a Objetos</h1>
+    <p>Unidade 3: Modelagem Complementar de Análise com UML</p>
+    <p>Oficina de Soluções Profissionais</p>
+</header>
+
+<nav>
+    <button class="nav-btn active" onclick="showSection('intro')">Introdução</button>
+    <button class="nav-btn" onclick="showSection('conceitos')">Conceitos UML</button>
+    <button class="nav-btn" onclick="showSection('metodo')">Metodologia</button>
+    <button class="nav-btn" onclick="showSection('atividade')">Sua Missão</button>
+    <button class="nav-btn" onclick="showSection('checklist')">Validação</button>
+</nav>
+
+<main>
+    <!-- Section 1: Introdução -->
+    <section id="intro" class="active">
+        <h2>Bem-vindo à Oficina de Modelagem</h2>
+        <p>Neste módulo, focaremos no desenvolvimento de competências práticas para a modelagem de sistemas utilizando a <strong>Linguagem de Modelagem Unificada (UML)</strong>. Especificamente, trabalharemos com o <strong>Diagrama de Sequência</strong>.</p>
+        
+        <div class="concept-card">
+            <h3>Qual o objetivo?</h3>
+            <p>O Diagrama de Sequência é fundamental para visualizar como os objetos de um sistema interagem entre si ao longo do tempo. Ele não mostra apenas <em>quem</em> faz o quê, mas <em>quando</em> e em <em>qual ordem</em> as mensagens são trocas.</p>
+        </div>
+
+        <p>Para realizar a atividade proposta neste encontro, você precisará transformar um cenário textual em uma representação visual lógica. Este site serve como seu guia de estudo para revisar os conceitos necessários antes de colocar a mão na massa.</p>
+        
+        <p>Navegue pelas abas acima para revisar os elementos do diagrama, entender o método de extração de informações do texto e, finalmente, acessar o enunciado da sua atividade prática.</p>
+    </section>
+
+    <!-- Section 2: Conceitos -->
+    <section id="conceitos">
+        <h2>Elementos do Diagrama de Sequência</h2>
+        <p>Para modelar corretamente, você deve dominar a sintaxe básica da UML para este tipo de diagrama. Revise os componentes abaixo:</p>
+
+        <div class="concept-card">
+            <h3>1. Lifelines (Linhas de Vida)</h3>
+            <p>Representam os participantes da interação. Podem ser atores (usuários) ou objetos do sistema (Interface, Controlador, Entidades). São desenhadas como um retângulo no topo com uma linha tracejada vertical descendente.</p>
+            <p><em>Dica: Procure pelos substantivos no cenário para identificar possíveis lifelines.</em></p>
+        </div>
+
+        <div class="concept-card">
+            <h3>2. Messages (Mensagens)</h3>
+            <p>Representam a comunicação entre as lifelines. Indicam que uma operação está sendo solicitada.</p>
+            <ul>
+                <li><strong>Síncrona (Seta cheia):</strong> O emissor espera uma resposta antes de continuar.</li>
+                <li><strong>Assíncrona (Seta aberta):</strong> O emissor não espera resposta imediata.</li>
+                <li><strong>Retorno (Linha tracejada):</strong> Indica o retorno de controle ou dados.</li>
             </ul>
-            <div class="mobile-menu" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
         </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>Domine a Disciplina de Projeto de Software</h1>
-                <p>Material completo e interativo para o estudo de caso <strong>Nutrientes Delivery</strong>. Aprenda gestão de projetos, ciclos de vida e arquitetura de software de forma prática e aplicada.</p>
-                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                    <a href="#modulos" class="btn btn-primary">
-                        Começar Estudo →
-                    </a>
-                    <a href="#estudo-caso" class="btn btn-secondary">
-                        Ver Estudo de Caso
-                    </a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">3</span>
-                        <span class="stat-label">Módulos</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">15+</span>
-                        <span class="stat-label">Conceitos</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">100%</span>
-                        <span class="stat-label">Prático</span>
-                    </div>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="code-block">
-                    <span class="code-line"><span class="code-comment">// Arquitetura Nutrientes Delivery</span></span>
-                    <span class="code-line"><span class="code-keyword">class</span> <span class="code-function">SistemaNutrientes</span> {</span>
-                    <span class="code-line">  <span class="code-keyword">constructor</span>() {</span>
-                    <span class="code-line">    <span class="code-keyword">this</span>.modulos = [</span>
-                    <span class="code-line">      <span class="code-string">'Cliente'</span>, <span class="code-string">'Nutrição'</span>,</span>
-                    <span class="code-line">      <span class="code-string">'Produção'</span>, <span class="code-string">'Logística'</span></span>
-                    <span class="code-line">    ];</span>
-                    <span class="code-line">    <span class="code-keyword">this</span>.arquitetura = <span class="code-string">'Microservices'</span>;</span>
-                    <span class="code-line">  }</span>
-                    <span class="code-line">}</span>
-                </div>
-            </div>
+        <div class="concept-card">
+            <h3>3. Activation Bars (Barras de Ativação)</h3>
+            <p>Retângulos estreitos desenhados sobre a linha de vida. Indicam o período durante o qual o objeto está executando uma ação ou está ativo no processo.</p>
         </div>
+
+        <p class="highlight">Atenção: A ordem vertical das mensagens representa a ordem cronológica dos eventos. O tempo flui de cima para baixo.</p>
     </section>
 
-    <!-- Módulos -->
-    <section id="modulos">
-        <div class="section-header fade-in">
-            <span class="section-tag">Estrutura do Curso</span>
-            <h2 class="section-title">Três Módulos Essenciais</h2>
-            <p class="section-subtitle">Conteúdo organizado para guiar você desde a gestão inicial até as decisões arquiteturais do projeto.</p>
-        </div>
+    <!-- Section 3: Metodologia -->
+    <section id="metodo">
+        <h2>Como transformar Texto em Diagrama</h2>
+        <p>Modelar não é apenas desenhar, é interpretar. Siga este fluxo lógico ao ler o cenário da atividade:</p>
 
-        <div class="modules-grid">
-            <div class="module-card fade-in">
-                <div class="module-icon">📊</div>
-                <h3 class="module-title">Gestão de Projetos</h3>
-                <p class="module-description">Aprenda a utilizar a Matriz RACI, identificar conflitos e aplicar estratégias de mitigação em projetos reais de software.</p>
-                <ul class="module-topics">
-                    <li>Matriz de Responsabilidades (RACI)</li>
-                    <li>Análise de Conflitos</li>
-                    <li>Gestão de Stakeholders</li>
-                    <li>Mitigação de Riscos</li>
+        <ol>
+            <li><strong>Identifique o Gatilho:</strong> O que inicia o processo? (Ex: Um clique, um evento de tempo, uma chegada de dados).</li>
+            <li><strong>Mapeie os Participantes:</strong> Quem está envolvido? Geralmente seguimos o padrão de camadas:
+                <ul>
+                    <li><span class="uml-element">Boundary</span> (Interface com o usuário)</li>
+                    <li><span class="uml-element">Control</span> (Lógica de negócio/Coordenador)</li>
+                    <li><span class="uml-element">Entity</span> (Dados/Informação)</li>
                 </ul>
-            </div>
+            </li>
+            <li><strong>Extraia as Ações:</strong> Procure por verbos no texto. Cada ação significativa geralmente se traduz em uma mensagem entre objetos.</li>
+            <li><strong>Defina os Retornos:</strong> Para cada consulta ou solicitação, há uma resposta? O sistema precisa confirmar algo ao usuário?</li>
+        </ol>
 
-            <div class="module-card fade-in">
-                <div class="module-icon">🔄</div>
-                <h3 class="module-title">Ciclos de Vida</h3>
-                <p class="module-description">Entenda as diferenças entre abordagens Preditivas e Adaptativas, e como criar um modelo híbrido eficiente.</p>
-                <ul class="module-topics">
-                    <li>Modelo Cascata (Preditivo)</li>
-                    <li>Metodologias Ágeis (Adaptativo)</li>
-                    <li>Ciclo de Vida Híbrido</li>
-                    <li>Processo de Planejamento</li>
-                </ul>
-            </div>
-
-            <div class="module-card fade-in">
-                <div class="module-icon">🏗️</div>
-                <h3 class="module-title">Arquitetura de Software</h3>
-                <p class="module-description">Explore estilos arquitetônicos e padrões de projeto para criar sistemas escaláveis e manuteníveis.</p>
-                <ul class="module-topics">
-                    <li>Microsserviços vs Monolito</li>
-                    <li>Padrão MVC/MVVM</li>
-                    <li>Escalabilidade e Integração</li>
-                    <li>Separação de Responsabilidades</li>
-                </ul>
-            </div>
-        </div>
+        <h3>Exemplo Genérico (Não é a atividade)</h3>
+        <p>Imagine um cenário de <strong>Consulta de Saldo</strong>:</p>
+        <ul>
+            <li>Texto: "O cliente solicita o saldo na tela."</li>
+            <li>Modelagem: <span class="uml-element">Cliente</span> envia mensagem <span class="uml-element">solicitarSaldo()</span> para <span class="uml-element">Tela</span>.</li>
+            <li>Texto: "O sistema busca os dados no banco."</li>
+            <li>Modelagem: <span class="uml-element">Controlador</span> envia mensagem <span class="uml-element">buscarDados()</span> para <span class="uml-element">Banco</span>.</li>
+        </ul>
+        <p>Use esta lógica para decompor o cenário da sua atividade oficial.</p>
     </section>
 
-    <!-- Estudo de Caso -->
-    <section id="estudo-caso" style="background: #f1f5f9; margin: 0; max-width: 100%; padding: 5rem 2rem;">
-        <div style="max-width: 1400px; margin: 0 auto;">
-            <div class="section-header fade-in">
-                <span class="section-tag">Cenário Real</span>
-                <h2 class="section-title">Estudo de Caso: Nutrientes Delivery</h2>
-                <p class="section-subtitle">Analise o contexto completo da startup antes de desenvolver suas soluções.</p>
-            </div>
+    <!-- Section 4: Atividade -->
+    <section id="atividade">
+        <h2>Sua Missão Profissional</h2>
+        <p>Abaixo está o cenário que você deve modelar. Leia atentamente, identifique o fluxo e prepare seu Diagrama de Sequência. Lembre-se: este site oferece o embasamento teórico, mas a solução do diagrama é sua responsabilidade.</p>
 
-            <div class="content-section active fade-in">
-                <div class="content-header" onclick="toggleSection(this)">
-                    <div class="content-title">
-                        <span class="content-icon">🍎</span>
-                        <span>Sobre a Empresa</span>
-                    </div>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="content-body">
-                    <div class="content-inner">
-                        <p>A <strong>Nutrientes Delivery</strong> é uma startup recém-criada focada em fornecer refeições saudáveis personalizadas, com base nas restrições dietéticas e objetivos de saúde de cada cliente. Eles precisam desenvolver um <span class="tooltip" data-tip="Minimum Viable Product - Produto Mínimo Viável">MVP</span> (Produto Mínimo Viável) em 6 meses.</p>
-                        
-                        <div class="info-box">
-                            <h4>💡 O que é MVP?</h4>
-                            <p>É a versão mais simples de um produto que já entrega valor ao cliente e permite validar hipóteses de negócio com o mínimo de investimento.</p>
-                        </div>
-
-                        <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Requisitos do Sistema (4 Módulos):</h3>
-                        
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>1. Módulo do Cliente</h4>
-                                    <p>Cadastro, seleção de planos de refeições, agendamento de entrega e feedback.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>2. Módulo de Nutrição</h4>
-                                    <p>Base de dados de ingredientes, cálculo de valores nutricionais e criação de cardápios personalizados.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>3. Módulo de Produção/Cozinha</h4>
-                                    <p>Recebimento e visualização das ordens de produção diárias, gestão de estoque de insumos e controle de desperdício.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot"></div>
-                                <div class="timeline-content">
-                                    <h4>4. Módulo de Logística</h4>
-                                    <p>Roteirização das entregas e acompanhamento em tempo real para o cliente.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section fade-in">
-                <div class="content-header" onclick="toggleSection(this)">
-                    <div class="content-title">
-                        <span class="content-icon">👥</span>
-                        <span>Contexto do Projeto & Desafios</span>
-                    </div>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="content-body">
-                    <div class="content-inner">
-                        <div class="warning-box">
-                            <h4>⚠️ Desafios Identificados</h4>
-                            <p>Analise cuidadosamente cada ponto abaixo, pois serão fundamentais para suas decisões:</p>
-                        </div>
-
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Aspecto</th>
-                                    <th>Descrição</th>
-                                    <th>Impacto no Projeto</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Equipe</strong></td>
-                                    <td>Pequena (3 programadores juniores, 1 analista sênior, 1 product owner)</td>
-                                    <td>Limitação de recursos humanos, necessidade de eficiência</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Prazo</strong></td>
-                                    <td>Apertado (6 meses para o MVP)</td>
-                                    <td>Pressão por entregas rápidas, risco de qualidade</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Stakeholder</strong></td>
-                                    <td>CEO insiste em mudanças frequentes nos requisitos, especialmente no Módulo do Cliente</td>
-                                    <td>Volatilidade, necessidade de flexibilidade</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Integração</strong></td>
-                                    <td>Módulo de Produção requer integração perfeita com sensores de temperatura/umidade</td>
-                                    <td>Complexidade técnica, precisão necessária</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Conflito</strong></td>
-                                    <td>Analista Sênior prefere planejamento Preditivo detalhado vs. Product Owner exige agilidade e entregas semanais</td>
-                                    <td>Conflito metodológico a ser resolvido</td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="success-box">
-                            <h4>✅ Oportunidades</h4>
-                            <p>O Módulo de Produção é considerado o <strong>mais estável</strong>, o que permite planejamento mais detalhado, enquanto o Módulo do Cliente oferece campo para inovação e adaptação rápida.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="scenario-box">
+            <h3>Cenário: Sistema de Controle de Cinema</h3>
+            <p>Considere um sistema de controle de cinema no qual um funcionário é responsável por realizar a venda de ingressos aos clientes.</p>
+            <ol>
+                <li>O processo inicia quando o <strong>funcionário</strong> seleciona a opção de venda de ingressos na <strong>interface</strong> do sistema.</li>
+                <li>A interface solicita ao <strong>controlador</strong> do sistema que execute a operação de venda.</li>
+                <li>O controlador deve <strong>consultar todas as sessões disponíveis</strong> para exibição, obtendo informações sobre a sala onde cada sessão ocorrerá e o filme que será apresentado.</li>
+                <li>Após reunir as informações, o sistema retorna à interface uma <strong>lista contendo todas as sessões disponíveis</strong> para escolha.</li>
+                <li>O funcionário seleciona, na interface, a sessão desejada e <strong>confirma a operação</strong>.</li>
+                <li>Ao receber a confirmação, o controlador solicita que o sistema <strong>gere o ingresso correspondente</strong>, associando a escolha do funcionário à sessão selecionada.</li>
+                <li>O sistema cria o ingresso com os dados necessários e retorna essa informação ao controlador.</li>
+                <li>O controlador solicita à interface que <strong>exiba a confirmação</strong> da emissão do ingresso.</li>
+            </ol>
         </div>
+
+        <h3>Entregáveis Esperados</h3>
+        <ul>
+            <li>Diagrama de Sequência completo.</li>
+            <li>Lifelines representando corretamente os objetos (Interface, Controlador, Entidades de Sessão/Ingresso, etc.).</li>
+            <li>Mensagens ordenadas cronologicamente conforme o fluxo descrito.</li>
+            <li>Coerência com o Diagrama de Classes desenvolvido no encontro anterior.</li>
+        </ul>
+
+        <div class="diagram-placeholder">
+            [Espaço reservado para seu esboço ou ferramenta de modelagem]
+        </div>
+        
+        <p><em>Dica: Utilize ferramentas como draw.io, PlantUML ou Lucidchart para criar seu diagrama digitalmente.</em></p>
     </section>
 
-    <!-- Módulo 1: Gestão -->
-    <section id="gestao">
-        <div class="section-header fade-in">
-            <span class="section-tag">Módulo 1</span>
-            <h2 class="section-title">Gestão de Projetos e Matriz RACI</h2>
-        </div>
-
-        <div class="content-section active fade-in">
-            <div class="content-header" onclick="toggleSection(this)">
-                <div class="content-title">
-                    <span class="content-icon">📋</span>
-                    <span>O que é a Matriz RACI?</span>
-                </div>
-                <span class="toggle-icon">▼</span>
-            </div>
-            <div class="content-body">
-                <div class="content-inner">
-                    <p>A <strong>Matriz RACI</strong> é uma ferramenta de gestão que define papéis e responsabilidades para cada tarefa do projeto. O nome vem das <span class="highlight">4 responsabilidades possíveis</span>:</p>
-
-                    <div class="comparison-grid">
-                        <div class="comparison-card">
-                            <h4>🎯 R - Responsible (Responsável)</h4>
-                            <p><strong>Quem executa a tarefa.</strong></p>
-                            <ul>
-                                <li>Realiza o trabalho hands-on</li>
-                                <li>Pode haver mais de um R por tarefa</li>
-                                <li>Ex: Programador escrevendo código</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-card">
-                            <h4>✅ A - Accountable (Aprovador)</h4>
-                            <p><strong>Quem toma a decisão final.</strong></p>
-                            <ul>
-                                <li>Responde pelo resultado</li>
-                                <li>Apenas UM A por tarefa</li>
-                                <li>Ex: Product Owner aprovando entrega</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-card">
-                            <h4>💬 C - Consulted (Consultado)</h4>
-                            <p><strong>Quem oferece opinião antes da decisão.</strong></p>
-                            <ul>
-                                <li>Fornece expertise e conselho</li>
-                                <li>Diálogo bidirecional</li>
-                                <li>Ex: Analista Sênior orientando arquitetura</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-card">
-                            <h4>📢 I - Informed (Informado)</h4>
-                            <p><strong>Quem é avisado sobre o resultado.</strong></p>
-                            <ul>
-                                <li>Recebe atualizações</li>
-                                <li>Comunicação unidirecional</li>
-                                <li>Ex: CEO recebendo relatórios</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="warning-box">
-                        <h4>⚠️ Regra de Ouro</h4>
-                        <p>Cada tarefa deve ter <strong>apenas UM "A"</strong> (Aprovador), mas pode ter vários "R" (Responsáveis). Ter mais de um A gera confusão sobre quem decide.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-section fade-in">
-            <div class="content-header" onclick="toggleSection(this)">
-                <div class="content-title">
-                    <span class="content-icon">🔍</span>
-                    <span>Aplicando na Nutrientes Delivery</span>
-                </div>
-                <span class="toggle-icon">▼</span>
-            </div>
-            <div class="content-body">
-                <div class="content-inner">
-                    <p><strong>Equipe disponível:</strong> 3 Programadores Juniores, 1 Analista Sênior, 1 Product Owner (PO), 1 CEO.</p>
-                    
-                    <h3 style="margin: 2rem 0 1rem;">Tarefas Críticas:</h3>
-                    
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Tarefa / Papel</th>
-                                <th>Product Owner</th>
-                                <th>Analista Sênior</th>
-                                <th>Programadores</th>
-                                <th>CEO</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background: #fef3c7;">
-                                <td><strong>Definição de Requisitos do Cliente</strong></td>
-                                <td><strong>A/R</strong><br>Decide e participa</td>
-                                <td>C<br>Consultor técnico</td>
-                                <td>I<br>São informados</td>
-                                <td>C<br>Valida estratégia</td>
-                            </tr>
-                            <tr>
-                                <td><strong>Desenvolvimento do Módulo de Nutrição</strong></td>
-                                <td>C<br>Valida regras</td>
-                                <td>A<br>Aprova código</td>
-                                <td>R<br>Programam</td>
-                                <td>I<br>Acompanha</td>
-                            </tr>
-                            <tr style="background: #fef3c7;">
-                                <td><strong>Decisão de Arquitetura</strong></td>
-                                <td>C<br>Alinha negócio</td>
-                                <td>A/R<br>Decide e executa</td>
-                                <td>C<br>Dão viabilidade</td>
-                                <td>I<br>É informado</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <div class="info-box">
-                        <h4>💡 Lógica das Atribuições:</h4>
-                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                            <li><strong>Definição de Requisitos:</strong> PO é o dono do produto, então deve aprovar (A) e pode participar da definição (R). Analista é consultado técnico.</li>
-                            <li><strong>Desenvolvimento:</strong> Programadores executam (R), Analista Sênior garante qualidade técnica (A).</li>
-                            <li><strong>Arquitetura:</strong> Decisão técnica do Analista Sênior (A), mas PO consultado para alinhar com capacidade de entrega.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-section fade-in">
-            <div class="content-header" onclick="toggleSection(this)">
-                <div class="content-title">
-                    <span class="content-icon">⚡</span>
-                    <span>Análise de Conflitos</span>
-                </div>
-                <span class="toggle-icon">▼</span>
-            </div>
-            <div class="content-body">
-                <div class="content-inner">
-                    <h3>Identificando o Conflito Principal</h3>
-                    <p>No caso Nutrientes Delivery, o conflito é <span class="highlight">metodológico</span>:</p>
-
-                    <div class="diagram" style="background: #fef2f2; border-color: #fecaca;">
-                        <div class="diagram-box" style="background: #3b82f6; color: white;">Analista Sênior</div>
-                        <span style="font-size: 2rem;">⚔️</span>
-                        <div class="diagram-box" style="background: #f59e0b; color: white;">Product Owner / CEO</div>
-                        <br><br>
-                        <div style="font-size: 1.2rem; font-weight: 700; color: #dc2626;">
-                            Preditivo (Planejamento detalhado) vs. Adaptativo (Agilidade)
-                        </div>
-                    </div>
-
-                    <h3 style="margin-top: 2rem;">Estratégias de Mitigação:</h3>
-                    
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot" style="border-color: var(--success);"></div>
-                            <div class="timeline-content" style="border-color: var(--success);">
-                                <h4>1. Adoção de Ciclo de Vida Híbrido</h4>
-                                <p>Combinar ambas as abordagens: partes do sistema usam Preditivo, outras usam Ágil. <em>(Esta conecta com o Módulo 2!)</em></p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot" style="border-color: var(--success);"></div>
-                            <div class="timeline-content" style="border-color: var(--success);">
-                                <h4>2. Comitê de Mudanças</h4>
-                                <p>Criar um grupo com Analista e PO para avaliar mudanças, garantindo que requisitos técnicos estáveis sejam respeitados.</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot" style="border-color: var(--success);"></div>
-                            <div class="timeline-content" style="border-color: var(--success);">
-                                <h4>3. Mediação e Alinhamento</h4>
-                                <p>Reuniões semanais de alinhamento onde ambos apresentam argumentos e decidem juntos o ritmo do projeto.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Módulo 2: Ciclos de Vida -->
-    <section id="ciclos" style="background: #f1f5f9; margin: 0; max-width: 100%; padding: 5rem 2rem;">
-        <div style="max-width: 1400px; margin: 0 auto;">
-            <div class="section-header fade-in">
-                <span class="section-tag" style="background: var(--gradient-2);">Módulo 2</span>
-                <h2 class="section-title">Ciclos de Vida e Processos de Software</h2>
-            </div>
-
-            <div class="content-section active fade-in">
-                <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-2);">
-                    <div class="content-title">
-                        <span class="content-icon">🌊</span>
-                        <span>Modelo Preditivo (Cascata)</span>
-                    </div>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="content-body">
-                    <div class="content-inner">
-                        <p>O <strong>Modelo em Cascata (Waterfall)</strong> é sequencial e linear. Cada fase deve ser concluída antes da próxima começar.</p>
-
-                        <div class="diagram">
-                            <div class="diagram-box" style="background: #dbeafe;">Requisitos</div>
-                            <span class="diagram-arrow">→</span>
-                            <div class="diagram-box" style="background: #dbeafe;">Projeto</div>
-                            <span class="diagram-arrow">→</span>
-                            <div class="diagram-box" style="background: #dbeafe;">Implementação</div>
-                            <span class="diagram-arrow">→</span>
-                            <div class="diagram-box" style="background: #dbeafe;">Testes</div>
-                            <span class="diagram-arrow">→</span>
-                            <div class="diagram-box" style="background: #dbeafe;">Implantação</div>
-                        </div>
-
-                        <div class="comparison-grid">
-                            <div class="comparison-card" style="border-color: var(--success);">
-                                <h4 style="color: var(--success);">✅ Vantagens</h4>
-                                <ul>
-                                    <li>Documentação extensiva e clara</li>
-                                    <li>Fácil de entender e gerenciar</li>
-                                    <li>Requisitos definidos desde o início</li>
-                                    <li>Ideal para sistemas críticos</li>
-                                </ul>
-                            </div>
-                            <div class="comparison-card" style="border-color: var(--danger);">
-                                <h4 style="color: var(--danger);">❌ Desvantagens</h4>
-                                <ul>
-                                    <li>Mudanças são difíceis e caras</li>
-                                    <li>Feedback tardio do cliente</li>
-                                    <li>Risco de não atender necessidades reais</li>
-                                    <li>Entrega apenas no final</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="info-box">
-                            <h4>🎯 Quando usar na Nutrientes?</h4>
-                            <p>Perfeito para o <strong>Módulo de Produção</strong>, pois requisitos são estáveis e há integração com hardware (sensores) que precisa de planejamento detalhado desde o início.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section fade-in">
-                <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-2);">
-                    <div class="content-title">
-                        <span class="content-icon">🔄</span>
-                        <span>Modelo Adaptativo (Ágil/Scrum)</span>
-                    </div>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="content-body">
-                    <div class="content-inner">
-                        <p>O <strong>Modelo Ágil</strong> usa desenvolvimento iterativo e incremental, com entregas frequentes.</p>
-
-                        <div class="diagram">
-                            <div style="display: inline-block; margin: 0.5rem;">
-                                <div class="diagram-box" style="background: #fef3c7; display: block; margin-bottom: 0.5rem;">Sprint 1</div>
-                                <div style="font-size: 0.8rem;">Planejar → Desenvolver → Testar → Entregar</div>
-                            </div>
-                            <div style="display: inline-block; margin: 0.5rem;">
-                                <div class="diagram-box" style="background: #fef3c7; display: block; margin-bottom: 0.5rem;">Sprint 2</div>
-                                <div style="font-size: 0.8rem;">Planejar → Desenvolver → Testar → Entregar</div>
-                            </div>
-                            <div style="display: inline-block; margin: 0.5rem;">
-                                <div class="diagram-box" style="background: #fef3c7; display: block; margin-bottom: 0.5rem;">Sprint 3</div>
-                                <div style="font-size: 0.8rem;">Planejar → Desenvolver → Testar → Entregar</div>
-                            </div>
-                        </div>
-
-                        <div class="comparison-grid">
-                            <div class="comparison-card" style="border-color: var(--success);">
-                                <h4 style="color: var(--success);">✅ Vantagens</h4>
-                                <ul>
-                                    <li>Flexível a mudanças</li>
-                                    <li>Feedback rápido do cliente</li>
-                                    <li>Entregas frequentes de valor</li>
-                                    <li>Reduz risco de falha total</li>
-                                </ul>
-                            </div>
-                            <div class="comparison-card" style="border-color: var(--danger);">
-                                <h4 style="color: var(--danger);">❌ Desvantagens</h4>
-                                <ul>
-                                    <li>Menos documentação formal</li>
-                                    <li>Pode perder visão do todo</li>
-                                    <li>Requer cliente disponível</li>
-                                    <li>Desgaste da equipe com ritmo acelerado</li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="info-box">
-                            <h4>🎯 Quando usar na Nutrientes?</h4>
-                            <p>Ideal para o <strong>Módulo do Cliente</strong>, pois o CEO exige mudanças frequentes para melhorar a experiência de compra, e o feedback rápido é essencial.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="content-section fade-in">
-                <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-2);">
-                    <div class="content-title">
-                        <span class="content-icon">⚖️</span>
-                        <span>Ciclo de Vida Híbrido (A Solução!)</span>
-                    </div>
-                    <span class="toggle-icon">▼</span>
-                </div>
-                <div class="content-body">
-                    <div class="content-inner">
-                        <p>O <strong>Ciclo de Vida Híbrido</strong> combina o melhor dos dois mundos, usando abordagens diferentes para partes distintas do sistema.</p>
-
-                        <div class="diagram" style="background: linear-gradient(135deg, #dbeafe 50%, #fef3c7 50%); padding: 3rem;">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; text-align: left;">
-                                <div>
-                                    <h3 style="color: #1e40af; margin-bottom: 1rem;">🖥️ Módulo de Produção</h3>
-                                    <ul style="list-style: none;">
-                                        <li>✓ Abordagem: <strong>PREDITIVA</strong></li>
-                                        <li>✓ Requisitos estáveis</li>
-                                        <li>✓ Integração com sensores</li>
-                                        <li>✓ Necessita baseline sólida</li>
-                                        <li>✓ Planejamento detalhado inicial</li>
-                                    </ul>
-                                </div>
-                                <div>
-                                    <h3 style="color: #92400e; margin-bottom: 1rem;">📱 Módulo do Cliente</h3>
-                                    <ul style="list-style: none;">
-                                        <li>✓ Abordagem: <strong>ADAPTATIVA</strong></li>
-                                        <li>✓ Mudanças frequentes do CEO</li>
-                                        <li>✓ UX/UI em evolução</li>
-                                        <li>✓ Sprints de 1-2 semanas</li>
-                                        <li>✓ Entregas incrementais</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3 style="margin-top: 2rem;">Processo de Planejamento (3 Atividades Essenciais):</h3>
-                        
-                        <div class="timeline">
-                            <div class="timeline-item">
-                                <div class="timeline-dot" style="border-color: var(--secondary);"></div>
-                                <div class="timeline-content" style="border-color: var(--secondary);">
-                                    <h4>1. Detalhamento da Baseline do Módulo Preditivo</h4>
-                                    <p>Definir <strong>todos</strong> os requisitos do Módulo de Produção antes de começar. Documentar integrações com sensores de temperatura/umidade. Estabelecer arquitetura técnica estável.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot" style="border-color: var(--secondary);"></div>
-                                <div class="timeline-content" style="border-color: var(--secondary);">
-                                    <h4>2. Definição do Timebox e Sprints (Módulo Adaptativo)</h4>
-                                    <p>Estabelecer duração dos sprints (recomendado 1-2 semanas devido à pressão). Definir o que entra em cada sprint do Módulo do Cliente. Priorizar funcionalidades com o CEO.</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-dot" style="border-color: var(--secondary);"></div>
-                                <div class="timeline-content" style="border-color: var(--secondary);">
-                                    <h4>3. Plano de Comunicação e Gestão de Stakeholders</h4>
-                                    <p>Reuniões semanais com CEO para alinhar expectativas. Relatórios de progresso para evitar surpresas. Canal direto para comunicar mudanças de requisitos de forma controlada.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Módulo 3: Arquitetura -->
-    <section id="arquitetura">
-        <div class="section-header fade-in">
-            <span class="section-tag" style="background: var(--gradient-3);">Módulo 3</span>
-            <h2 class="section-title">Arquitetura de Software</h2>
-        </div>
-
-        <div class="content-section active fade-in">
-            <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-3);">
-                <div class="content-title">
-                    <span class="content-icon">🏗️</span>
-                    <span>Estilos Arquitetônicos</span>
-                </div>
-                <span class="toggle-icon">▼</span>
-            </div>
-            <div class="content-body">
-                <div class="content-inner">
-                    <p>A <strong>Arquitetura de Software</strong> é a estrutura fundamental do sistema, definindo componentes, relações e princípios de design.</p>
-
-                    <h3 style="margin: 2rem 0 1rem;">Opções de Estilo:</h3>
-
-                    <div class="comparison-grid">
-                        <div class="comparison-card">
-                            <h4>🧱 Monolítico</h4>
-                            <p>Aplicação única onde todos os módulos estão interligados.</p>
-                            <div class="code-example" style="margin: 1rem 0;">
-┌─────────────────────────────────────┐
-│         APLICAÇÃO ÚNICA             │
-│  ┌─────────┐ ┌─────────┐ ┌────────┐ │
-│  │ Cliente │ │ Nutrição│ │Produção│ │
-│  │ Módulo  │ │ Módulo  │ │ Módulo │ │
-│  └─────────┘ └─────────┘ └────────┘ │
-│           [Banco Único]             │
-└─────────────────────────────────────┘
-                            </div>
-                            <p><strong>Problema:</strong> Mudanças no Módulo do Cliente podem quebrar o Módulo de Produção. Não escala bem.</p>
-                        </div>
-
-                        <div class="comparison-card" style="border-color: var(--success);">
-                            <h4 style="color: var(--success);">🎯 Microsserviços (Recomendado)</h4>
-                            <p>Cada módulo é um serviço independente com banco próprio.</p>
-                            <div class="code-example" style="margin: 1rem 0;">
-┌──────────┐  ┌──────────┐  
-│ Serviço  │  │ Serviço  │  
-│ Cliente  │  │ Nutrição │  
-└────┬─────┘  └────┬─────┘  
-     │             │         
-     └──────┬──────┘        
-            │ API Gateway    
-┌───────────┼───────────┐   
-│           │           │   
-┌──────┐ ┌──────┐ ┌──────┐ 
-│Produção│ │Logística│ │Bancos│ 
-└──────┘ └──────┘ └──────┘ 
-                            </div>
-                            <p><strong>Vantagem:</strong> Escalabilidade independente e isolamento de falhas.</p>
-                        </div>
-                    </div>
-
-                    <div class="success-box">
-                        <h4>✅ Por que Microsserviços na Nutrientes?</h4>
-                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                            <li><strong>Escalabilidade:</strong> Startup espera crescer rápido. Pode escalar só o módulo sob carga (ex: mais instâncias do Cliente durante promoções).</li>
-                            <li><strong>Isolamento:</strong> Módulo de Produção (estável) protegido das mudanças constantes do Módulo do Cliente.</li>
-                            <li><strong>Integração:</strong> Facilita conexão com sensores (Produção), serviços de roteirização (Logística) e gateways de pagamento (Cliente).</li>
-                            <li><strong>Time-to-market:</strong> Equipes pequenas trabalham em paralelo em serviços diferentes.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-section fade-in">
-            <div class="content-header" onclick="toggleSection(this)" style="background: var(--gradient-3);">
-                <div class="content-title">
-                    <span class="content-icon">🎨</span>
-                    <span>Padrão Arquitetônico: MVC</span>
-                </div>
-                <span class="toggle-icon">▼</span>
-            </div>
-            <div class="content-body">
-                <div class="content-inner">
-                    <p>O padrão <strong>MVC (Model-View-Controller)</strong> separa a aplicação em três camadas distintas:</p>
-
-                    <div class="diagram">
-                        <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
-                            <div class="diagram-box" style="background: #fbbf24; width: 200px;">👤 USUÁRIO</div>
-                            <span style="font-size: 2rem;">↓ interage</span>
-                            <div class="diagram-box" style="background: #60a5fa; width: 250px;">
-                                <strong>VIEW (Visão)</strong><br>
-                                <small>Interface gráfica, HTML/CSS, formulários</small>
-                            </div>
-                            <span style="font-size: 2rem;">↓ atualiza</span>
-                            <div class="diagram-box" style="background: #a78bfa; width: 250px;">
-                                <strong>CONTROLLER (Controlador)</strong><br>
-                                <small>Processa requisições, chama Model</small>
-                            </div>
-                            <span style="font-size: 2rem;">↓ manipula</span>
-                            <div class="diagram-box" style="background: #34d399; width: 250px;">
-                                <strong>MODEL (Modelo)</strong><br>
-                                <small>Regras de negócio, dados, validações</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 style="margin-top: 2rem;">Benefícios do MVC:</h3>
-                    <div class="comparison-grid">
-                        <div class="comparison-card">
-                            <h4>🎯 Separação de Responsabilidades</h4>
-                            <p>Cada camada tem uma função clara e única.</p>
-                        </div>
-                        <div class="comparison-card">
-                            <h4>🔧 Manutenibilidade</h4>
-                            <p>Mudanças na interface (View) não afetam a lógica de negócio (Model).</p>
-                        </div>
-                        <div class="comparison-card">
-                            <h4>🧪 Testabilidade</h4>
-                            <p>Pode testar o Model sem precisar da interface.</p>
-                        </div>
-                        <div class="comparison-card">
-                            <h4>🔄 Reusabilidade</h4>
-                            <p>Mesmo Model pode ter Views diferentes (web, mobile).</p>
-                        </div>
-                    </div>
-
-                    <div class="info-box" style="background: #fef3c7; border-color: #f59e0b;">
-                        <h4>🎯 Aplicação no Módulo do Cliente</h4>
-                        <p>O CEO insiste em mudanças frequentes na "experiência de compra". Com MVC:</p>
-                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
-                            <li><strong>View:</strong> Pode mudar layout, cores, posição de botões <strong>sem tocar na lógica</strong></li>
-                            <li><strong>Controller:</strong> Adapta novas interações sem alterar regras de negócio</li>
-                            <li><strong>Model:</strong> Permanece estável (cálculo de pedidos, preços, restrições nutricionais)</li>
-                        </ul>
-                        <p style="margin-top: 1rem;"><strong>Exemplo prático:</strong> CEO quer mudar o carrinho de compras de lado direito para esquerdo. No MVC, altera-se apenas a View. Sem MVC, teria que mudar código em vários lugares, correndo risco de quebrar o cálculo de preços.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Roteiro Prático -->
-    <section id="roteiro" style="background: #f1f5f9; margin: 0; max-width: 100%; padding: 5rem 2rem;">
-        <div style="max-width: 1400px; margin: 0 auto;">
-            <div class="section-header fade-in">
-                <span class="section-tag">Guia de Estudo</span>
-                <h2 class="section-title">Roteiro Prático para Resolução</h2>
-                <p class="section-subtitle">Siga este passo a passo para desenvolver seu relatório técnico.</p>
-            </div>
-
-            <div class="modules-grid">
-                <div class="module-card fade-in">
-                    <div class="module-icon" style="background: var(--gradient-1);">1️⃣</div>
-                    <h3 class="module-title">Etapa 1: Gestão</h3>
-                    <div class="module-description">
-                        <ol style="padding-left: 1.2rem; line-height: 2;">
-                            <li>Monte a tabela RACI com as 3 tarefas críticas</li>
-                            <li>Verifique: há apenas um "A" por tarefa?</li>
-                            <li>Identifique o conflito: Metodológico (Preditivo vs Adaptativo)</li>
-                            <li>Proponha mitigação: Ciclo híbrido ou Comitê de Mudanças</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="module-card fade-in">
-                    <div class="module-icon" style="background: var(--gradient-2);">2️⃣</div>
-                    <h3 class="module-title">Etapa 2: Ciclo de Vida</h3>
-                    <div class="module-description">
-                        <ol style="padding-left: 1.2rem; line-height: 2;">
-                            <li>Proponha separação: Produção (Preditivo) vs Cliente (Ágil)</li>
-                            <li>Justifique: sensores estáveis vs mudanças do CEO</li>
-                            <li>Defina 3 atividades de planejamento focadas em riscos</li>
-                            <li>Conecte com a mitigação do conflito da Etapa 1</li>
-                        </ol>
-                    </div>
-                </div>
-
-                <div class="module-card fade-in">
-                    <div class="module-icon" style="background: var(--gradient-3);">3️⃣</div>
-                    <h3 class="module-title">Etapa 3: Arquitetura</h3>
-                    <div class="module-description">
-                        <ol style="padding-left: 1.2rem; line-height: 2;">
-                            <li>Escolha Microsserviços (escalabilidade + integração)</li>
-                            <li>Justifique com argumentos técnicos do caso</li>
-                            <li>Para o Módulo Cliente, escolha MVC ou MVVM</li>
-                            <li>Enfatize: separação permite mudanças do CEO sem risco</li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Checklist -->
+    <!-- Section 5: Checklist -->
     <section id="checklist">
-        <div class="section-header fade-in">
-            <span class="section-tag">Validação</span>
-            <h2 class="section-title">Checklist de Revisão</h2>
-            <p class="section-subtitle">Antes de entregar seu relatório, verifique todos os itens:</p>
-        </div>
+        <h2>Checklist de Validação</h2>
+        <p>Antes de entregar sua atividade, passe pelo seu diagrama e marque os itens abaixo para garantir a qualidade da modelagem:</p>
 
-        <div style="max-width: 800px; margin: 0 auto;">
-            <ul class="checklist fade-in" id="checklistItems">
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>A matriz RACI tem apenas um "A" por tarefa?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>Os papéis fazem sentido com as responsabilidades reais?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>O conflito identificado é o metodológico (Preditivo vs. Adaptativo)?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>A solução de mitigação propõe algo concreto?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>O ciclo de vida híbrido justifica Preditivo para Produção e Ágil para Cliente?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>As 3 atividades de planejamento focam em riscos e comunicação?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>O estilo arquitetônico considera escalabilidade e integração?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>O padrão MVC/MVVM justifica a separação entre interface e lógica?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>Todas as respostas têm fundamentação teórica?</span>
-                </li>
-                <li onclick="toggleCheck(this)">
-                    <div class="check-box"></div>
-                    <span>O conteúdo está relacionado ao contexto específico da Nutrientes Delivery?</span>
-                </li>
-            </ul>
-
-            <div class="success-box fade-in" style="margin-top: 3rem; text-align: center;">
-                <h4>🎉 Progresso</h4>
-                <p style="font-size: 2rem; font-weight: 800; color: var(--success); margin-top: 0.5rem;">
-                    <span id="progress">0</span>/10
-                </p>
-                <p>Itens verificados</p>
+        <div id="quiz-container">
+            <div class="checklist-item">
+                <input type="checkbox" id="check1">
+                <label for="check1">Todas as Lifelines possuem nomes claros e relevantes ao cenário?</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check2">
+                <label for="check2">O fluxo começa com a seleção do funcionário na interface?</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check3">
+                <label for="check3">Existe uma mensagem de consulta para obter as sessões disponíveis?</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check4">
+                <label for="check4">O retorno da lista de sessões para a interface está representado?</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check5">
+                <label for="check5">A geração do ingresso ocorre APÓS a confirmação da sessão?</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check6">
+                <label for="check6">Há uma mensagem final exibindo a confirmação ao funcionário?</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="check7">
+                <label for="check7">As barras de ativação refletem o tempo de processamento de cada objeto?</label>
             </div>
         </div>
+
+        <button class="btn-action" onclick="validateChecklist()">Validar Meu Estudo</button>
+        <p id="validation-result" style="margin-top: 1rem; font-weight: bold;"></p>
     </section>
+</main>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Projeto de Software</h3>
-                <p>Material desenvolvido para auxiliar alunos do 1º ano de Desenvolvimento de Sistemas na compreensão dos conceitos fundamentais de gestão e arquitetura de software.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Links Rápidos</h3>
-                <p><a href="#modulos">Módulos</a></p>
-                <p><a href="#estudo-caso">Estudo de Caso</a></p>
-                <p><a href="#roteiro">Roteiro</a></p>
-                <p><a href="#checklist">Checklist</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>Conceitos-Chave</h3>
-                <p><a href="#gestao">Matriz RACI</a></p>
-                <p><a href="#ciclos">Ciclo Híbrido</a></p>
-                <p><a href="#arquitetura">Microsserviços</a></p>
-                <p><a href="#arquitetura">Padrão MVC</a></p>
-            </div>
-            <div class="footer-section">
-                <h3>Dica Final</h3>
-                <p>"Conecte as etapas: o conflito da Etapa 1 leva ao híbrido da Etapa 2, que justifica a arquitetura da Etapa 3."</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 - Material de Estudo Projeto de Software | Nutrientes Delivery Case Study</p>
-        </div>
-    </footer>
+<footer>
+    <p>&copy; 2023 - Disciplina de Análise Orientado a Objetos</p>
+    <p>Unidade 3: Modelagem Complementar de Análise com UML</p>
+</footer>
 
-    <script>
-        // Toggle sections
-        function toggleSection(header) {
-            const section = header.parentElement;
-            section.classList.toggle('active');
-        }
-
-        // Checklist
-        function toggleCheck(item) {
-            const checkbox = item.querySelector('.check-box');
-            checkbox.classList.toggle('checked');
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const checked = document.querySelectorAll('.check-box.checked').length;
-            document.getElementById('progress').textContent = checked;
-        }
-
-        // Progress bar
-        window.onscroll = function() {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById("progressBar").style.width = scrolled + "%";
-            
-            // Navbar scroll effect
-            const navbar = document.getElementById('navbar');
-            if (winScroll > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        };
-
-        // Fade in animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
+<script>
+    // Navigation Logic
+    function showSection(sectionId) {
+        // Hide all sections
+        const sections = document.querySelectorAll('main section');
+        sections.forEach(section => {
+            section.classList.remove('active');
         });
 
-        // Mobile menu
-        function toggleMenu() {
-            const navLinks = document.querySelector('.nav-links');
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        // Remove active class from buttons
+        const buttons = document.querySelectorAll('.nav-btn');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Show selected section
+        document.getElementById(sectionId).classList.add('active');
+
+        // Activate corresponding button
+        const activeBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
+        if (activeBtn) {
+            activeBtn.classList.add('active');
         }
-    </script>
+
+        // Scroll to top
+        window.scrollTo(0, 0);
+    }
+
+    // Checklist Validation Logic
+    function validateChecklist() {
+        const checkboxes = document.querySelectorAll('#quiz-container input[type="checkbox"]');
+        let checkedCount = 0;
+        
+        checkboxes.forEach(box => {
+            if (box.checked) {
+                checkedCount++;
+            }
+        });
+
+        const resultText = document.getElementById('validation-result');
+        const total = checkboxes.length;
+
+        if (checkedCount === total) {
+            resultText.style.color = 'green';
+            resultText.textContent = "Excelente! Você revisou todos os pontos críticos. Está pronto para modelar.";
+        } else if (checkedCount >= total / 2) {
+            resultText.style.color = '#f39c12';
+            resultText.textContent = `Bom começo! Você verificou ${checkedCount} de ${total} pontos. Revise os restantes para garantir a qualidade.`;
+        } else {
+            resultText.style.color = '#c0392b';
+            resultText.textContent = "Atenção! Revise mais itens do checklist antes de finalizar seu diagrama.";
+        }
+    }
+</script>
+
 </body>
 </html>
