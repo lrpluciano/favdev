@@ -1,448 +1,490 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oficina de Modelagem UML - Diagrama de Sequência</title>
+    <title>AVA Avançado | Sistemas de Arquivos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --light-bg: #ecf0f1;
-            --text-color: #333;
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --success: #059669;
+            --warning: #d97706;
+            --bg-body: #f1f5f9;
             --white: #ffffff;
+            --text-main: #334155;
+            --text-light: #64748b;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg-body); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--light-bg);
-        }
-
-        header {
-            background-color: var(--primary-color);
-            color: var(--white);
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: var(--primary);
+            color: #cbd5e1;
+            height: 100vh;
+            position: fixed;
             padding: 2rem 1rem;
-            text-align: center;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        nav {
-            background-color: var(--secondary-color);
-            padding: 1rem;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        nav button {
-            background: none;
-            border: 2px solid transparent;
-            color: var(--white);
-            padding: 0.5rem 1rem;
-            margin: 0 0.5rem;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border-radius: 4px;
-        }
-
-        nav button:hover, nav button.active {
-            background-color: var(--white);
-            color: var(--secondary-color);
-            font-weight: bold;
-        }
-
-        main {
-            max-width: 1000px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-            background: var(--white);
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            min-height: 80vh;
-        }
-
-        section {
-            padding: 2rem;
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        h2 {
-            color: var(--primary-color);
-            border-bottom: 3px solid var(--secondary-color);
-            padding-bottom: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        h3 {
-            color: var(--secondary-color);
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        p {
-            margin-bottom: 1rem;
-        }
-
-        ul {
-            margin-left: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-        }
-
-        .concept-card {
-            background-color: #f9f9f9;
-            border-left: 5px solid var(--secondary-color);
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 4px;
-        }
-
-        .scenario-box {
-            background-color: #fff8e1;
-            border: 1px solid #ffe082;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-
-        .scenario-box h3 {
-            color: #f57f17;
-            margin-top: 0;
-        }
-
-        .uml-element {
-            display: inline-block;
-            background: var(--primary-color);
-            color: var(--white);
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-
-        .checklist-item {
             display: flex;
-            align-items: center;
-            margin-bottom: 0.8rem;
-            padding: 0.5rem;
-            background: #f4f4f4;
-            border-radius: 4px;
+            flex-direction: column;
+            overflow-y: auto;
+            z-index: 10;
         }
-
-        .checklist-item input {
-            margin-right: 1rem;
-            transform: scale(1.2);
+        .sidebar h2 { color: var(--white); font-size: 1.1rem; margin-bottom: 2rem; padding: 0 1rem; border-left: 4px solid var(--accent); }
+        .nav-item {
+            padding: 14px 16px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: 0.3s;
+            display: flex; align-items: center; font-weight: 500; font-size: 0.95rem;
         }
+        .nav-item i { margin-right: 12px; width: 20px; text-align: center; }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--white); }
+        .nav-item.active { background: var(--accent); color: var(--white); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
 
-        .btn-action {
-            display: inline-block;
-            background-color: var(--accent-color);
-            color: var(--white);
-            padding: 0.8rem 1.5rem;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 1rem;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
+        /* Main Content */
+        .main-content { 
+            margin-left: 320px; flex: 1; padding: 3rem 4rem; height: 100vh; overflow-y: auto; scroll-behavior: smooth;
         }
+        .section { display: none; max-width: 900px; margin: 0 auto; animation: slideIn 0.4s ease-out; padding-bottom: 4rem; }
+        .section.active { display: block; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn-action:hover {
-            background-color: #c0392b;
+        /* Typography */
+        h1 { font-size: 2.25rem; color: var(--primary); margin-bottom: 1rem; letter-spacing: -0.5px; line-height: 1.2; }
+        h2 { font-size: 1.5rem; color: var(--primary); margin-top: 2.5rem; margin-bottom: 1rem; }
+        h3 { font-size: 1.1rem; margin: 1.5rem 0 0.8rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        p { margin-bottom: 1.2rem; line-height: 1.7; color: var(--text-main); }
+        ul, ol { margin-left: 1.5rem; margin-bottom: 1.5rem; line-height: 1.7; }
+        li { margin-bottom: 0.5rem; }
+
+        /* COMPONENTE: NOTA DO PROFESSOR */
+        .professor-note {
+            background: #fff7ed; /* Laranja claro */
+            border-left: 5px solid var(--warning);
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
         }
-
-        footer {
-            text-align: center;
-            padding: 2rem;
-            background-color: var(--primary-color);
-            color: var(--white);
-            margin-top: 2rem;
-        }
-
-        .highlight {
-            font-weight: bold;
-            color: var(--secondary-color);
-        }
-
-        /* Diagram placeholder styles */
-        .diagram-placeholder {
-            border: 2px dashed #ccc;
-            background: #fafafa;
-            height: 200px;
+        .professor-icon {
+            background: var(--warning);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #888;
-            margin: 1rem 0;
-            border-radius: 8px;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        .professor-content h4 {
+            color: #92400e;
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+        }
+        .professor-content p {
+            font-size: 0.9rem;
+            color: #78350f;
+            margin-bottom: 0;
+            font-style: italic;
+            line-height: 1.6;
         }
 
-        @media (max-width: 600px) {
-            header h1 { font-size: 1.8rem; }
-            nav button { display: block; width: 100%; margin: 0.5rem 0; }
+        /* VISUALS: DIAGRAMS */
+        .visual-diagram {
+            background: var(--white);
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+            overflow-x: auto;
+        }
+        .visual-diagram h5 { margin-bottom: 1.5rem; color: var(--text-light); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; }
+
+        /* Diagram: Layers */
+        .layer-stack { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 200px; margin: 0 auto; }
+        .layer-box { width: 100%; padding: 15px; border-radius: 8px; color: white; font-weight: bold; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .layer-user { background: var(--accent); z-index: 3; }
+        .layer-os { background: var(--success); z-index: 2; width: 80%; }
+        .layer-hw { background: var(--primary); z-index: 1; width: 60%; }
+        .layer-arrow { color: var(--text-light); margin: 5px 0; }
+
+        /* Diagram: Tree */
+        .tree-diagram { display: flex; justify-content: center; }
+        .tree-ul { padding-top: 20px; position: relative; transition: all 0.5s; display: flex; justify-content: center; }
+        .tree-li { float: left; text-align: center; list-style-type: none; position: relative; padding: 20px 5px 0 5px; }
+        .tree-li::before, .tree-li::after { content: ''; position: absolute; top: 0; right: 50%; border-top: 2px solid #cbd5e1; width: 50%; height: 20px; }
+        .tree-li::after { right: auto; left: 50%; border-left: 2px solid #cbd5e1; }
+        .tree-li:only-child::after, .tree-li:only-child::before { display: none; }
+        .tree-li:only-child { padding-top: 0; }
+        .tree-li:first-child::before, .tree-li:last-child::after { border: 0 none; }
+        .tree-li:last-child::before { border-right: 2px solid #cbd5e1; border-radius: 0 5px 0 0; }
+        .tree-li:first-child::after { border-radius: 5px 0 0 0; }
+        .tree-ul-ul::before { content: ''; position: absolute; top: 0; left: 50%; border-left: 2px solid #cbd5e1; width: 0; height: 20px; }
+        .tree-node { border: 2px solid #e2e8f0; padding: 10px 15px; text-decoration: none; color: var(--text-main); font-family: arial, verdana, tahoma; font-size: 14px; display: inline-block; border-radius: 5px; transition: all 0.5s; background: white; }
+        .tree-node:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+        /* Diagram: Blocks */
+        .allocation-demo { display: flex; flex-direction: column; gap: 30px; align-items: center; }
+        .block-row { display: flex; align-items: center; gap: 5px; }
+        .disk-block { width: 50px; height: 50px; background: #e2e8f0; border: 2px solid #cbd5e1; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.8rem; border-radius: 4px; position: relative; }
+        .disk-block.used { background: #bfdbfe; border-color: var(--accent); color: var(--accent); }
+        .disk-block.free { background: #f1f5f9; color: #94a3b8; }
+        .connector { color: var(--text-light); font-weight: bold; font-size: 1.2rem; }
+
+        /* Others */
+        .infographic-box { background: var(--white); border-radius: 16px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); border-left: 5px solid var(--accent); }
+        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin: 1.5rem 0; }
+        .data-card { background: var(--white); padding: 1.5rem; border-radius: 12px; border-bottom: 4px solid var(--accent); box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s; }
+        .data-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        .data-card h4 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .data-card p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 0; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); font-size: 0.9rem; }
+        .comparison-table th { background: #f8fafc; padding: 15px; text-align: left; font-weight: 600; color: var(--primary); border-bottom: 2px solid #e2e8f0; }
+        .comparison-table td { padding: 15px; border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+        .tag { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; margin-right: 5px; }
+        .tag-blue { background: #dbeafe; color: var(--accent); }
+        .tag-purple { background: #f3e8ff; color: #9333ea; }
+
+        @media (max-width: 900px) {
+            .sidebar { width: 80px; padding: 1rem 0.5rem; }
+            .sidebar h2, .nav-item span { display: none; }
+            .nav-item { justify-content: center; }
+            .main-content { margin-left: 80px; padding: 2rem 1.5rem; }
+            .card-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Análise Orientada a Objetos</h1>
-    <p>Unidade 3: Modelagem Complementar de Análise com UML</p>
-    <p>Oficina de Soluções Profissionais</p>
-</header>
+    <nav class="sidebar">
+        <h2>SISTEMAS OPERACIONAIS</h2>
+        <div class="nav-item active" onclick="show(this, 'start')"><i class="fas fa-home"></i><span>Painel Inicial</span></div>
+        <div class="nav-item" onclick="show(this, 'struct')"><i class="fas fa-file-code"></i><span>1. Arquivos & Tipos</span></div>
+        <div class="nav-item" onclick="show(this, 'ops')"><i class="fas fa-folder-tree"></i><span>2. Diretórios & Acesso</span></div>
+        <div class="nav-item" onclick="show(this, 'blocks')"><i class="fas fa-hdd"></i><span>3. Implementação</span></div>
+        <div class="nav-item" onclick="show(this, 'security')"><i class="fas fa-shield-alt"></i><span>4. Segurança</span></div>
+    </nav>
 
-<nav>
-    <button class="nav-btn active" onclick="showSection('intro')">Introdução</button>
-    <button class="nav-btn" onclick="showSection('conceitos')">Conceitos UML</button>
-    <button class="nav-btn" onclick="showSection('metodo')">Metodologia</button>
-    <button class="nav-btn" onclick="showSection('atividade')">Sua Missão</button>
-    <button class="nav-btn" onclick="showSection('checklist')">Validação</button>
-</nav>
-
-<main>
-    <!-- Section 1: Introdução -->
-    <section id="intro" class="active">
-        <h2>Bem-vindo à Oficina de Modelagem</h2>
-        <p>Neste módulo, focaremos no desenvolvimento de competências práticas para a modelagem de sistemas utilizando a <strong>Linguagem de Modelagem Unificada (UML)</strong>. Especificamente, trabalharemos com o <strong>Diagrama de Sequência</strong>.</p>
+    <main class="main-content">
         
-        <div class="concept-card">
-            <h3>Qual o objetivo?</h3>
-            <p>O Diagrama de Sequência é fundamental para visualizar como os objetos de um sistema interagem entre si ao longo do tempo. Ele não mostra apenas <em>quem</em> faz o quê, mas <em>quando</em> e em <em>qual ordem</em> as mensagens são trocas.</p>
-        </div>
+        <!-- SEÇÃO 1: INTRODUÇÃO -->
+        <section id="start" class="section active">
+            <span class="tag tag-blue">UNIDADE 3 ATIVA</span>
+            <h1>Sistemas de Arquivos</h1>
+            <p>O Sistema de Arquivos é o componente do Sistema Operacional responsável pelo gerenciamento, armazenamento e recuperação de dados a longo prazo.</p>
+            
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="professor-content">
+                    <h4>O que isso significa na prática?</h4>
+                    <p>"Pensem no Sistema Operacional como um tradutor universal. Quando você clica em 'Salvar', o computador (hardware) só entende de magnetizar setores em um disco. O SO faz a ponte: ele pega seu documento e organiza isso no disco de uma forma que, amanhã, ele consiga remontar tudo."</p>
+                </div>
+            </div>
 
-        <p>Para realizar a atividade proposta neste encontro, você precisará transformar um cenário textual em uma representação visual lógica. Este site serve como seu guia de estudo para revisar os conceitos necessários antes de colocar a mão na massa.</p>
-        
-        <p>Navegue pelas abas acima para revisar os elementos do diagrama, entender o método de extração de informações do texto e, finalmente, acessar o enunciado da sua atividade prática.</p>
-    </section>
+            <div class="visual-diagram">
+                <h5>Visualização: Camadas de Abstração</h5>
+                <div class="layer-stack">
+                    <div class="layer-box layer-user">Usuário / Aplicativo</div>
+                    <div class="layer-arrow"><i class="fas fa-chevron-down"></i></div>
+                    <div class="layer-box layer-os">Sistema de Arquivos</div>
+                    <div class="layer-arrow"><i class="fas fa-chevron-down"></i></div>
+                    <div class="layer-box layer-hw">Hardware (Disco)</div>
+                </div>
+            </div>
 
-    <!-- Section 2: Conceitos -->
-    <section id="conceitos">
-        <h2>Elementos do Diagrama de Sequência</h2>
-        <p>Para modelar corretamente, você deve dominar a sintaxe básica da UML para este tipo de diagrama. Revise os componentes abaixo:</p>
-
-        <div class="concept-card">
-            <h3>1. Lifelines (Linhas de Vida)</h3>
-            <p>Representam os participantes da interação. Podem ser atores (usuários) ou objetos do sistema (Interface, Controlador, Entidades). São desenhadas como um retângulo no topo com uma linha tracejada vertical descendente.</p>
-            <p><em>Dica: Procure pelos substantivos no cenário para identificar possíveis lifelines.</em></p>
-        </div>
-
-        <div class="concept-card">
-            <h3>2. Messages (Mensagens)</h3>
-            <p>Representam a comunicação entre as lifelines. Indicam que uma operação está sendo solicitada.</p>
-            <ul>
-                <li><strong>Síncrona (Seta cheia):</strong> O emissor espera uma resposta antes de continuar.</li>
-                <li><strong>Assíncrona (Seta aberta):</strong> O emissor não espera resposta imediata.</li>
-                <li><strong>Retorno (Linha tracejada):</strong> Indica o retorno de controle ou dados.</li>
-            </ul>
-        </div>
-
-        <div class="concept-card">
-            <h3>3. Activation Bars (Barras de Ativação)</h3>
-            <p>Retângulos estreitos desenhados sobre a linha de vida. Indicam o período durante o qual o objeto está executando uma ação ou está ativo no processo.</p>
-        </div>
-
-        <p class="highlight">Atenção: A ordem vertical das mensagens representa a ordem cronológica dos eventos. O tempo flui de cima para baixo.</p>
-    </section>
-
-    <!-- Section 3: Metodologia -->
-    <section id="metodo">
-        <h2>Como transformar Texto em Diagrama</h2>
-        <p>Modelar não é apenas desenhar, é interpretar. Siga este fluxo lógico ao ler o cenário da atividade:</p>
-
-        <ol>
-            <li><strong>Identifique o Gatilho:</strong> O que inicia o processo? (Ex: Um clique, um evento de tempo, uma chegada de dados).</li>
-            <li><strong>Mapeie os Participantes:</strong> Quem está envolvido? Geralmente seguimos o padrão de camadas:
-                <ul>
-                    <li><span class="uml-element">Boundary</span> (Interface com o usuário)</li>
-                    <li><span class="uml-element">Control</span> (Lógica de negócio/Coordenador)</li>
-                    <li><span class="uml-element">Entity</span> (Dados/Informação)</li>
+            <div class="infographic-box">
+                <h3><i class="fas fa-check-circle"></i> Requisitos Essenciais</h3>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px; display: flex; gap: 10px;">
+                        <i class="fas fa-database" style="color: var(--accent); margin-top: 4px;"></i>
+                        <div><strong>Grande Volume:</strong> Capacidade de armazenar enormes quantidades de dados.</div>
+                    </li>
+                    <li style="margin-bottom: 10px; display: flex; gap: 10px;">
+                        <i class="fas fa-infinity" style="color: var(--accent); margin-top: 4px;"></i>
+                        <div><strong>Persistência:</strong> A informação sobrevive ao desligamento do computador.</div>
+                    </li>
+                    <li style="margin-bottom: 0; display: flex; gap: 10px;">
+                        <i class="fas fa-users" style="color: var(--accent); margin-top: 4px;"></i>
+                        <div><strong>Concorrência:</strong> Múltiplos usuários acessando o mesmo arquivo com segurança.</div>
+                    </li>
                 </ul>
-            </li>
-            <li><strong>Extraia as Ações:</strong> Procure por verbos no texto. Cada ação significativa geralmente se traduz em uma mensagem entre objetos.</li>
-            <li><strong>Defina os Retornos:</strong> Para cada consulta ou solicitação, há uma resposta? O sistema precisa confirmar algo ao usuário?</li>
-        </ol>
-
-        <h3>Exemplo Genérico (Não é a atividade)</h3>
-        <p>Imagine um cenário de <strong>Consulta de Saldo</strong>:</p>
-        <ul>
-            <li>Texto: "O cliente solicita o saldo na tela."</li>
-            <li>Modelagem: <span class="uml-element">Cliente</span> envia mensagem <span class="uml-element">solicitarSaldo()</span> para <span class="uml-element">Tela</span>.</li>
-            <li>Texto: "O sistema busca os dados no banco."</li>
-            <li>Modelagem: <span class="uml-element">Controlador</span> envia mensagem <span class="uml-element">buscarDados()</span> para <span class="uml-element">Banco</span>.</li>
-        </ul>
-        <p>Use esta lógica para decompor o cenário da sua atividade oficial.</p>
-    </section>
-
-    <!-- Section 4: Atividade -->
-    <section id="atividade">
-        <h2>Sua Missão Profissional</h2>
-        <p>Abaixo está o cenário que você deve modelar. Leia atentamente, identifique o fluxo e prepare seu Diagrama de Sequência. Lembre-se: este site oferece o embasamento teórico, mas a solução do diagrama é sua responsabilidade.</p>
-
-        <div class="scenario-box">
-            <h3>Cenário: Sistema de Controle de Cinema</h3>
-            <p>Considere um sistema de controle de cinema no qual um funcionário é responsável por realizar a venda de ingressos aos clientes.</p>
-            <ol>
-                <li>O processo inicia quando o <strong>funcionário</strong> seleciona a opção de venda de ingressos na <strong>interface</strong> do sistema.</li>
-                <li>A interface solicita ao <strong>controlador</strong> do sistema que execute a operação de venda.</li>
-                <li>O controlador deve <strong>consultar todas as sessões disponíveis</strong> para exibição, obtendo informações sobre a sala onde cada sessão ocorrerá e o filme que será apresentado.</li>
-                <li>Após reunir as informações, o sistema retorna à interface uma <strong>lista contendo todas as sessões disponíveis</strong> para escolha.</li>
-                <li>O funcionário seleciona, na interface, a sessão desejada e <strong>confirma a operação</strong>.</li>
-                <li>Ao receber a confirmação, o controlador solicita que o sistema <strong>gere o ingresso correspondente</strong>, associando a escolha do funcionário à sessão selecionada.</li>
-                <li>O sistema cria o ingresso com os dados necessários e retorna essa informação ao controlador.</li>
-                <li>O controlador solicita à interface que <strong>exiba a confirmação</strong> da emissão do ingresso.</li>
-            </ol>
-        </div>
-
-        <h3>Entregáveis Esperados</h3>
-        <ul>
-            <li>Diagrama de Sequência completo.</li>
-            <li>Lifelines representando corretamente os objetos (Interface, Controlador, Entidades de Sessão/Ingresso, etc.).</li>
-            <li>Mensagens ordenadas cronologicamente conforme o fluxo descrito.</li>
-            <li>Coerência com o Diagrama de Classes desenvolvido no encontro anterior.</li>
-        </ul>
-
-        <div class="diagram-placeholder">
-            [Espaço reservado para seu esboço ou ferramenta de modelagem]
-        </div>
-        
-        <p><em>Dica: Utilize ferramentas como draw.io, PlantUML ou Lucidchart para criar seu diagrama digitalmente.</em></p>
-    </section>
-
-    <!-- Section 5: Checklist -->
-    <section id="checklist">
-        <h2>Checklist de Validação</h2>
-        <p>Antes de entregar sua atividade, passe pelo seu diagrama e marque os itens abaixo para garantir a qualidade da modelagem:</p>
-
-        <div id="quiz-container">
-            <div class="checklist-item">
-                <input type="checkbox" id="check1">
-                <label for="check1">Todas as Lifelines possuem nomes claros e relevantes ao cenário?</label>
             </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check2">
-                <label for="check2">O fluxo começa com a seleção do funcionário na interface?</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check3">
-                <label for="check3">Existe uma mensagem de consulta para obter as sessões disponíveis?</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check4">
-                <label for="check4">O retorno da lista de sessões para a interface está representado?</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check5">
-                <label for="check5">A geração do ingresso ocorre APÓS a confirmação da sessão?</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check6">
-                <label for="check6">Há uma mensagem final exibindo a confirmação ao funcionário?</label>
-            </div>
-            <div class="checklist-item">
-                <input type="checkbox" id="check7">
-                <label for="check7">As barras de ativação refletem o tempo de processamento de cada objeto?</label>
-            </div>
-        </div>
 
-        <button class="btn-action" onclick="validateChecklist()">Validar Meu Estudo</button>
-        <p id="validation-result" style="margin-top: 1rem; font-weight: bold;"></p>
-    </section>
-</main>
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-brain"></i></div>
+                <div class="professor-content">
+                    <h4>Entendendo a Persistência</h4>
+                    <p>"A RAM é a memória de curto prazo, como a nossa memória de trabalho. O Sistema de Arquivos é o 'papel e caneta'. Se a luz cair, o que estava na RAM some. O que foi salvo no Sistema de Arquivos fica lá para sempre (até você apagar)."</p>
+                </div>
+            </div>
+        </section>
 
-<footer>
-    <p>&copy; 2023 - Disciplina de Análise Orientado a Objetos</p>
-    <p>Unidade 3: Modelagem Complementar de Análise com UML</p>
-</footer>
+        <!-- SEÇÃO 2: ESTRUTURA E TIPOS -->
+        <section id="struct" class="section">
+            <h1>Estrutura e Tipos de Arquivos</h1>
+            <p>Os arquivos podem ser vistos de diferentes formas pelo sistema operacional.</p>
 
-<script>
-    // Navigation Logic
-    function showSection(sectionId) {
-        // Hide all sections
-        const sections = document.querySelectorAll('main section');
-        sections.forEach(section => {
-            section.classList.remove('active');
-        });
+            <h3>1. Estrutura Lógica</h3>
+            <div class="card-grid">
+                <div class="data-card">
+                    <h4>Sequência de Bytes</h4>
+                    <p>O SO não impõe estrutura. É um fluxo contínuo.</p>
+                </div>
+                <div class="data-card" style="border-color: var(--warning);">
+                    <h4>Registros Fixos</h4>
+                    <p>Arquivo dividido em blocos iguais. Comum em mainframes.</p>
+                </div>
+                <div class="data-card" style="border-color: var(--success);">
+                    <h4>Árvore de Registros</h4>
+                    <p>Organização complexa por chaves. Ideal para bancos de dados.</p>
+                </div>
+            </div>
 
-        // Remove active class from buttons
-        const buttons = document.querySelectorAll('.nav-btn');
-        buttons.forEach(btn => {
-            btn.classList.remove('active');
-        });
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-comment-dots"></i></div>
+                <div class="professor-content">
+                    <h4>Por que "Sequência de Bytes" venceu?</h4>
+                    <p>"Notem que quase tudo hoje é 'Byte Stream'. Por quê? Flexibilidade! Se o SO dita que o arquivo precisa ser dividido em blocos de 100 caracteres, eu não consigo salvar um nome de 101 letras. Com bytes, o SO diz: 'Aqui está o espaço, escreva o que quiser'. É por isso que seu Word, Excel e Fotos funcionam no mesmo disco."</p>
+                </div>
+            </div>
 
-        // Show selected section
-        document.getElementById(sectionId).classList.add('active');
+            <h3>2. Tipos de Arquivos Regulares</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Tipo</th><th>Características</th><th>Exemplos</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag tag-blue">ASCII / Texto</span></td>
+                        <td>Legível por humanos, portável.</td>
+                        <td>.txt, .html, .py</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag tag-purple">Binário</span></td>
+                        <td>Estrutura interna, requer software específico.</td>
+                        <td>.exe, .pdf, .jpg</td>
+                    </tr>
+                </tbody>
+            </table>
 
-        // Activate corresponding button
-        const activeBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(sectionId));
-        if (activeBtn) {
-            activeBtn.classList.add('active');
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-exclamation-circle"></i></div>
+                <div class="professor-content">
+                    <h4>O perigo de abrir Binários</h4>
+                    <p>"Se você tentar abrir um arquivo .exe ou .jpg no Bloco de Notas, vai ver um monte de caracteres estranhos. Isso acontece porque o Bloco de Notas espera ASCII (letras), mas o arquivo é binário (números para o processador). É como tentar ler partituras musicais como se fossem um romance."</p>
+                </div>
+            </div>
+
+            <h3>3. Métodos de Acesso</h3>
+            <ul>
+                <li><strong>Sequencial:</strong> Lê do início ao fim.</li>
+                <li><strong>Direto:</strong> Pula para um registro específico.</li>
+                <li><strong>Indexado (Chave):</strong> Usa um índice para busca rápida.</li>
+            </ul>
+
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-book"></i></div>
+                <div class="professor-content">
+                    <h4>Analogia: O Índice do Livro</h4>
+                    <p>"Acesso Sequencial é ler o livro todo para achar uma frase. Acesso Indexado é abrir o livro na última página onde tem o índice, procurar o termo, ver a página e ir direto para lá. É o método mais rápido para bancos de dados gigantes."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 3: DIRETÓRIOS -->
+        <section id="ops" class="section">
+            <h1>Sistemas de Diretórios</h1>
+            <p>Se arquivos são as informações, os diretórios são os organizadores.</p>
+
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-folder-open"></i></div>
+                <div class="professor-content">
+                    <h4>Analogia da Biblioteca</h4>
+                    <p>"Imaginem uma biblioteca sem estantes. Todos os livros jogados no chão de um salão gigante. Para encontrar um livro, você teria que vasculhar um por um. Isso seria um sistema sem diretórios! Os diretórios são as estantes que organizam por assunto."</p>
+                </div>
+            </div>
+
+            <!-- Visual: Árvore -->
+            <div class="visual-diagram">
+                <h5>Estrutura Hierárquica (Tree View)</h5>
+                <div class="tree-diagram">
+                    <ul class="tree-ul">
+                        <li>
+                            <a href="#" class="tree-node">/ (Raiz)</a>
+                            <ul class="tree-ul tree-ul-ul">
+                                <li>
+                                    <a href="#" class="tree-node">home</a>
+                                    <ul class="tree-ul tree-ul-ul">
+                                        <li><a href="#" class="tree-node">aluno</a></li>
+                                        <li><a href="#" class="tree-node">prof</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" class="tree-node">etc</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Caminhos (Paths)</h3>
+            <div class="card-grid">
+                <div class="data-card">
+                    <h4>Absoluto</h4>
+                    <p>Endereço completo.</p>
+                    <code style="background:#f1f5f9; padding:4px; border-radius:4px; display:block; margin-top:5px;">/home/aluno/docs</code>
+                </div>
+                <div class="data-card">
+                    <h4>Relativo</h4>
+                    <p>Baseado em onde está.</p>
+                    <code style="background:#f1f5f9; padding:4px; border-radius:4px; display:block; margin-top:5px;">./docs</code>
+                </div>
+            </div>
+
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-map-marked-alt"></i></div>
+                <div class="professor-content">
+                    <h4>Como explicar no GPS?</h4>
+                    <p>"Caminho Absoluto é dar o endereço completo: 'Rua das Flores, 123, São Paulo'. Caminho Relativo é dar instruções de onde você está: 'Vire à direita na próxima esquina'. O computador usa o relativo para ser mais rápido, sem precisar escrever o endereço inteiro toda hora."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: GESTÃO DE BLOCOS -->
+        <section id="blocks" class="section">
+            <h1>Implementação e Alocação</h1>
+            <p>Como o SO decide onde gravar os dados no disco físico?</p>
+
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-puzzle-piece"></i></div>
+                <div class="professor-content">
+                    <h4>O desafio do Estacionamento</h4>
+                    <p>"O disco é um estacionamento com vagas numeradas (blocos). Quando você chega com um carro grande (arquivo), onde estaciona? Se as vagas 1, 2 e 3 estiverem ocupadas, você precisa ir para a 4, 5 e 6. O SO precisa anotar exatamente onde cada parte do carro estacionou."</p>
+                </div>
+            </div>
+
+            <!-- Visual: Blocos -->
+            <div class="visual-diagram">
+                <h5>Comparativo: Alocação no Disco</h5>
+                <div class="allocation-demo">
+                    <div style="text-align: left; width: 100%;">
+                        <strong>1. Alocação Contígua (Tudo junto):</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-light);">O arquivo ocupa blocos seguidos. Rápido, mas difícil de encaixar.</p>
+                        <div class="block-row">
+                            <div class="disk-block used">A1</div>
+                            <div class="disk-block used">A2</div>
+                            <div class="disk-block used">A3</div>
+                            <div class="disk-block free">4</div>
+                            <div class="disk-block free">5</div>
+                        </div>
+                    </div>
+                    <div style="text-align: left; width: 100%;">
+                        <strong>2. Alocação Encadeada (Espalhada):</strong>
+                        <p style="font-size: 0.8rem; color: var(--text-light);">Blocos espalhados, apontando uns para os outros.</p>
+                        <div class="block-row">
+                            <div class="disk-block used">A1</div>
+                            <div class="disk-block free">2</div>
+                            <div class="disk-block used">A2</div>
+                            <div class="disk-block used">A3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Métodos Principais</h3>
+            <div class="card-grid">
+                <div class="data-card">
+                    <h4>Contígua</h4>
+                    <p>Blocos sequenciais. <br><strong>Problema:</strong> Fragmentação externa (buracos no disco).</p>
+                </div>
+                <div class="data-card">
+                    <h4>Encadeada</h4>
+                    <p>Blocos ligados. <br>Problema: Leitura lenta se o arquivo estiver muito espalhado.</p>
+                </div>
+                <div class="data-card">
+                    <h4>FAT / I-nodes</h4>
+                    <p>Usa tabelas de índice. <br>Solução moderna que balanceia velocidade e espaço.</p>
+                </div>
+            </div>
+
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-magic"></i></div>
+                <div class="professor-content">
+                    <h4>O milagre dos I-nodes</h4>
+                    <p>"No Linux, cada arquivo tem um 'cartão de visita' chamado I-node. Esse cartão não guarda o conteúdo, mas sim uma lista de endereços: 'O conteúdo desse arquivo está nos blocos 10, 22 e 50'. Isso permite que o arquivo esteja espalhado pelo disco todo, mas para você parece que está todo junto na tela."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 5: SEGURANÇA -->
+        <section id="security" class="section">
+            <h1>Segurança e Proteção</h1>
+            <p>Proteger arquivos é garantir o acesso correto.</p>
+
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-user-shield"></i></div>
+                <div class="professor-content">
+                    <h4>A regra de ouro: Menor Privilégio</h4>
+                    <p>"Segurança não é só colocar senha. É dar acesso apenas a quem precisa. Se todo mundo no escritório tiver a chave do cofre do diretor, é questão de tempo para dar problema. No SO, se todos podem 'escrever' no arquivo de sistema, alguém vai apagar sem querer."</p>
+                </div>
+            </div>
+
+            <h3>Os 3 Pilares (CIA Triad)</h3>
+            <div class="card-grid">
+                <div class="data-card" style="border-bottom-color: var(--accent);">
+                    <h4><i class="fas fa-lock"></i> Confidencialidade</h4>
+                    <p>Só autorizados veem. (Diário com cadeado)</p>
+                </div>
+                <div class="data-card" style="border-bottom-color: var(--success);">
+                    <h4><i class="fas fa-check-double"></i> Integridade</h4>
+                    <p>Ninguém alterou. (Carta lacrada)</p>
+                </div>
+                <div class="data-card" style="border-bottom-color: var(--warning);">
+                    <h4><i class="fas fa-server"></i> Disponibilidade</h4>
+                    <p>Está lá quando precisar. (Hospital 24h)</p>
+                </div>
+            </div>
+
+            <h3>Mecanismos de Proteção</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr><th>Mecanismo</th><th>Como funciona</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Senha</strong></td><td>Chave única para o arquivo.</td></tr>
+                    <tr><td><strong>Grupos</strong></td><td>Permissão por departamentos (RH, TI).</td></tr>
+                    <tr><td><strong>ACL</strong></td><td>Lista detalhada: "João lê, Maria escreve".</td></tr>
+                </tbody>
+            </table>
+
+            <div class="professor-note">
+                <div class="professor-icon"><i class="fas fa-user-secret"></i></div>
+                <div class="professor-content">
+                    <h4>Ameaças Reais</h4>
+                    <p>"Não se esqueçam do fator humano. O firewall pode ser perfeito, mas se um funcionário clicar em um link de 'Prêmio Resgatado' (Phishing) e baixar um vírus, ele vai criptografar todos os arquivos. A segurança começa pela conscientização do usuário."</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function show(btn, id) {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            
+            btn.classList.add('active');
+            document.getElementById(id).classList.add('active');
+            
+            document.querySelector('.main-content').scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // Scroll to top
-        window.scrollTo(0, 0);
-    }
-
-    // Checklist Validation Logic
-    function validateChecklist() {
-        const checkboxes = document.querySelectorAll('#quiz-container input[type="checkbox"]');
-        let checkedCount = 0;
-        
-        checkboxes.forEach(box => {
-            if (box.checked) {
-                checkedCount++;
-            }
-        });
-
-        const resultText = document.getElementById('validation-result');
-        const total = checkboxes.length;
-
-        if (checkedCount === total) {
-            resultText.style.color = 'green';
-            resultText.textContent = "Excelente! Você revisou todos os pontos críticos. Está pronto para modelar.";
-        } else if (checkedCount >= total / 2) {
-            resultText.style.color = '#f39c12';
-            resultText.textContent = `Bom começo! Você verificou ${checkedCount} de ${total} pontos. Revise os restantes para garantir a qualidade.`;
-        } else {
-            resultText.style.color = '#c0392b';
-            resultText.textContent = "Atenção! Revise mais itens do checklist antes de finalizar seu diagrama.";
-        }
-    }
-</script>
-
+    </script>
 </body>
 </html>
